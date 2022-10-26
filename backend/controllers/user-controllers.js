@@ -126,4 +126,22 @@ const getAllUsers = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { signup, login, getAllUsers };
+const getUserFromUserId = catchAsync(async (req, res, next) => {
+
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId);
+
+    if (!user)
+        return next(new AppError(404, `No user found with user id ${userId}`));
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
+
+});
+
+module.exports = { signup, login, getAllUsers, getUserFromUserId };
