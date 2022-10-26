@@ -7,6 +7,7 @@ const User = require('../models/user-model');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+// Signup / Create a new User
 const signup = catchAsync(async (req, res, next) => {
 
     // Get the required fields from req.body
@@ -55,6 +56,7 @@ const signup = catchAsync(async (req, res, next) => {
 
 });
 
+// Login User
 const login = catchAsync(async (req, res, next) => {
 
     // Get the required fields from req.body
@@ -69,11 +71,14 @@ const login = catchAsync(async (req, res, next) => {
     // because we set select: false for password
     const user = await User.findOne({ email }).select('+password');
 
+    // If the user does not exists, send error
     if (!user)
         return next(new AppError(400, 'Invalid credentials. Wrong email or password.'));
 
+    // Check if the password is correct or not
     const passwordIsCorrect = await bcrypt.compare(password, user.password);
 
+    // If the password is incorrect send error
     if (!passwordIsCorrect)
         return next(new AppError(400, 'Invalid credentials. Wrong email or password.'));
 
@@ -96,4 +101,29 @@ const login = catchAsync(async (req, res, next) => {
     });
 });
 
-module.exports = { signup, login };
+// GET the list of all users - Only accessible to admin
+const getAllUsers = catchAsync(async (req, res, next) => {
+
+    const users = await User.find();
+
+    if (!users) {
+        return res.status(204).json({
+            status: 'success',
+            results: 0,
+            data: {
+                users: []
+            }
+        });
+    }
+
+    res.status(200).json({
+        status: 'success',
+        results: users.length,
+        data: {
+            users: users
+        }
+    });
+
+});
+
+module.exports = { signup, login, getAllUsers };
