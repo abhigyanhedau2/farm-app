@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const productsRouter = require('./routes/product-routes');
+const usersRouter = require('./routes/user-routes');
 const globalErrorHandler = require('./utils/globalErrorHandler');
 
 const app = express();
@@ -15,6 +16,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/api/v1/products', productsRouter);
+app.use('/api/v1/users', usersRouter);
 
 app.use(globalErrorHandler);
 
