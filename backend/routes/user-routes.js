@@ -3,11 +3,11 @@ const express = require('express');
 const protect = require('../middlewares/protect');
 const restrictTo = require('../middlewares/restrictTo');
 
-const useControllers = require('../controllers/user-controllers');
+const userControllers = require('../controllers/user-controllers');
 
 const router = express.Router();
 
-const { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe } = useControllers;
+const { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe } = userControllers;
 
 // Signup / Create a new User
 router.route('/signup').post(signup);
