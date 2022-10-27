@@ -6,7 +6,7 @@ const getCart = catchAsync(async (req, res, next) => {
 
     const userId = req.params.userId;
 
-    if (req.user._id !== userId)
+    if (req.user.id !== userId)
         return next(new AppError(403, 'Forbidden. You do not have access.'));
 
     const cart = await Cart.findOne({ userId });
@@ -17,32 +17,43 @@ const getCart = catchAsync(async (req, res, next) => {
             data: null
         });
 
-    res.send(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
-            cart: cart
+            cart
         }
     });
+
 });
 
 const updateCart = catchAsync(async (req, res, next) => {
 
     const userId = req.params.userId;
 
-    if (req.user._id !== userId)
+    if (req.user.id !== userId)
         return next(new AppError(403, 'Forbidden. You do not have access.'));
-
-    const cart = await Cart.findOne({ userId });
-
-    if (!cart)
-        return res.status(204).json({
-            status: 'success',
-            data: null
-        });
 
     const { products, totalItems, cartPrice } = req.body;
 
-    const updatedCart = await Cart.updateOne({ userId }, { products, totalItems, cartPrice }, { new: true });
+    const cart = await Cart.findOne({ userId });
+
+    // If no cart is found, create one
+    if (!cart) {
+
+        const newCart = await Cart.create({ products, totalItems, cartPrice, userId });
+
+        return res.status(200).json({
+            status: 'success',
+            data: {
+                cart: newCart
+            }
+        });
+
+    }
+
+    await Cart.updateOne({ userId }, { products, totalItems, cartPrice }, { new: true });
+
+    const updatedCart = await Cart.findOne({ userId });
 
     res.status(200).json({
         status: 'success',
@@ -57,12 +68,12 @@ const deleteCart = catchAsync(async (req, res, next) => {
 
     const userId = req.params.userId;
 
-    if (req.user._id !== userId)
+    if (req.user.id !== userId)
         return next(new AppError(403, 'Forbidden. You do not have access.'));
 
     await Cart.deleteOne({ userId });
 
-    res.send(200).json({
+    res.send(204).json({
         status: 'success',
         data: null
     });
