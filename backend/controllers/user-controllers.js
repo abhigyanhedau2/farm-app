@@ -203,7 +203,7 @@ const getMyDetails = catchAsync(async (req, res, next) => {
 
     const { name, address, number } = user;
 
-    return res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
             name,
@@ -214,4 +214,70 @@ const getMyDetails = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails };
+// UPDATE a user from user id
+const updateMe = catchAsync(async (req, res, next) => {
+
+    const userId = req.user._id;
+
+    // Fetch the user from DB
+    const user = await User.findById(userId);
+
+    // If no user is found, throw an error
+    if (!user)
+        return next(new AppError(404, `No user found with user id ${userId}`));
+
+    // Extract required fields from body
+    const { name, address, number } = req.body;
+
+    // Validate the fields
+    if (name !== undefined) {
+        if (validator.isEmpty(name))
+            return next(new AppError(400, 'Please add a name for updation'));
+    }
+
+    if (address !== undefined) {
+        if (validator.isEmpty(address))
+            return next(new AppError(400, 'Please add an address for updation'));
+    }
+
+    if (number !== undefined) {
+
+        const stringedNumber = number + '';
+
+        if (!validator.isLength(stringedNumber, { min: 10, max: 10 }))
+            return next(new AppError(400, 'Please add a 10 digit number for updation'));
+    }
+
+    // Update the user
+    const updatedUser = await User.findByIdAndUpdate(userId, { name, address, number }, { new: true });
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user: updatedUser
+        }
+    });
+
+});
+
+const deleteMe = catchAsync(async (req, res, next) => {
+
+    const userId = req.user._id;
+
+    // Fetch the user from DB
+    const user = await User.findById(userId);
+
+    // If no user is found, throw an error
+    if (!user)
+        return next(new AppError(404, `No user found with user id ${userId}`));
+
+    await User.findByIdAndDelete(userId);
+
+    res.status(204).json({
+        status: 'success',
+        data: null
+    })
+
+});
+
+module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe };
