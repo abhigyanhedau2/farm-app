@@ -13,11 +13,14 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { postAProduct, getAllProducts, deleteAProduct, getProductFromId } = productControllers;
+const { postAProduct, getAllProducts, deleteAProduct, getProductFromId, getProductsByCategory, updateProductById } = productControllers;
 
 // GET All the products stored in the DB
 router.route('/')
     .get(getAllProducts);
+
+router.route('/:category')
+    .get(getProductsByCategory);
 
 // GET a product from product id
 router.route('/:productId')
@@ -31,6 +34,7 @@ router.route('/')
 
 // DELETE A product by the seller
 router.route('/:productId')
-    .delete(restrictTo('seller'), deleteAProduct);
+    .patch(restrictTo('seller'), upload.single('image'), updateProductById)  // UPDATE a product from product id
+    .delete(restrictTo('seller'), deleteAProduct);  // DELETE a product from product id
 
 module.exports = router;

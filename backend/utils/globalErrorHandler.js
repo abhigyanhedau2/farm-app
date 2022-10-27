@@ -6,15 +6,17 @@ const globalErrorHandler = (err, req, res, next) => {
 
     // If the error is operational, it means that if we introduced it
     if (err.isOperational) {
+        console.log(err);
         return res.status(err.statusCode).json({
             status: err.status,
             message: err.message,
-            err
+            error: err
         });
     }
 
     // Else, it means that it is a programmatical error
     else {
+        console.log(err);
         return res.status(500).json({
             status: 'error',
             message: 'Something went wrong. Internal Server Error.',
