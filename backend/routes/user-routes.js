@@ -7,7 +7,7 @@ const useControllers = require('../controllers/user-controllers');
 
 const router = express.Router();
 
-const { signup, login, getAllUsers, getUserFromUserId } = useControllers;
+const { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails } = useControllers;
 
 // Signup / Create a new User
 router.route('/signup').post(signup);
@@ -21,7 +21,14 @@ router.use(protect);
 // GET the list of all users, only accessible to admin
 router.route('/').get(restrictTo('admin'), getAllUsers);
 
+router.route('/me')
+    .get(getMyDetails);
+
 router.route('/:userId')
     .get(restrictTo('admin'), getUserFromUserId); // GET a user from user id
+
+// POST a seller    
+router.route('/addSeller')
+    .post(restrictTo('admin'), postASeller);
 
 module.exports = router;

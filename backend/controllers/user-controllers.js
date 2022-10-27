@@ -126,6 +126,7 @@ const getAllUsers = catchAsync(async (req, res, next) => {
 
 });
 
+// GET a user from user id
 const getUserFromUserId = catchAsync(async (req, res, next) => {
 
     const userId = req.params.userId;
@@ -144,4 +145,73 @@ const getUserFromUserId = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { signup, login, getAllUsers, getUserFromUserId };
+const postASeller = catchAsync(async (req, res, next) => {
+
+    // Get the required fields from req.body
+    const { name, email, password, address, number, role } = req.body;
+
+    // Convert 'number' to number for validation
+    const stringedNumber = number + '';
+
+    // Perform the respective validations
+    if (validator.isEmpty(name) ||
+        !validator.isEmail(email) ||
+        !validator.isLength(password, { min: 6 }) ||
+        validator.isEmpty(address) ||
+        !validator.isLength(stringedNumber, { min: 10, max: 10 })
+    )
+        return next(new AppError(400, 'Please add complete and correct details for sign up'));
+
+    // Check if a user with the email exists previously
+    const existingUser = await User.findOne({ email });
+
+    // If the user already exists with the email, return an error
+    if (existingUser)
+        return next(new AppError(400, 'Seller already exists. Try logging in.'));
+
+    // Hash the password before storing in DB
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const newSeller = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        address,
+        number,
+        role
+    });
+
+    res.status(201).json({
+        status: 'success',
+        data: {
+            user: newSeller
+        }
+    });
+
+});
+
+// GET user details
+const getMyDetails = catchAsync(async (req, res, next) => {
+
+    const userId = req.user._id;
+
+    // Fetch the user from DB
+    const user = await User.findById(userId);
+
+    if (!user)
+        return next(new AppError(404, `No user found with user id ${userId}`));
+
+    const { name, address, number } = user;
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            name,
+            address,
+            number
+        }
+    });
+
+});
+
+module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails };
