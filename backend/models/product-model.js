@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Please specify the product price']
     },
     quantityPerBox: {
-        type: Number,
+        type: String,
         required: [true, 'Please specify the number of products in a box']
     },
     calories: {
@@ -46,6 +46,10 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         required: [true, 'Please provide the seller ID for the product'],
         ref: 'User'
+    },
+    rating: {
+        type: Number,
+        required: [true, 'Please provide a rating for the product']
     }
 });
 
