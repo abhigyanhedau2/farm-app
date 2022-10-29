@@ -1,17 +1,6 @@
-const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-
+const getImageFromBucket = require('../utils/getImageFromBucket');
 const Purchase = require("../models/purchase-model");
 const catchAsync = require("../utils/catchAsync");
-
-// Creating a S3 client
-const s3 = new S3Client({
-    credentials: {
-        accessKeyId: process.env.BUCKET_ACCESS_KEY,
-        secretAccessKey: process.env.BUCKET_SECRET_ACCESS_KEY,
-    },
-    region: process.env.BUCKET_REGION
-});
 
 const getMyPurchases = catchAsync(async (req, res, next) => {
 
@@ -25,20 +14,7 @@ const getMyPurchases = catchAsync(async (req, res, next) => {
     for (const purchase of purchases) {
 
         for (const products of purchase.products) {
-
-            // Set params before sending the request
-            const getObjParams = {
-                Bucket: process.env.BUCKET_NAME,
-                Key: products.product.image,
-            }
-
-            // Send a get request for the image
-            const getObjCommand = new GetObjectCommand(getObjParams);
-            const url = await getSignedUrl(s3, getObjCommand, { expiresIn: 3600 });
-
-            // Set the fetch url to the image
-            products.product.image = url;
-
+            products.product.image = await getImageFromBucket(products.product.image);
         }
 
     }

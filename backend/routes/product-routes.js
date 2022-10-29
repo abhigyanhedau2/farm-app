@@ -15,26 +15,26 @@ const upload = multer({ storage: storage });
 
 const { postAProduct, getAllProducts, deleteAProduct, getProductFromId, getProductsByCategory, updateProductById } = productControllers;
 
-// GET All the products stored in the DB
-router.route('/')
-    .get(getAllProducts);
-
-router.route('/:category')
-    .get(getProductsByCategory);
-
 // GET a product from product id
 router.route('/:productId')
     .get(getProductFromId);
 
-router.use(protect);
+router.route('/category/:category')
+    .get(getProductsByCategory);
+
+// GET All the products stored in the DB
+router.route('/')
+    .get(getAllProducts);
+
+router.use(protect, restrictTo('seller'));
 
 // POST A new product by the seller
 router.route('/')
-    .post(restrictTo('seller'), upload.single('image'), postAProduct);
+    .post(upload.single('image'), postAProduct);
 
 // DELETE A product by the seller
 router.route('/:productId')
-    .patch(restrictTo('seller'), upload.single('image'), updateProductById)  // UPDATE a product from product id
-    .delete(restrictTo('seller'), deleteAProduct);  // DELETE a product from product id
+    .patch(upload.single('image'), updateProductById)  // UPDATE a product from product id
+    .delete(deleteAProduct);  // DELETE a product from product id
 
 module.exports = router;

@@ -4,6 +4,8 @@ const crypto = require('crypto');
 
 const Product = require('../models/product-model');
 const catchAsync = require("../utils/catchAsync");
+const AppError = require('../utils/appError');
+const getImageFromBucket = require('../utils/getImageFromBucket');
 
 // Fn to generate random image name
 const randomImageName = () => {
@@ -28,19 +30,7 @@ const getAllProducts = catchAsync(async (req, res, next) => {
     // Convert the image name stored in the DB to the image url we'll use 
     // to fetch the image
     for (const product of products) {
-
-        // Set params before sending the request
-        const getObjParams = {
-            Bucket: process.env.BUCKET_NAME,
-            Key: product.image,
-        }
-
-        // Send a get request for the image
-        const getObjCommand = new GetObjectCommand(getObjParams);
-        const url = await getSignedUrl(s3, getObjCommand, { expiresIn: 3600 });
-
-        // Set the fetch url to the image
-        product.image = url;
+        product.image = await getImageFromBucket(product.image);
     }
 
     res.json({
@@ -65,18 +55,7 @@ const getProductFromId = catchAsync(async (req, res, next) => {
     if (!product)
         return next(new AppError(404, `No product found with product id ${productId}`));
 
-    // Set params before sending the request
-    const getObjParams = {
-        Bucket: process.env.BUCKET_NAME,
-        Key: product.image,
-    }
-
-    // Send a get request for the image
-    const getObjCommand = new GetObjectCommand(getObjParams);
-    const url = await getSignedUrl(s3, getObjCommand, { expiresIn: 3600 });
-
-    // Set the fetch url to the image
-    product.image = url;
+    product.image = await getImageFromBucket(product.image);
 
     res.status(200).json({
         status: 'success',
@@ -90,7 +69,7 @@ const getProductFromId = catchAsync(async (req, res, next) => {
 // GET products by category
 const getProductsByCategory = catchAsync(async (req, res, next) => {
 
-    const category = req.params.category;
+    const category = req.params.category.toString();
 
     const products = await Product.find({ category: category });
 
