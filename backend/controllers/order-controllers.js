@@ -21,6 +21,12 @@ const getAllOrders = catchAsync(async (req, res, next) => {
     // let orders = await Order.find().populate('product', 'name category price image').populate('userId', 'name address number');
     let orders = await Order.find().populate('product', 'name category price image sellerId').populate('userId', 'id name address number');
 
+    if (!orders)
+        return res.status(200).json({
+            status: 'success',
+            data: null
+        });
+
     orders = orders.filter(order => {
         return order.product.sellerId.toString() === sellerId;
     });
