@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'customer',
         enum: ['customer', 'seller', 'admin']
+    },
+    token: {
+        type: String
     }
 });
 

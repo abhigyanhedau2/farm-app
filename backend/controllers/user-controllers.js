@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const nodemailer = require('nodemailer');
+const uuid = require('uuid').v4;
 
 const User = require('../models/user-model');
 
@@ -282,4 +284,92 @@ const deleteMe = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe };
+const sendRecoveryMail = catchAsync(async (req, res, next) => {
+
+    const userMail = req.body.email;
+
+    if (!userMail || !validator.isEmail(userMail))
+        return next(new AppError(400, 'Enter a valid email'));
+
+    const user = await User.findOne({ email: userMail });
+
+    if (!user)
+        return next(new AppError(404, `No user found with email ${userMail}. Try Signing Up.`));
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.USER_MAIL,
+            pass: process.env.USER_PASS
+        }
+    });
+
+    const resetToken = uuid();
+    const hashedToken = await bcrypt.hash(resetToken, 12);
+
+    const message = `Hey ${user.name}, \n\nForgot your password?\nWe received a request to reset the password for your Birch Wood Ranch Account.\n\nTo reset your password, enter the following token at the forgot password page - ${resetToken}`;
+
+    await User.updateOne({ email: userMail }, { token: hashedToken });
+
+    const mailOptions = {
+        from: process.env.USER_MAIL,
+        // to: userMail,
+        to: 'spam22010904@gmail.com',
+        subject: 'Account Recovery Mail',
+        text: message
+    };
+
+    transporter.sendMail(mailOptions, function (error) {
+        if (error)
+            return next(new AppError(500, 'Internal server error'));
+    });
+
+    res.status(200).json({
+        status: 'success'
+    });
+
+});
+
+const resetPassword = catchAsync(async (req, res, next) => {
+
+    const token = req.body.token;
+    const userMail = req.body.email;
+    const newPassword = req.body.password;
+
+    if (!token)
+        return next(new AppError(400, 'Enter the token'));
+
+    const user = await User.findOne({ email: userMail });
+
+    if (!user)
+        return next(new AppError(404, `No user found with email ${userMail}. Try Signing Up.`));
+
+    if (!user.token)
+        return next(new AppError(404, `Send a forgot password request before changing the password`));
+
+    // Check if the token is correct or not
+    const tokenIsCorrect = await bcrypt.compare(token, user.token);
+
+    if (!tokenIsCorrect)
+        return next(new AppError(400, 'Enter the valid token'));
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 12);
+
+    user.password = newHashedPassword;
+    user.token = undefined;
+
+    const updatedUser = await user.save();
+
+    // Create JWT token and sign it
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_EXPIRES_IN });
+
+    res.status(201).json({
+        status: 'success',
+        data: {
+            user: updatedUser,
+            token: jwtToken
+        }
+    });
+});
+
+module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword };
