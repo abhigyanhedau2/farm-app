@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
 const cartSchema = new mongoose.Schema({
+    // Array of product description, individual product quantity and total price quantity * rate as objects
     products: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Product',
+        product: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Product'
+        },
         totalProductsPrice: {
             type: Number
         },
