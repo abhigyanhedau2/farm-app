@@ -60,6 +60,12 @@
       animation: moveUp 0.75s ease-out 0.85s;
       animation-fill-mode: backwards;
 
+      a {
+        text-decoration: none;
+        color: #000000;
+        cursor: pointer;
+      }
+
       &:hover {
         transform: translateY(-3px);
         box-shadow: 0rem 0.2rem 1rem rgba($color: #000000, $alpha: 0.4);

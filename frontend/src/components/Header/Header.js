@@ -15,7 +15,7 @@ const Header = () => {
                     <span className={classes['heading-primary--main']}>Birch Wood Ranch</span>
                     <span className={classes['heading-primary--sub']}>Farm Produce & More</span>
                 </h1>
-                <button className={classes.btn + classes['btn--white'] + classes['btn--animated']}>Explore</button>
+                <button><a href="#categories">Explore</a></button>
             </div>
         </div>
     )

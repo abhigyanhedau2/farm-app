@@ -17,6 +17,7 @@ html {
 
 body {
   box-sizing: border-box;
+  background: white;
 }
 
 body {
@@ -25,4 +26,5 @@ body {
   /* font-size: 16px; */
   line-height: 1.7;
   box-sizing: border-box;
+  overflow-x: hidden;
 }

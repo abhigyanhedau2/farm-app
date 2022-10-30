@@ -2,6 +2,7 @@
   height: 64px;
   display: flex;
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;
@@ -51,6 +52,28 @@
         &.active {
           transform: translateY(-1px);
           border-bottom: 0.25rem solid black;
+        }
+      }
+
+      li.scroll {
+        a {
+          text-decoration: none;
+          color: black;
+        }
+
+        &:hover {
+          transform: translateY(-3px);
+          border-bottom: 0.25rem solid white;
+          cursor: pointer;
+        }
+
+        &:active {
+          transform: translateY(-1px);
+        }
+
+        &.active {
+          transform: translateY(-1px);
+          border-bottom: 0.25rem solid white;
         }
       }
     }
