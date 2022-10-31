@@ -1,0 +1,44 @@
+.footerWrapper {
+  color: white;
+  background: linear-gradient(
+    17deg,
+    rgba(91, 227, 147, 1) 0%,
+    rgba(63, 154, 101, 1) 100%
+  );
+  text-align: center;
+  height: 20vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.footerNavigation ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.footerNavigation ul li {
+  margin: 1rem 2rem;
+  font-size: 1.6rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.footerNavigation ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+.footerNavigation ul li:hover {
+transform: translateY(-3px);
+}
+
+.footerNavigation ul li:active {
+transform: translateY(-1px);
+}
+
+.footerWrapper p {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
