@@ -1,65 +1,191 @@
 .categories {
-  padding: 3% 8%; }
-  .categories .heading__secondary {
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 3rem;
-    letter-spacing: 0.5rem;
-    color: transparent;
-    background: linear-gradient(17deg, #5be393 0%, #3f9a65 100%);
-    background-clip: text;
-    margin-bottom: 1rem; }
-  .categories .category_cards-conatainer {
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: stretch;
-    gap: 5%; }
-    .categories .category_cards-conatainer .category__card {
-      overflow: hidden;
-      max-width: 25%;
-      margin-top: 5rem; }
-      .categories .category_cards-conatainer .category__card .cardImg img {
-        max-width: 100%;
-        height: 15vw;
-        object-fit: cover; }
-      .categories .category_cards-conatainer .category__card .cardContent {
-        padding: 0rem 2rem 10rem;
-        position: relative; }
-        .categories .category_cards-conatainer .category__card .cardContent h1 {
-          font-size: 3rem; }
-        .categories .category_cards-conatainer .category__card .cardContent p {
-          font-size: 1.5rem; }
-        .categories .category_cards-conatainer .category__card .cardContent .actions button {
-          position: absolute;
-          bottom: 2rem;
-          right: 2rem;
-          padding: 1rem 2rem;
-          border-radius: 1rem;
-          border: 1px solid #45a866;
-          background: #fff;
-          color: #45a866;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s; }
-          .categories .category_cards-conatainer .category__card .cardContent .actions button:hover {
-            background: #45a866;
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2); }
-          .categories .category_cards-conatainer .category__card .cardContent .actions button:active {
-            transform: translateY(-1px);
-            box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.2); }
+  padding: 3% 8%;
+}
+.categories .heading__secondary {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: 0.5rem;
+  color: transparent;
+  background: linear-gradient(17deg, #5be393 0%, #3f9a65 100%);
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+.categories .category_cards-conatainer {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch;
+  gap: 5%;
+}
+.categories .category_cards-conatainer .category__card {
+  overflow: hidden;
+  max-width: 25%;
+  margin-top: 5rem;
+}
+.categories .category_cards-conatainer .category__card .cardImg img {
+  max-width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+.categories .category_cards-conatainer .category__card .cardContent {
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 25rem;
+}
+.categories
+  .category_cards-conatainer
+  .category__card
+  .cardContent
+  .cardDetails
+  h1 {
+  font-size: 2.5rem;
+}
+.categories
+  .category_cards-conatainer
+  .category__card
+  .cardContent
+  .cardDetails
+  p {
+  font-size: 1.5rem;
+}
+.categories
+  .category_cards-conatainer
+  .category__card
+  .cardContent
+  .actions
+  button {
+  width: 35%;
+  float: right;
+  margin: 0 0rem 2rem 0;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: 1px solid #45a866;
+  background: #fff;
+  color: #45a866;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.categories
+  .category_cards-conatainer
+  .category__card
+  .cardContent
+  .actions
+  button:hover {
+  background: #45a866;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+.categories
+  .category_cards-conatainer
+  .category__card
+  .cardContent
+  .actions
+  button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+}
 
-@media only screen and (max-width: 1400px) {
-  .category_cards-conatainer {
-    gap: 1rem; }
-  .category__card {
-    overflow: hidden;
+@media screen and (max-width: 1400px) {
+  .categories .category_cards-conatainer {
+    gap: 1rem;
+  }
+  .categories .category_cards-conatainer .category__card {
     max-width: 30%;
-    margin-top: 5rem; }
-    .category__card .cardImg img {
-      max-width: 100%;
-      height: 15vw;
-      object-fit: cover; } }
+    margin-top: 5rem;
+  }
+  .categories .category_cards-conatainer .category__card .cardImg img {
+    max-width: 100%;
+    height: 17vw;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 1225px) {
+  .categories
+    .category_cards-conatainer
+    .category__card
+    .cardContent
+    .actions
+    button {
+    width: 10rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .categories .category_cards-conatainer {
+    gap: 1rem;
+  }
+  .categories .category_cards-conatainer .category__card {
+    display: flex;
+    margin-top: 2rem;
+    max-width: 90vw;
+  }
+
+  .categories .category_cards-conatainer .category__card .cardImg img {
+    max-width: 40vw;
+    height: -webkit-fill-available;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .categories
+    .category_cards-conatainer
+    .category__card
+    .cardContent
+    .cardDetails
+    h1 {
+    font-size: 2.5rem;
+  }
+  .categories
+    .category_cards-conatainer
+    .category__card
+    .cardContent
+    .cardDetails
+    p {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .categories .heading__secondary {
+    font-size: 1.8rem;
+  }
+
+  .category__card {
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid black;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.25s;
+
+    transform: none;
+  }
+
+  .categories
+    .category_cards-conatainer
+    .category__card
+    .cardContent
+    .cardDetails
+    h1 {
+    font-size: 2rem;
+  }
+  .categories
+    .category_cards-conatainer
+    .category__card
+    .cardContent
+    .cardDetails
+    p {
+    font-size: 1.5rem;
+  }
+
+  .categories .category_cards-conatainer .category__card .cardContent {
+    height: 30rem;
+  }
+}

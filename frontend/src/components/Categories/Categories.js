@@ -27,8 +27,10 @@ const Categories = () => {
                 <img src={category.image} alt="" />
             </div>
             <div className={classes.cardContent}>
-                <h1>{category.category}</h1>
-                <p>{category.description}</p>
+                <div className={classes.cardDetails}>
+                    <h1>{category.category}</h1>
+                    <p>{category.description}</p>
+                </div>
                 <div className={classes.actions}>
                     <button>Shop &#8594;</button>
                 </div>
@@ -40,7 +42,7 @@ const Categories = () => {
         <div id='categories' className={classes.categories}>
             <h1 className={classes.heading__secondary}>Farm fresh products delivered to your home</h1>
             <HR color='#9ebeb3' />
-            <div className={classes['category_cards-conatainer-resize'] + ' ' + classes['category_cards-conatainer']}>
+            <div className={classes['category_cards-conatainer']}>
                 {categoryCards}
             </div>
         </div>
