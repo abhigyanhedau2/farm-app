@@ -65,22 +65,22 @@
 @media screen and (max-width: 1600px) {
   .aboutImages img {
     width: 27.5vw;
-    height: 27.5vh;
+    height: 35vh;
   }
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1400px) {
   .aboutWrapper {
     padding: 7vh 5vw;
   }
 
   .aboutImages img {
     width: 27.5vw;
-    height: 22.5vh;
+    height: 32vh;
   }
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1200px) {
   .aboutWrapper {
     flex-direction: column-reverse;
     padding: 7vh 5vw;
