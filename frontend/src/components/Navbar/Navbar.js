@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+
+import { BackdropContext } from '../../store/backdropContext';
 
 import classes from './Navbar.module.css';
 
 const Navbar = () => {
 
+
+    const backdropContext = useContext(BackdropContext);
+
     const [invertNav, setInvertNav] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
 
     const path = useLocation().pathname;
 
@@ -15,28 +21,38 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll, true);
 
-    let ulClass = invertNav ? classes.blackList :  classes.whiteList;
+    let ulClass = invertNav ? classes.blackList : classes.whiteList;
+
+    const showMenuHandler = () => {
+        setShowMenu(prev => !prev);
+        backdropContext.setShowBackdrop(!showMenu);
+    };
 
     return (
-        <nav className={classes.navbar}>
-            <div className={classes.navbar__right}>
-                <div className={classes.navbar__navlinks}>
-                    <ul className={ulClass}>
-                        <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
-                        <li className={path === '/about' ? classes.active : ''}><Link to='/about'>About</Link></li>
-                        <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
-                        {/* <li className={(path === '/' ? classes.active : '') + liClasses}><Link to='/'>Home</Link></li>
-                        <li className={(path === '/about' ? classes.active : '') + liClasses}><Link to='/about'>About</Link></li>
-                        <li className={(path === '/contact' ? classes.active : '') + liClasses}><Link to='/contact'>Contact</Link></li> */}
-                    </ul>
+        <Fragment>
+            <nav className={classes.navbar}>
+                {showMenu && (<ul className={classes.responsiveUlList}>
+                    <li><Link to='/'>Home</Link></li>
+                    <li><Link to='/about'>About</Link></li>
+                    <li><Link to='/contact'>Contact</Link></li>
+                </ul>)}
+                <div className={classes.navbar__right}>
+                    <div className={classes.navbar__navlinks}>
+                        <ul className={ulClass}>
+                            <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
+                            <li className={path === '/about' ? classes.active : ''}><Link to='/about'>About</Link></li>
+                            <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
+                        </ul>
+                    </div>
+                    <div className={classes.navbar__actions}>
+                        {/* <button>Login/Signup</button> */}
+                        <button>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
+                        <button>Logout</button>
+                        <button className={classes.responsiveMenuBtn} onClick={showMenuHandler}><i className="fa-solid fa-bars"></i></button>
+                    </div>
                 </div>
-                <div className={classes.navbar__actions}>
-                    <button>Login/Signup</button>
-                    {/* <button>Cart <i class="fa-solid fa-cart-shopping"></i></button>
-                    <button>Logout</button> */}
-                </div>
-            </div>
-        </nav>
+            </nav>
+        </Fragment>
     )
 };
 
