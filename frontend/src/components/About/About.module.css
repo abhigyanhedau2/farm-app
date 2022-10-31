@@ -1,0 +1,145 @@
+.aboutWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 7vh 10vw;
+}
+
+.aboutText {
+  width: 50%;
+  padding-right: 10rem;
+  box-sizing: border-box;
+}
+
+.aboutText h1 {
+  font-size: 2.75rem;
+  margin-bottom: 2rem;
+}
+
+.aboutText p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+.aboutImages {
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+.aboutImages img {
+  position: absolute;
+  width: 25vw;
+  height: 30vh;
+  object-fit: cover;
+  box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.aboutImages img:hover {
+  z-index: 5;
+  transform: scale(1.1);
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
+}
+
+.aboutImg1 {
+  right: 0;
+  top: -10rem;
+  z-index: 1;
+}
+
+.aboutImg2 {
+  top: -2.5rem;
+  left: 10rem;
+  z-index: 2;
+}
+
+.aboutImg3 {
+  top: -15rem;
+  left: 0rem;
+  z-index: 0;
+}
+
+@media screen and (max-width: 1600px) {
+  .aboutImages img {
+    width: 27.5vw;
+    height: 27.5vh;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .aboutWrapper {
+    padding: 7vh 5vw;
+  }
+
+  .aboutImages img {
+    width: 27.5vw;
+    height: 22.5vh;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .aboutWrapper {
+    flex-direction: column-reverse;
+    padding: 7vh 5vw;
+  }
+
+  .aboutText {
+    width: 90%;
+    padding-right: 0rem;
+  }
+  .aboutImages {
+    width: 90%;
+    height: 60vw;
+    position: relative;
+  }
+
+  .aboutImages img {
+    width: 50vw;
+    height: 35vw;
+  }
+
+  .aboutImg1 {
+    top: 5rem;
+    z-index: 1;
+  }
+
+  .aboutImg2 {
+    top: 12.5rem;
+    z-index: 2;
+  }
+
+  .aboutImg3 {
+    top: 0rem;
+    z-index: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutImages {
+    width: 90%;
+    height: 75vw;
+    position: relative;
+  }
+  .aboutText {
+    width: 90%;
+    padding-right: 0rem;
+  }
+  .aboutImg1 {
+    top: 3rem;
+    z-index: 1;
+  }
+
+  .aboutImg2 {
+    top: 8rem;
+    left: 6rem;
+    z-index: 2;
+  }
+
+  .aboutImg3 {
+    top: 0rem;
+    z-index: 0;
+  }
+}

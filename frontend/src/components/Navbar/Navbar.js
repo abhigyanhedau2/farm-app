@@ -7,7 +7,6 @@ import classes from './Navbar.module.css';
 
 const Navbar = () => {
 
-
     const backdropContext = useContext(BackdropContext);
 
     const [invertNav, setInvertNav] = useState(false);
@@ -33,14 +32,12 @@ const Navbar = () => {
             <nav className={classes.navbar}>
                 {showMenu && (<ul className={classes.responsiveUlList}>
                     <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/about'>About</Link></li>
                     <li><Link to='/contact'>Contact</Link></li>
                 </ul>)}
                 <div className={classes.navbar__right}>
                     <div className={classes.navbar__navlinks}>
                         <ul className={ulClass}>
                             <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
-                            <li className={path === '/about' ? classes.active : ''}><Link to='/about'>About</Link></li>
                             <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
                         </ul>
                     </div>
