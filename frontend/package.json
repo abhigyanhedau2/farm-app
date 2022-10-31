@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "compile:sass": "node-sass src/components/Navbar/Navbar.scss src/components/Navbar/Navbar.module.css -w"
+    "compile:sass": "node-sass src/components/Categories/Categories.scss src/components/Categories/Categories.module.css -w"
   },
   "eslintConfig": {
     "extends": [

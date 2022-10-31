@@ -20,22 +20,23 @@
     display: flex;
     list-style: none;
     font-size: 1.6rem;
-    color: white;
     font-weight: 500; }
     .navbar__navlinks ul > * {
       margin: 2rem; }
-    .navbar__navlinks ul li a {
-      text-decoration: none;
-      color: white; }
-    .navbar__navlinks ul li:hover {
-      transform: translateY(-3px);
-      border-bottom: 0.25rem solid black;
-      cursor: pointer; }
-    .navbar__navlinks ul li:active {
-      transform: translateY(-1px); }
-    .navbar__navlinks ul li.active {
-      transform: translateY(-1px);
-      border-bottom: 0.25rem solid black; }
+  .navbar__navlinks .whiteList li a {
+    text-decoration: none;
+    color: white; }
+  .navbar__navlinks .whiteList li:hover {
+    border-bottom: 3px solid black; }
+  .navbar__navlinks .whiteList .active {
+    border-bottom: 3px solid black; }
+  .navbar__navlinks .blackList li a {
+    text-decoration: none;
+    color: black; }
+  .navbar__navlinks .blackList li:hover {
+    border-bottom: 3px solid black; }
+  .navbar__navlinks .blackList .active {
+    border-bottom: 3px solid black; }
   .navbar__actions button {
     cursor: pointer;
     font-size: 1.6rem;

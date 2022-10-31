@@ -26,13 +26,14 @@
       display: flex;
       list-style: none;
       font-size: 1.6rem;
-      color: white;
       font-weight: 500;
 
       > * {
         margin: 2rem;
       }
+    }
 
+    .whiteList {
       li {
         a {
           text-decoration: none;
@@ -40,41 +41,29 @@
         }
 
         &:hover {
-          transform: translateY(-3px);
-          border-bottom: 0.25rem solid black;
-          cursor: pointer;
-        }
-
-        &:active {
-          transform: translateY(-1px);
-        }
-
-        &.active {
-          transform: translateY(-1px);
-          border-bottom: 0.25rem solid black;
+          border-bottom: 3px solid black;
         }
       }
 
-      li.scroll {
+      .active {
+        border-bottom: 3px solid black;
+      }
+    }
+
+    .blackList {
+      li {
         a {
           text-decoration: none;
           color: black;
         }
 
         &:hover {
-          transform: translateY(-3px);
-          border-bottom: 0.25rem solid white;
-          cursor: pointer;
+          border-bottom: 3px solid black;
         }
+      }
 
-        &:active {
-          transform: translateY(-1px);
-        }
-
-        &.active {
-          transform: translateY(-1px);
-          border-bottom: 0.25rem solid white;
-        }
+      .active {
+        border-bottom: 3px solid black;
       }
     }
   }
