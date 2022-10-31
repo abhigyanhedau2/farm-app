@@ -1,0 +1,32 @@
+.features {
+  width: 100vw;
+  background: linear-gradient(
+      17deg,
+      rgba(91, 227, 147, 0.75) 0%,
+      rgba(63, 154, 101, 0.75) 100%
+    ),
+    url("../../assets/featuresbg.jpg");
+  background-size: cover;
+  padding: 8vh 5vw 12vh;
+}
+
+.heading__secondary {
+  text-transform: uppercase;
+  color: white;
+  font-size: 4rem;
+}
+
+.featureCardsWrapper {
+  margin-top: 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: initial;
+  gap: 5rem;
+}
+
+@media screen and (max-width: 450px) {
+  .heading__secondary {
+    font-size: 3.5rem;
+  }
+}
