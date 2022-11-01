@@ -16,7 +16,7 @@ const SubCategories = (props) => {
     return (
         <div className={classes.subCategoryProductsWrapper}>
             <h1>{props.heading}</h1>
-            <OneSideHR color="#34c078" width='50%' />
+            <OneSideHR color="#34c078" width='80vw' />
             <div className={classes.productCardsWrapper}>
                 {productCards}
             </div>

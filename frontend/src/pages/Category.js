@@ -19,6 +19,10 @@ const Category = () => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        document.title = `Birch Wood Ranch | ${requestedCategory}`;
+    }, [requestedCategory]);
+
     if (categories.length !== 0) {
         const requiredCategory = categories.filter(category => category.category === requestedCategory);
         return (

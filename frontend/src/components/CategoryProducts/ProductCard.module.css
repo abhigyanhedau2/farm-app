@@ -95,3 +95,65 @@
 .productQuantityWrapper button:active {
   transform: translateY(-1px);
 }
+
+@media screen and (max-width: 1300px) {
+  .productCardOuterWrapper {
+    width: 20vw;
+  }
+  .productImage img {
+    width: 20vw;
+    height: 12vw;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .productCardOuterWrapper {
+    width: 25vw;
+  }
+  .productImage img {
+    width: 25vw;
+    height: 15vw;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .productCardOuterWrapper {
+    width: 30vw;
+  }
+  .productImage img {
+    width: 30vw;
+    height: 20vw;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .productCardOuterWrapper {
+    display: flex;
+    width: 90vw;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .productCardWrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 2rem;
+  }
+  .productDetails {
+    width: 100%;
+  }
+  .vegInfo img {
+    position: absolute;
+    z-index: 2;
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+  .productImage img {
+    width: 30vw;
+    height: 100%;
+  }
+}

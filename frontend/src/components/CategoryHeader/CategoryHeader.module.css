@@ -18,7 +18,13 @@
 }
 
 .categoryHeaderWrapper h1 {
-    font-size: 5rem;
-    text-transform: uppercase;
-    color: white;
+  font-size: 5rem;
+  text-transform: uppercase;
+  color: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .categoryHeaderWrapper h1 {
+    font-size: 3.5rem;
+  }
 }

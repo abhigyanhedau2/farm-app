@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
@@ -7,8 +6,6 @@ import HR from '../UIElements/HR/HR';
 import classes from './Categories.module.css';
 
 const Categories = () => {
-
-    const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
 
@@ -25,7 +22,7 @@ const Categories = () => {
     }, []);
 
     const redirectToCategoryHandler = (category) => {
-        navigate(`/category/${category}`)
+        window.open(`/category/${category}`, '_blank')
     };
 
     const categoryCards = categories.map(category => {

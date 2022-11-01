@@ -6,7 +6,15 @@
 .productCardsWrapper {
   margin-top: 2.5rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 5rem;
   transition: all 0.2s;
+}
+
+@media screen and (max-width: 700px) {
+  .productCardsWrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
