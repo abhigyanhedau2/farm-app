@@ -3,13 +3,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import ProductCard from './ProductCard';
 import SubCategories from './SubCategories';
 
-import { BackdropWithLoaderContext } from '../../store/backdropWithLoaderContext';
+import { BackdropContext } from '../../store/backdropContext';
 
 import classes from './CategoryProducts.module.css';
 
 const CategoryProducts = (props) => {
 
-    const backdropWithLoaderContext = useContext(BackdropWithLoaderContext);
+    const backdropContext = useContext(BackdropContext);
 
     const [products, setProducts] = useState([]);
 
@@ -26,7 +26,7 @@ const CategoryProducts = (props) => {
     }, [props.category]);
 
     if (products.length !== 0) {
-        backdropWithLoaderContext.setShowBackdrop(false);
+        backdropContext.showBackdropWithLoaderHandler(false);
         if (products[0].subCategory) {
 
             const getHeadings = products.map(item => item.subCategory);
@@ -57,7 +57,7 @@ const CategoryProducts = (props) => {
     }
 
     else {
-        backdropWithLoaderContext.setShowBackdrop(true);
+        backdropContext.showBackdropWithLoaderHandler(true);
     }
 };
 

@@ -28,7 +28,7 @@ const Navbar = () => {
 
     const showMenuHandler = () => {
         setShowMenu(prev => !prev);
-        backdropContext.setShowBackdrop(!showMenu);
+        backdropContext.showBackdropHandler(!showMenu);
     };
 
     const loginClickHandler = () => {

@@ -14,16 +14,16 @@ import Category from './pages/Category';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
-import { BackdropWithLoaderContext } from './store/backdropWithLoaderContext';
+import { BackdropContext } from './store/backdropContext';
 
 const App = () => {
 
-	const backdropWithLoaderContext = useContext(BackdropWithLoaderContext);
+	const backdropWithLoaderContext = useContext(BackdropContext);
 
 	return (
 		<BrowserRouter>
-			<Backdrop />
-			<BackdropWithLoader show={backdropWithLoaderContext.show} />
+			<Backdrop show={backdropWithLoaderContext.showBackdrop} />
+			<BackdropWithLoader show={backdropWithLoaderContext.showBackdropWithLoader} />
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />

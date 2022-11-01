@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 
-import { BackdropWithLoaderContext } from '../../store/backdropWithLoaderContext';
+import { BackdropContext } from '../../store/backdropContext';
 
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
@@ -9,7 +9,7 @@ import classes from './Categories.module.css';
 
 const Categories = () => {
 
-    const backdropWithLoaderContext = useContext(BackdropWithLoaderContext);
+    const backdropContext = useContext(BackdropContext);
 
     const [categories, setCategories] = useState([]);
 
@@ -32,7 +32,7 @@ const Categories = () => {
     let categoryCards;
 
     if (categories.length !== 0) {
-        backdropWithLoaderContext.setShowBackdrop(false);
+        backdropContext.showBackdropWithLoaderHandler(false);
         categoryCards = categories.map(category => {
             return (<Card key={category._id} className={classes.category__card}>
                 <div className={classes.cardImg}>
@@ -50,7 +50,7 @@ const Categories = () => {
             </Card>);
         })
     } else {
-        backdropWithLoaderContext.setShowBackdrop(true);
+        backdropContext.showBackdropWithLoaderHandler(true);
     }
 
     return (

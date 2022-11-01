@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { LoginContext } from '../../store/authContext';
+import { BackdropContext } from '../../store/backdropContext';
 import useInput from '../../hooks/use-input';
 
 import logoPic from '../../assets/logoPic.png';
@@ -21,6 +22,7 @@ const passwordValidationFn = (value) => {
 const Login = () => {
 
     const loginContext = useContext(LoginContext);
+    const backdropContext = useContext(BackdropContext);
     const navigate = useNavigate();
 
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -44,6 +46,8 @@ const Login = () => {
     const formSubmitHandler = async (event) => {
         event.preventDefault();
 
+        backdropContext.showBackdropWithLoaderHandler(true);
+
         if (emailIsValid && passwordIsValid) {
 
             const email = emailInput;
@@ -66,6 +70,8 @@ const Login = () => {
                 loginContext.onLogin(data.data.token);
 
                 navigate('/');
+
+                backdropContext.showBackdropWithLoaderHandler(false);
 
             } catch (error) {
 

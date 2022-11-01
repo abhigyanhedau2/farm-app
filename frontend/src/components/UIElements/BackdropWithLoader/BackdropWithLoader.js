@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 
 import Backdrop from '../Backdrop/Backdrop';
-import { BackdropWithLoaderContext } from '../../../store/backdropWithLoaderContext';
+import { BackdropContext } from '../../../store/backdropContext';
 
 import loaderGif from '../../../assets/loaderGif.gif';
 import classes from './BackdropWithLoader.module.css';
 
 const BackdropWithLoader = (props) => {
 
-    const backdropWithLoaderContext = useContext(BackdropWithLoaderContext);
+    const backdropContext = useContext(BackdropContext);
 
-    if (backdropWithLoaderContext.show) {
+    if (backdropContext.show) {
         const body = document.getElementsByTagName("BODY")[0];;
         body.classList.add("lock-screen");
     } else {

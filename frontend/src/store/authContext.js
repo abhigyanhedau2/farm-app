@@ -18,8 +18,8 @@ const LoginContextProvider = (props) => {
 
             const user = jwt(token);
 
-            // console.log(user.exp * 1000);
-            // console.log(Date.now());
+            console.log(user.exp * 1000);
+            console.log(Date.now());
 
             if (user.exp * 1000 > Date.now())
                 setIsLoggedIn(true);
