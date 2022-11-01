@@ -2,10 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import HR from '../UIElements/HR/HR';
 
-import defaultImg from '../../assets/default.jpg';
 import classes from './CategoryHeader.module.css';
-
-let i = 0;
 
 const CategoryHeader = (props) => {
 

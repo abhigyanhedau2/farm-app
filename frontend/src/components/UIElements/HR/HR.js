@@ -1,9 +1,9 @@
 import React from 'react';
-import './HR.module.css';
+import classes from './HR.module.css';
 
 const HRLine = (props) => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className={classes.singleHR} style={{ display: 'flex', justifyContent: 'center' }}>
             <hr style={{ '--lineColor': props.color }} />
         </div>
     )
