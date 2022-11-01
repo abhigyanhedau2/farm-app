@@ -13,8 +13,11 @@ import Home from './pages/Home';
 import Category from './pages/Category';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 import { BackdropContext } from './store/backdropContext';
+
 
 const App = () => {
 
@@ -29,6 +32,8 @@ const App = () => {
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<SignupPage />} />
+				<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+				<Route path="/resetPassword" element={<ResetPasswordPage />} />
 				<Route path="/category/:category" element={<Category />} />
 			</Routes>
 			<Footer />

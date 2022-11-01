@@ -17,7 +17,9 @@ router.route('/login').post(login);
 
 // Forgort Password
 router.route('/forgotPassword')
-    .get(sendRecoveryMail)  // Send recovery mail 
+    .post(sendRecoveryMail);  // Send recovery mail 
+
+router.route('/resetPassword')
     .post(resetPassword);    // Store updated password in the DB
 
 // Protect all the routes below this middleware, to make sure user is logged in

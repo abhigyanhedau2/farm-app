@@ -16,13 +16,15 @@ const LoginContextProvider = (props) => {
         const verifyToken = async () => {
             const token = localStorage.getItem('token');
 
-            const user = jwt(token);
+            if (token) {
+                const user = await jwt(token);
 
-            console.log(user.exp * 1000);
-            console.log(Date.now());
+                console.log(user.exp * 1000);
+                console.log(Date.now());
 
-            if (user.exp * 1000 > Date.now())
-                setIsLoggedIn(true);
+                if (user.exp * 1000 > Date.now())
+                    setIsLoggedIn(true);
+            }
         };
 
         verifyToken();
