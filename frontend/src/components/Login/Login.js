@@ -1,6 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { LoginContext } from '../../store/authContext';
 import useInput from '../../hooks/use-input';
 
 import logoPic from '../../assets/logoPic.png';
@@ -18,6 +19,11 @@ const passwordValidationFn = (value) => {
 }
 
 const Login = () => {
+
+    const loginContext = useContext(LoginContext);
+    const navigate = useNavigate();
+
+    console.log(loginContext.isLoggedIn);
 
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
     const { input: passwordInput, inputIsValid: passwordIsValid, inputIsTouched: passwordIsTouched, inputChangeHandler: passwordChangeHandler, inputTouchedHandler: passwordTouchedHandler } = useInput(passwordValidationFn);
@@ -58,7 +64,10 @@ const Login = () => {
                 });
 
                 const data = await response.json();
-                console.log(data);
+
+                loginContext.onLogin(data.data.token);
+
+                navigate('/');
 
             } catch (error) {
 

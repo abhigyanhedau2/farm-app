@@ -15,6 +15,8 @@ import SignupPage from './pages/SignupPage';
 
 const App = () => {
 
+	
+
 	return (
 		<BrowserRouter>
 			<Backdrop />

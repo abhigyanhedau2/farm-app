@@ -1,13 +1,17 @@
 import React, { Fragment, useState, useContext } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 import { BackdropContext } from '../../store/backdropContext';
+import { LoginContext } from '../../store/authContext';
 
 import classes from './Navbar.module.css';
 
 const Navbar = () => {
 
+    const navigate = useNavigate();
+
     const backdropContext = useContext(BackdropContext);
+    const loginContext = useContext(LoginContext);
 
     const [invertNav, setInvertNav] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -27,6 +31,10 @@ const Navbar = () => {
         backdropContext.setShowBackdrop(!showMenu);
     };
 
+    const loginClickHandler = () => {
+        navigate('/login');
+    }
+
     return (
         <Fragment>
             <nav className={classes.navbar}>
@@ -42,9 +50,11 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className={classes.navbar__actions}>
-                        {/* <button>Login/Signup</button> */}
-                        <button>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
-                        <button>Logout</button>
+                        {!loginContext.isLoggedIn && <button onClick={loginClickHandler}>Login/Signup</button>}
+                        {loginContext.isLoggedIn && <Fragment>
+                            <button>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
+                            <button>Logout</button>
+                        </Fragment>}
                         <button className={classes.responsiveMenuBtn} onClick={showMenuHandler}><i className="fa-solid fa-bars"></i></button>
                     </div>
                 </div>
