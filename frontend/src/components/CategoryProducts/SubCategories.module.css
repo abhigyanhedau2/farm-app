@@ -1,0 +1,12 @@
+.subCategoryProductsWrapper > h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.productCardsWrapper {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: flex-start;
+  gap: 5rem;
+  transition: all 0.2s;
+}

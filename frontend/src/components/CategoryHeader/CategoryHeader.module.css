@@ -1,0 +1,24 @@
+.categoryHeaderWrapper {
+  /* The image used */
+
+  /* Set a specific height */
+  width: 100vw;
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.categoryHeaderWrapper h1 {
+    font-size: 5rem;
+    text-transform: uppercase;
+    color: white;
+}

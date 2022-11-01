@@ -186,18 +186,6 @@ const updateProductById = catchAsync(async (req, res, next) => {
     // Extract the required data from req.body
     const { name, category, subCategory, price, quantityPerBox, calories, veg, description, icon, rating } = req.body;
 
-    if (validator.isEmpty(name) ||
-        validator.isEmpty(category) ||
-        validator.isEmpty(price) ||
-        validator.isEmpty(quantityPerBox) ||
-        validator.isEmpty(calories) ||
-        validator.isEmpty(veg) ||
-        validator.isEmpty(description) ||
-        validator.isEmpty(icon) ||
-        validator.isEmpty(rating))
-        return next(new AppError(400, 'Please add complete and correct details for product addition'));
-
-
     // All textual data comes in req.body
     // All image data comes in req.file
     // Actual image = req.file.buffer

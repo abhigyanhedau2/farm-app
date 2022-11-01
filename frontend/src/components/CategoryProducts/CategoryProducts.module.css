@@ -1,0 +1,18 @@
+.categoryProductsWrapper {
+  width: 100vw;
+  padding: 5rem 7rem;
+  gap: 5rem;
+  display: flex;
+  justify-content: flex-start;
+  transition: all 0.2s;
+  flex-wrap: wrap;
+}
+
+.subCategoryProductsWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  padding: 2rem 5rem;
+  gap: 5rem;
+  transition: all 0.2s;
+}

@@ -1,0 +1,4 @@
+.backdropWithLoaderWrapper img {
+    width: 10rem;
+    opacity: 0.75;
+}

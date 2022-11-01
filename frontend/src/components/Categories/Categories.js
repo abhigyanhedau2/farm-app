@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
@@ -6,6 +7,8 @@ import HR from '../UIElements/HR/HR';
 import classes from './Categories.module.css';
 
 const Categories = () => {
+
+    const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
 
@@ -21,6 +24,10 @@ const Categories = () => {
 
     }, []);
 
+    const redirectToCategoryHandler = (category) => {
+        navigate(`/category/${category}`)
+    };
+
     const categoryCards = categories.map(category => {
         return (<Card key={category._id} className={classes.category__card}>
             <div className={classes.cardImg}>
@@ -32,7 +39,7 @@ const Categories = () => {
                     <p>{category.description}</p>
                 </div>
                 <div className={classes.actions}>
-                    <button>Shop &#8594;</button>
+                    <button onClick={redirectToCategoryHandler.bind(null, category.category)}>Shop &#8594;</button>
                 </div>
             </div>
         </Card>);
