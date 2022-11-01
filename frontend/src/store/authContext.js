@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import jwt from 'jwt-decode';
 
 export const LoginContext = createContext({
     isLoggedIn: false,
@@ -12,14 +13,24 @@ const LoginContextProvider = (props) => {
 
     useEffect(() => {
 
-        if (localStorage.getItem('token'))
-            setIsLoggedIn(true);
+        const verifyToken = async () => {
+            const token = localStorage.getItem('token');
+
+            const user = jwt(token);
+
+            // console.log(user.exp * 1000);
+            // console.log(Date.now());
+
+            if (user.exp * 1000 > Date.now())
+                setIsLoggedIn(true);
+        };
+
+        verifyToken();
 
     }, []);
 
     const loginHandler = (token) => {
         localStorage.setItem('token', token);
-        console.log(token);
         setIsLoggedIn(true);
     };
 

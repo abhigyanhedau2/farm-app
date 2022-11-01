@@ -53,7 +53,7 @@ const Navbar = () => {
                         {!loginContext.isLoggedIn && <button onClick={loginClickHandler}>Login/Signup</button>}
                         {loginContext.isLoggedIn && <Fragment>
                             <button>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
-                            <button>Logout</button>
+                            <button onClick={loginContext.onLogout}>Logout</button>
                         </Fragment>}
                         <button className={classes.responsiveMenuBtn} onClick={showMenuHandler}><i className="fa-solid fa-bars"></i></button>
                     </div>

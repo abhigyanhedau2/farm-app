@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	BrowserRouter,
 	Routes,
@@ -8,18 +8,22 @@ import Footer from './components/Footer/Footer';
 
 import Navbar from './components/Navbar/Navbar';
 import Backdrop from './components/UIElements/Backdrop/Backdrop';
+import BackdropWithLoader from './components/UIElements/BackdropWithLoader/BackdropWithLoader';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
+import { BackdropWithLoaderContext } from './store/backdropWithLoaderContext';
+
 const App = () => {
 
-	
+	const backdropWithLoaderContext = useContext(BackdropWithLoaderContext);
 
 	return (
 		<BrowserRouter>
 			<Backdrop />
+			<BackdropWithLoader show={backdropWithLoaderContext.show} />
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
