@@ -13,7 +13,6 @@ const Error = () => {
     const backdropContext = useContext(BackdropContext);
 
     backdropContext.showBackdropHandler(false);
-    backdropContext.showBackdropWithLoaderHandler(false);
 
     const removeBodyClass = () => {
         const body = document.getElementsByTagName("BODY")[0];

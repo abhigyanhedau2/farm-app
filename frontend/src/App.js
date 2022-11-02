@@ -6,12 +6,13 @@ import {
 } from "react-router-dom";
 
 import { BackdropContext } from './store/backdropContext';
+import { LoaderContext } from './store/loaderContext';
 
 import Navbar from './components/Navbar/Navbar';
 import Backdrop from './components/UIElements/Backdrop/Backdrop';
-import BackdropWithLoader from './components/UIElements/BackdropWithLoader/BackdropWithLoader';
 import Error from './components/Error/Error';
 import SuccessModal from './components/SuccessModal/SuccessModal';
+import Loader from './components/Loader/Loader';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import LoginPage from './pages/LoginPage';
@@ -27,14 +28,15 @@ import './App.css';
 const App = () => {
 
 	const backdropWithLoaderContext = useContext(BackdropContext);
+	const loaderContext = useContext(LoaderContext);
 
 	return (
 		<BrowserRouter>
 			<div className="layout">
+				{loaderContext.loaderIsVisible && <Loader />}
 				<Error />
 				<SuccessModal />
 				<Backdrop show={backdropWithLoaderContext.showBackdrop} />
-				<BackdropWithLoader show={backdropWithLoaderContext.showBackdropWithLoader} />
 				<Navbar />
 				<main>
 					<Routes>

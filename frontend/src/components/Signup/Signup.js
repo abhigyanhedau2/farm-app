@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FeedbackContext } from '../../store/feedbackContext';
+import { LoaderContext } from '../../store/loaderContext';
 
 import logoPic from '../../assets/logoPic.png';
 import useInput from '../../hooks/use-input';
@@ -29,6 +30,7 @@ const numberValidatioFn = (value) => {
 const Signup = () => {
 
     const feedbackContext = useContext(FeedbackContext);
+    const loaderContext = useContext(LoaderContext);
 
     const { input: nameInput, inputIsValid: nameIsValid, inputIsTouched: nameIsTouched, inputChangeHandler: nameChangeHandler, inputTouchedHandler: nameTouchedHandler } = useInput(textIsEmptyFn);
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -75,6 +77,8 @@ const Signup = () => {
     const formSubmitHandler = async (event) => {
         event.preventDefault();
 
+        loaderContext.showLoader();
+
         if (nameIsValid && emailIsValid && passwordIsValid && addressIsValid && numberIsValid) {
 
             const name = nameInput;
@@ -97,12 +101,13 @@ const Signup = () => {
 
                 const data = await response.json();
 
-                if (data.status === 'fail')
+                if (data.status === 'fail') {
+                    loaderContext.hideLoader();
                     feedbackContext.setShowError(true, data.message);
-
-                console.log(data);
+                }
 
             } catch (error) {
+                loaderContext.hideLoader();
                 feedbackContext.setShowError(true, error.message);
             }
 

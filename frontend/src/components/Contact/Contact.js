@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 
 import useInput from '../../hooks/use-input';
+
 import { FeedbackContext } from '../../store/feedbackContext';
+import { LoaderContext } from '../../store/loaderContext';
 
 import logoPic from '../../assets/logoPic.png';
 import classes from './Contact.module.css';
@@ -20,6 +22,7 @@ const textIsEmptyFn = (value) => {
 const Contact = () => {
 
     const feedbackContext = useContext(FeedbackContext);
+    const loaderContext = useContext(LoaderContext);
 
     const { input: nameInput, inputIsValid: nameIsValid, inputIsTouched: nameIsTouched, inputChangeHandler: nameChangeHandler, inputTouchedHandler: nameTouchedHandler } = useInput(textIsEmptyFn);
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -49,6 +52,9 @@ const Contact = () => {
 
 
     const formSubmitHandler = async (event) => {
+
+        loaderContext.showLoader();
+
         event.preventDefault();
 
         const name = nameInput;
@@ -68,12 +74,15 @@ const Contact = () => {
             })
 
             if (response.ok) {
+                loaderContext.hideLoader();
                 feedbackContext.setShowSuccess(true, "Query sent successfully. We'll get back to you at the earliest.");
             } else {
+                loaderContext.hideLoader();
                 feedbackContext.setShowError(true, 'Query sending failed. Try again later.');
             }
 
         } catch (error) {
+            loaderContext.hideLoader();
             feedbackContext.setShowError(true, error.message);
         }
     };

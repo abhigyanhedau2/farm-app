@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 
-import { BackdropContext } from '../../store/backdropContext';
 import { FeedbackContext } from '../../store/feedbackContext';
+import { LoaderContext } from '../../store/loaderContext';
 
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
@@ -10,23 +10,19 @@ import classes from './Categories.module.css';
 
 const Categories = () => {
 
-    const backdropContext = useContext(BackdropContext);
     const feedbackContext = useContext(FeedbackContext);
+    const loaderContext = useContext(LoaderContext);
 
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
 
-        backdropContext.showBackdropWithLoaderHandler(true);
-
         const fetchCategories = async () => {
             try {
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
                 const data = await response.json();
-                backdropContext.showBackdropWithLoaderHandler(false);
                 setCategories(data.data.categories);
             } catch (error) {
-                backdropContext.showBackdropWithLoaderHandler(false);
                 feedbackContext.setShowError(true, error.message);
             }
         };
@@ -43,7 +39,7 @@ const Categories = () => {
     let categoryCards;
 
     if (categories.length !== 0) {
-        backdropContext.showBackdropWithLoaderHandler(false);
+        loaderContext.hideLoader();
         categoryCards = categories.map(category => {
             return (<Card key={category._id} className={classes.category__card}>
                 <div className={classes.cardImg}>
@@ -73,7 +69,7 @@ const Categories = () => {
     }
 
     else {
-        <p>No categories to load. Come back later.</p>
+        loaderContext.showLoader();
     }
 
 };

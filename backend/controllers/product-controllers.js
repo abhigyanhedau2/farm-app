@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const validator = require('validator');
 
 const Product = require('../models/product-model');
+const SubCategory = require('../models/subcategory-model');
 const catchAsync = require("../utils/catchAsync");
 const AppError = require('../utils/appError');
 const getImageFromBucket = require('../utils/getImageFromBucket');
@@ -146,11 +147,13 @@ const postAProduct = catchAsync(async (req, res, next) => {
     const putObjCommand = new PutObjectCommand(params);
     await s3.send(putObjCommand);
 
+    let productSubCategory = subCategory === "null" ? null : subCategory;
+
     // Create a new document to be stored in the DB
     const newProduct = await Product.create({
         name,
         category,
-        subCategory,
+        subCategory: productSubCategory,
         price,
         quantityPerBox,
         calories,
@@ -278,4 +281,32 @@ const deleteAProduct = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { postAProduct, getAllProducts, deleteAProduct, getProductFromId, getProductsByCategory, updateProductById };
+const getAllSubCategories = catchAsync(async (req, res, next) => {
+
+    const subcategories = await SubCategory.find();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            subcategories
+        }
+    });
+
+});
+
+const postSubCategory = catchAsync(async (req, res, next) => {
+
+    const { subCategory } = req.body;
+
+    const newSubCategory = await SubCategory.create({ subCategory: subCategory });
+
+    res.status(201).json({
+        status: 'success',
+        data: {
+            subCategory: newSubCategory
+        }
+    });
+
+});
+
+module.exports = { postAProduct, getAllProducts, deleteAProduct, getProductFromId, getProductsByCategory, updateProductById, getAllSubCategories, postSubCategory };

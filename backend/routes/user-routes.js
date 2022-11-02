@@ -25,7 +25,7 @@ router.route('/resetPassword')
 router.route('/queries')
     .post(postQuery);   // Post a query
 
-router.route('/:userId')
+router.route('/getUser/:userId')
     .get(getUserFromUserId); // GET a user from user id
 
 // Protect all the routes below this middleware, to make sure user is logged in
@@ -37,17 +37,17 @@ router.route('/')
     .patch(updateMe)    // UPDATE a user from user id
     .delete(deleteMe);  // DELETE a user from user id
 
-router.route('/queries')
-    .get(restrictTo('admin'), getUserQueries);   // Get queries posted by user
+router.route('/allqueries')
+    .get(protect, restrictTo('admin'), getUserQueries);   // Get queries posted by user
 
-router.route('/queries/:queryId')
-    .delete(restrictTo('admin'), deleteQuery);   // Get queries posted by user
+router.route('/allqueries/:queryId')
+    .delete(protect, restrictTo('admin'), deleteQuery);   // Get queries posted by user
 
 router.route('/me')
-    .get(getMyDetails);
+    .get(protect, getMyDetails);
 
 // POST a seller    
 router.route('/addSeller')
-    .post(restrictTo('admin'), postASeller);
+    .post(protect, restrictTo('admin'), postASeller);
 
 module.exports = router;

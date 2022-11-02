@@ -32,7 +32,7 @@ const LoginContextProvider = (props) => {
 
                 const userId = user.id;
 
-                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/users/${userId}`);
+                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/users/getUser/${userId}`);
 
                 const data = await response.json();
 

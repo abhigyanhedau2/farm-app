@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { LoginContext } from '../../store/authContext';
-import { BackdropContext } from '../../store/backdropContext';
 import { FeedbackContext } from '../../store/feedbackContext';
+import { LoaderContext } from '../../store/loaderContext';
+
 import useInput from '../../hooks/use-input';
 
 import logoPic from '../../assets/logoPic.png';
@@ -23,8 +24,9 @@ const passwordValidationFn = (value) => {
 const Login = () => {
 
     const loginContext = useContext(LoginContext);
-    const backdropContext = useContext(BackdropContext);
     const feedbackContext = useContext(FeedbackContext);
+    const loaderContext = useContext(LoaderContext);
+
     const navigate = useNavigate();
 
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -47,8 +49,7 @@ const Login = () => {
 
     const formSubmitHandler = async (event) => {
         event.preventDefault();
-
-        backdropContext.showBackdropWithLoaderHandler(true);
+        loaderContext.showLoader();
 
         if (emailIsValid && passwordIsValid) {
 
@@ -73,12 +74,12 @@ const Login = () => {
                     feedbackContext.setShowError(true, data.message);
 
                 loginContext.onLogin(data.data.token);
+                loaderContext.hideLoader();
 
                 navigate('/');
 
-                backdropContext.showBackdropWithLoaderHandler(false);
-
             } catch (error) {
+                loaderContext.hideLoader();
                 feedbackContext.setShowError(true, error.message);
             }
 

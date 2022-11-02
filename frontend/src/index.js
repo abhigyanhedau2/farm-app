@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import BackdropContextProvider from './store/backdropContext';
 import LoginContextProvider from './store/authContext';
-import FeedbackContextProvider  from './store/feedbackContext';
+import FeedbackContextProvider from './store/feedbackContext';
+import LoaderContextProvider from './store/loaderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +13,9 @@ root.render(
     <LoginContextProvider>
       <BackdropContextProvider>
         <FeedbackContextProvider>
-          <App />
+          <LoaderContextProvider>
+            <App />
+          </LoaderContextProvider>
         </FeedbackContextProvider>
       </BackdropContextProvider>
     </LoginContextProvider>
