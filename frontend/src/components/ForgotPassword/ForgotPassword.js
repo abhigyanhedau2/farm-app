@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '../../hooks/use-input';
+import { FeedbackContext } from '../../store/feedbackContext';
 
 import logoPic from '../../assets/logoPic.png';
 
@@ -15,6 +16,8 @@ const emailValidationFn = (value) => {
 };
 
 const ForgotPassword = () => {
+
+    const feedbackContext = useContext(FeedbackContext);
 
     const navigate = useNavigate();
 
@@ -35,17 +38,27 @@ const ForgotPassword = () => {
 
             const email = emailInput;
 
-            await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/forgotPassword', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email
-                })
-            });
+            try {
+                const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/forgotPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email
+                    })
+                });
 
-            navigate('/resetPassword');
+                if (response.ok) {
+                    feedbackContext.setShowSuccess(true, 'Verification token sent successfully. Please check your mail.');
+                    navigate('/resetPassword');
+                } else {
+                    feedbackContext.setShowError(true, 'Token sending failed. Try again later.');
+                }
+
+            } catch (error) {
+                feedbackContext.setShowError(true, error.message);
+            }
 
         }
 

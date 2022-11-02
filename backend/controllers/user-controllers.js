@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const uuid = require('uuid').v4;
 
 const User = require('../models/user-model');
+const Query = require('../models/query-model');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -372,4 +373,53 @@ const resetPassword = catchAsync(async (req, res, next) => {
     });
 });
 
-module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword };
+const getUserQueries = catchAsync(async (req, res, next) => {
+
+    const queries = await Query.find();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            queries: queries
+        }
+    });
+
+});
+
+const postQuery = catchAsync(async (req, res, next) => {
+
+    const { name, email, query } = req.body;
+
+    if (validator.isEmpty(name) ||
+        !validator.isEmail(email) ||
+        validator.isEmpty(query)
+    )
+        return next(new AppError(400, 'Please add complete and correct details for sign up'));
+
+    const newQuery = await Query.create({
+        name, email, query
+    });
+
+    res.status(201).json({
+        status: 'success',
+        data: {
+            query: newQuery
+        }
+    });
+
+});
+
+const deleteQuery = catchAsync(async (req, res, next) => {
+
+    const queryId = req.params.queryId;
+
+    await Query.findByIdAndDelete(queryId);
+
+    res.status(204).json({
+        status: 'success',
+        data: null
+    });
+
+});
+
+module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword, getUserQueries, postQuery, deleteQuery };

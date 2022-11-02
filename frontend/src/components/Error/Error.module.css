@@ -1,0 +1,56 @@
+.overlay {
+  position: absolute;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorModal {
+  width: 40rem;
+  padding: 2rem;
+}
+
+.errorHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.errorHeader i {
+  color: red;
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.errorBody {
+  margin: 2rem 0;
+  font-size: 1.5rem;
+}
+
+.errorFooter button {
+  margin-top: 1rem;
+  background-color: red;
+  font-size: 1.5rem;
+  float: right;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  color: white;
+  border: none;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.errorFooter button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+.errorFooter button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
+}

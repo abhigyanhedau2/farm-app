@@ -6,7 +6,6 @@ export const BackdropContext = createContext({
     showBackdropWithModal: false,
     showBackdropHandler: () => { },
     showBackdropWithLoaderHandler: () => { },
-    showBackdropWithModalHandler: () => { }
 });
 
 const BackdropContextProvider = (props) => {
@@ -22,9 +21,6 @@ const BackdropContextProvider = (props) => {
         setShowBackdropWithLoader(val);
     }
 
-    const showBackdropWithModalHandler = (val) => {
-        setShowBackdropWithModal(val);
-    }
 
     return (
         <BackdropContext.Provider value={{
@@ -32,8 +28,7 @@ const BackdropContextProvider = (props) => {
             showBackdropWithLoader,
             showBackdropWithModal,
             showBackdropHandler,
-            showBackdropWithLoaderHandler,
-            showBackdropWithModalHandler
+            showBackdropWithLoaderHandler
         }} >{props.children}</BackdropContext.Provider>
     )
 };

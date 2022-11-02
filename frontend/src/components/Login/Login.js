@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { LoginContext } from '../../store/authContext';
 import { BackdropContext } from '../../store/backdropContext';
+import { FeedbackContext } from '../../store/feedbackContext';
 import useInput from '../../hooks/use-input';
 
 import logoPic from '../../assets/logoPic.png';
@@ -23,6 +24,7 @@ const Login = () => {
 
     const loginContext = useContext(LoginContext);
     const backdropContext = useContext(BackdropContext);
+    const feedbackContext = useContext(FeedbackContext);
     const navigate = useNavigate();
 
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -67,6 +69,9 @@ const Login = () => {
 
                 const data = await response.json();
 
+                if (data.status === 'fail')
+                    feedbackContext.setShowError(true, data.message);
+
                 loginContext.onLogin(data.data.token);
 
                 navigate('/');
@@ -74,7 +79,7 @@ const Login = () => {
                 backdropContext.showBackdropWithLoaderHandler(false);
 
             } catch (error) {
-
+                feedbackContext.setShowError(true, error.message);
             }
 
         }

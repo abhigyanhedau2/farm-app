@@ -1,0 +1,56 @@
+.overlay {
+  position: absolute;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.successModal {
+  width: 40rem;
+  padding: 2rem;
+}
+
+.successHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.successHeader i {
+  color: green;
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.successBody {
+  margin: 2rem 0;
+  font-size: 1.5rem;
+}
+
+.successFooter button {
+  margin-top: 1rem;
+  background-color: green;
+  font-size: 1.5rem;
+  float: right;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  color: white;
+  border: none;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.successFooter button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+
+.successFooter button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
+}

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import { FeedbackContext } from '../../store/feedbackContext';
 
 import logoPic from '../../assets/logoPic.png';
 import useInput from '../../hooks/use-input';
@@ -25,6 +27,8 @@ const numberValidatioFn = (value) => {
 };
 
 const Signup = () => {
+
+    const feedbackContext = useContext(FeedbackContext);
 
     const { input: nameInput, inputIsValid: nameIsValid, inputIsTouched: nameIsTouched, inputChangeHandler: nameChangeHandler, inputTouchedHandler: nameTouchedHandler } = useInput(textIsEmptyFn);
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -92,10 +96,14 @@ const Signup = () => {
                 });
 
                 const data = await response.json();
+
+                if (data.status === 'fail')
+                    feedbackContext.setShowError(true, data.message);
+
                 console.log(data);
 
             } catch (error) {
-
+                feedbackContext.setShowError(true, error.message);
             }
 
         }

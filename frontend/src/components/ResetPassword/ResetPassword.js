@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import useInput from '../../hooks/use-input';
+
+import { FeedbackContext } from '../../store/feedbackContext';
 
 import logoPic from '../../assets/logoPic.png';
 import classes from './ResetPassword.module.css';
@@ -21,6 +23,8 @@ const passwordValidationFn = (value) => {
 }
 
 const ResetPassword = () => {
+
+    const feedbackContext = useContext(FeedbackContext);
 
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
 
@@ -58,19 +62,28 @@ const ResetPassword = () => {
             const email = emailInput;
             const password = passwordInput;
 
-            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/resetPassword', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    token, email, password
-                })
-            });
+            try {
+                const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/resetPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        token, email, password
+                    })
+                });
 
-            const data = await response.json();
+                const data = await response.json();
 
-            console.log(data);
+                if (data.status === 'fail')
+                    feedbackContext.setShowError(true, data.message);
+
+                else
+                    feedbackContext.setShowSuccess(true, 'Password reset successful. You can now login with new password.');
+
+            } catch (error) {
+                feedbackContext.setShowError(true, error.message);
+            }
 
         }
 
@@ -84,6 +97,9 @@ const ResetPassword = () => {
                 </div>
                 <h1>Birch Wood Ranch</h1>
                 <form className={classes.resetPasswordForm} onSubmit={formSubmitHandler}>
+                    <div className={classes.inputWrapper}>
+                        <label htmlFor="verify">We've sent a verification token to your mail. Please enter the token below.</label>
+                    </div>
                     <div className={classes.inputWrapper}>
                         <label htmlFor="name">Verification Token</label>
                         <input

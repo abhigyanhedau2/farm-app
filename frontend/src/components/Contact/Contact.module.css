@@ -1,20 +1,20 @@
-.loginPageWrapper {
+.contactPageWrapper {
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
   background: linear-gradient(
       17deg,
       rgba(91, 227, 147, 0.1) 0%,
       rgba(63, 154, 101, 0.1) 100%
     ),
-    url("../../assets/login.jpg");
+    url("../../assets/contact.jpg");
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.loginCardWrapper {
-  width: 35rem;
+.contactCardWrapper {
+  width: 45rem;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -31,13 +31,13 @@
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
 }
 
-.loginForm {
+.contactForm {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.loginForm > * {
+.contactForm > * {
   margin: 1rem 0;
 }
 
@@ -75,7 +75,42 @@
   border-bottom: 3.5px solid rgb(0, 200, 0);
 }
 
-.loginForm button {
+.inputWrapper textarea {
+  font-family: inherit;
+  padding: 1rem;
+  width: 100%;
+  background-color: #f6f6f6;
+  border: none;
+  border-radius: 1rem;
+}
+
+.inputWrapper textarea:focus,
+.inputWrapper textarea:active {
+  background-color: #ededed;
+  outline: none;
+}
+
+.inputWrapper textarea.error {
+  border-bottom: 3.5px solid red;
+}
+
+.inputWrapper textarea.inputCorrect {
+  border-bottom: 3.5px solid rgb(0, 200, 0);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.contactForm button {
   background: #50cd65;
   height: 3rem;
   border: none;
@@ -89,30 +124,36 @@
   transition: all 0.2s;
 }
 
-.loginForm button:hover {
+.contactForm button:hover {
   transform: translateY(-2px);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
-.loginForm button:active {
+.contactForm button:active {
   transform: translateY(-1px);
   box-shadow: 0 0.35rem 0.75rem rgba(0, 0, 0, 0.2);
 }
 
 .extraInfo {
-    text-align: center;
+  text-align: center;
 }
 
 .extraInfo p {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .extraInfo p span {
-    text-decoration: underline;
-    color: blue;
-    cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
 }
 
 .extraInfo p span:active {
-    color: purple;
+  color: purple;
+}
+
+@media screen and (max-width: 500px) {
+  .contactCardWrapper {
+    width: 35rem;
+  }
 }

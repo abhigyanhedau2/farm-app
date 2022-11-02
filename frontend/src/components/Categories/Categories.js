@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 
 import { BackdropContext } from '../../store/backdropContext';
+import { FeedbackContext } from '../../store/feedbackContext';
 
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
@@ -10,19 +11,29 @@ import classes from './Categories.module.css';
 const Categories = () => {
 
     const backdropContext = useContext(BackdropContext);
+    const feedbackContext = useContext(FeedbackContext);
 
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
 
+        backdropContext.showBackdropWithLoaderHandler(true);
+
         const fetchCategories = async () => {
-            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
-            const data = await response.json();
-            setCategories(data.data.categories);
+            try {
+                const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
+                const data = await response.json();
+                backdropContext.showBackdropWithLoaderHandler(false);
+                setCategories(data.data.categories);
+            } catch (error) {
+                backdropContext.showBackdropWithLoaderHandler(false);
+                feedbackContext.setShowError(true, error.message);
+            }
         };
 
         fetchCategories();
 
+        //eslint-disable-next-line
     }, []);
 
     const redirectToCategoryHandler = (category) => {
@@ -49,19 +60,22 @@ const Categories = () => {
                 </div>
             </Card>);
         })
-    } else {
-        backdropContext.showBackdropWithLoaderHandler(true);
+
+        return (
+            <div id='categories' className={classes.categories}>
+                <h1 className={classes.heading__secondary}>Farm fresh products delivered to your home</h1>
+                <HR color='#9ebeb3' />
+                <div className={classes['category_cards-conatainer']}>
+                    {categoryCards}
+                </div>
+            </div>
+        )
     }
 
-    return (
-        <div id='categories' className={classes.categories}>
-            <h1 className={classes.heading__secondary}>Farm fresh products delivered to your home</h1>
-            <HR color='#9ebeb3' />
-            <div className={classes['category_cards-conatainer']}>
-                {categoryCards}
-            </div>
-        </div>
-    )
+    else {
+        <p>No categories to load. Come back later.</p>
+    }
+
 };
 
 export default Categories;
