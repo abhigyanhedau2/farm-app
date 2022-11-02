@@ -37,7 +37,7 @@ const App = () => {
 				{backdropContext.backdropIsVisible && <Backdrop />}
 				<Error />
 				<SuccessModal />
-				{/* <Navbar /> */}
+				<Navbar />
 				<main>
 					<Routes>
 						<Route path="/" element={<Home />} />

@@ -149,7 +149,7 @@ const PostProduct = () => {
                             loaderContext.hideLoader();
                             feedbackContext.setShowSuccess(true, 'Product posted successfully');
                         } else {
-                            loaderContext.hideLoader(); 
+                            loaderContext.hideLoader();
                             feedbackContext.setShowError(true, 'Some error occured while posting the product. Try again later.');
                         }
                     });
@@ -168,6 +168,10 @@ const PostProduct = () => {
         }
     }
 
+    const formSubmitHandler2 = (event) => {
+        event.preventDefault();
+    };
+
     return (
         <div className={classes.postProductPageWrapper}>
             {showCategoryModal && <AddCategoryModal onClose={setShowCategoryModal} for={categoryModalParams} />}
@@ -176,7 +180,7 @@ const PostProduct = () => {
                     <img src={logoPic} alt="Logo" />
                 </div>
                 <h1>Birch Wood Ranch</h1>
-                <form className={classes.postProductForm}>
+                <form className={classes.postProductForm} onSubmit={formSubmitHandler2}>
                     <div className={classes.formLeftSide}>
                         <div className={classes.inputWrapper}>
                             <label htmlFor="name">Product Name</label>
