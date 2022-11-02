@@ -1,15 +1,23 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import jwt from 'jwt-decode';
+
+import { FeedbackContext } from './feedbackContext';
 
 export const LoginContext = createContext({
     isLoggedIn: false,
+    token: undefined,
+    user: {},
     onLogin: () => { },
     onLogout: () => { }
 });
 
 const LoginContextProvider = (props) => {
 
+    const feedbackContext = useContext(FeedbackContext);
+
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [token, setToken] = useState();
+    const [currentUser, setCurrentUser] = useState(undefined)
 
     useEffect(() => {
 
@@ -17,7 +25,23 @@ const LoginContextProvider = (props) => {
             const token = localStorage.getItem('token');
 
             if (token) {
+
+                setToken(token);
+
                 const user = await jwt(token);
+
+                const userId = user.id;
+
+                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/users/${userId}`);
+
+                const data = await response.json();
+
+                if (data.status === 'fail')
+                    feedbackContext.setShowError(true, data.message || 'Some error occured while loggin you in. Please log in again');
+
+                // console.log(data.data.user);
+                // setCurrentUser(data.data.user);
+                setCurrentUser(data.data.user);
 
                 // console.log(user.exp * 1000);
                 // console.log(Date.now());
@@ -29,6 +53,7 @@ const LoginContextProvider = (props) => {
 
         verifyToken();
 
+        //eslint-disable-next-line
     }, []);
 
     const loginHandler = (token) => {
@@ -44,6 +69,8 @@ const LoginContextProvider = (props) => {
     return (
         <LoginContext.Provider value={{
             isLoggedIn: isLoggedIn,
+            token: token,
+            user: currentUser,
             onLogin: loginHandler,
             onLogout: logoutHandler
         }}>

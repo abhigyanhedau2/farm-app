@@ -18,6 +18,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import PostProductPage from './pages/PostProductPage';
 import ContactPage from './pages/ContactPage';
 import Footer from './components/Footer/Footer';
 
@@ -43,6 +44,7 @@ const App = () => {
 						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
 						<Route path="/resetPassword" element={<ResetPasswordPage />} />
 						<Route path="/contact" element={<ContactPage />} />
+						<Route path="/postProduct" element={<PostProductPage />} />
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>
 				</main>

@@ -25,6 +25,9 @@ router.route('/resetPassword')
 router.route('/queries')
     .post(postQuery);   // Post a query
 
+router.route('/:userId')
+    .get(getUserFromUserId); // GET a user from user id
+
 // Protect all the routes below this middleware, to make sure user is logged in
 router.post(protect);
 
@@ -42,9 +45,6 @@ router.route('/queries/:queryId')
 
 router.route('/me')
     .get(getMyDetails);
-
-router.route('/:userId')
-    .get(restrictTo('admin'), getUserFromUserId); // GET a user from user id
 
 // POST a seller    
 router.route('/addSeller')
