@@ -1,23 +1,47 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const BackdropContext = createContext({
-    showBackdrop: false,
-    showBackdropHandler: () => { }
+    backdropIsVisible: false,
+    showBackdrop: () => { },
+    hideBackdrop: () => { }
 });
 
 const BackdropContextProvider = (props) => {
-    const [showBackdrop, setShowBackdrop] = useState(false);
 
-    const showBackdropHandler = (val) => {
-        setShowBackdrop(val);
+    const [backdrop, setBackdrop] = useState(false);
+
+    useEffect(() => {
+
+        if (backdrop) {
+            const body = document.getElementsByTagName("BODY")[0];
+            body.classList.add("lock-screen");
+        }
+
+        else {
+            const body = document.getElementsByTagName("BODY")[0];
+            body.classList.remove("lock-screen");
+        }
+
+    }, [backdrop]);
+
+    const showBackdropHandler = () => {
+        setBackdrop(true);
+    };
+
+    const hideBackdropHandler = () => {
+        setBackdrop(false);
     };
 
     return (
         <BackdropContext.Provider value={{
-            showBackdrop,
-            showBackdropHandler
-        }} >{props.children}</BackdropContext.Provider>
+            backdropIsVisible: backdrop,
+            showBackdrop: showBackdropHandler,
+            hideBackdrop: hideBackdropHandler
+        }}>
+            {props.children}
+        </BackdropContext.Provider>
     )
+
 };
 
 export default BackdropContextProvider;

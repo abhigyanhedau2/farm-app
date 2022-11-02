@@ -77,7 +77,7 @@
 }
 
 .responsiveUlList {
-  z-index: 10;
+  z-index: 20;
 }
 
 @media screen and (max-width: 700px) {
