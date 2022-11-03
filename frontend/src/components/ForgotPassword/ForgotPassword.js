@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
+
+import { showError, showSuccess } from '../../store/feedback-actions';
+import { hideLoader, showLoader } from '../../store/loader-actions';
+
 import useInput from '../../hooks/use-input';
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
 
 import logoPic from '../../assets/logoPic.png';
 
@@ -18,8 +21,7 @@ const emailValidationFn = (value) => {
 
 const ForgotPassword = () => {
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loaderContext = useContext(LoaderContext);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -36,7 +38,7 @@ const ForgotPassword = () => {
     const formSubmitHandler = async (event) => {
         event.preventDefault();
 
-        loaderContext.showLoader();
+        dispatch(showLoader());
 
         if (emailIsValid) {
 
@@ -54,17 +56,17 @@ const ForgotPassword = () => {
                 });
 
                 if (response.ok) {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowSuccess(true, 'Verification token sent successfully. Please check your mail.');
+                    dispatch(hideLoader());
+                    dispatch(showSuccess('Verification token sent successfully. Please check your mail.'));
                     navigate('/resetPassword');
                 } else {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowError(true, 'Token sending failed. Try again later.');
+                    dispatch(hideLoader());
+                    dispatch(showError('Token sending failed. Try again later.'));
                 }
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, error.message);
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
             }
 
         }

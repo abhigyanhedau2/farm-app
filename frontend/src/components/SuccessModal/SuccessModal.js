@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { FeedbackContext } from '../../store/feedbackContext';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { hideSuccess } from '../../store/feedback-actions';
 
 import Card from '../UIElements/Card/Card';
 
@@ -8,10 +10,12 @@ import classes from './SuccessModal.module.css';
 
 const SuccessModal = () => {
 
-    const feedbackContext = useContext(FeedbackContext);
+    const dispatch = useDispatch();
 
+    const successIsVisible = useSelector(state => state.feedback.successIsVisible);
+    const successMessage = useSelector(state => state.feedback.successMessage);
 
-    if (feedbackContext.showSuccess) {
+    if (successIsVisible) {
 
         return (
             <div className={classes.overlay}>
@@ -22,11 +26,11 @@ const SuccessModal = () => {
                     </div>
                     <hr />
                     <div className={classes.successBody}>
-                        {feedbackContext.successMessage}
+                        {successMessage}
                     </div>
                     <hr />
                     <div className={classes.successFooter}>
-                        <button onClick={() => { feedbackContext.setShowSuccess(false, '') }}>Close</button>
+                        <button onClick={() => { dispatch(hideSuccess()) }}>Close</button>
                     </div>
                 </Card>
             </div>

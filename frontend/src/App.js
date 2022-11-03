@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import {
 	BrowserRouter,
 	Routes,
 	Route,
 } from "react-router-dom";
 
-import { LoaderContext } from './store/loaderContext';
-import { BackdropContext } from './store/backdropContext';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchToken } from './store/auth-actions';
 
 import Navbar from './components/Navbar/Navbar';
 import Backdrop from './components/UIElements/Backdrop/Backdrop';
@@ -27,16 +28,25 @@ import './App.css';
 
 const App = () => {
 
-	const loaderContext = useContext(LoaderContext);
-	const backdropContext = useContext(BackdropContext);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchToken());
+	}, [dispatch])
+
+	const errorIsVisible = useSelector(state => state.feedback.errorIsVisible);
+	const successIsVisible = useSelector(state => state.feedback.successIsVisible);
+
+	const loaderIsVisible = useSelector(state => state.loader.loaderIsVisible)
+	const backdropIsVisible = useSelector(state => state.backdrop.backdropIsVisible)
 
 	return (
 		<BrowserRouter>
 			<div className="layout">
-				{loaderContext.loaderIsVisible && <Loader />}
-				{backdropContext.backdropIsVisible && <Backdrop />}
-				<Error />
-				<SuccessModal />
+				{loaderIsVisible && <Loader />}
+				{backdropIsVisible && <Backdrop />}
+				{errorIsVisible && <Error />}
+				{successIsVisible && <SuccessModal />}
 				<Navbar />
 				<main>
 					<Routes>

@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import useInput from '../../hooks/use-input';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { LoginContext } from '../../store/authContext';
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
+import { showError, showSuccess } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
+
+import useInput from '../../hooks/use-input';
 
 import logoPic from '../../assets/logoPic.png';
 import classes from './PostProduct.module.css';
@@ -18,6 +19,12 @@ const textIsEmptyFn = (value) => {
 
 const PostProduct = () => {
 
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const token = useSelector(state => state.auth.token);
+    const user = useSelector(state => state.auth.user);
+
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
 
     const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -27,12 +34,8 @@ const PostProduct = () => {
     const [subCategories, setSubCategories] = useState([]);
     const [file, setFile] = useState();
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loginContext = useContext(LoginContext);
-    const loaderContext = useContext(LoaderContext);
-
-    if (loginContext.isLoggedIn && loginContext.user && loginContext.user.role !== 'seller') {
-        feedbackContext.setShowError(true, 'Product can only be posted by seller. Try logging in with a seller account.');
+    if (isLoggedIn && user && user.role !== 'seller') {
+        dispatch(showError('Product can only be posted by seller. Try logging in with a seller account.'));
         navigate('/login', { replace: true });
     }
 
@@ -102,11 +105,11 @@ const PostProduct = () => {
 
     const formSubmitHandler = async () => {
 
-        loaderContext.showLoader();
+        dispatch(showLoader());
 
         if (file === undefined) {
-            loaderContext.hideLoader();
-            feedbackContext.setShowError(true, 'Add a product image.');
+            dispatch(hideLoader());
+            dispatch(showError('Add a product image.'));
         }
 
         else if (nameIsValid && priceIsValid && quantityIsValid && caloriesIsValid && descriptionIsValid && iconIsValid && ratingIsValid) {
@@ -142,29 +145,29 @@ const PostProduct = () => {
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
-                            'Authorization': `Bearer ${loginContext.token}`
+                            'Authorization': `Bearer ${token}`
                         }
                     }).then((response) => {
                         if (response.data.status === 'success') {
-                            loaderContext.hideLoader();
-                            feedbackContext.setShowSuccess(true, 'Product posted successfully');
+                            dispatch(hideLoader());
+                            dispatch(showSuccess('Product posted successfully'));
                         } else {
-                            loaderContext.hideLoader();
-                            feedbackContext.setShowError(true, 'Some error occured while posting the product. Try again later.');
+                            dispatch(hideLoader());
+                            dispatch(showError('Some error occured while posting the product. Try again later.'));
                         }
                     });
 
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, 'Some error occured while posting the product. Try again later.');
+                dispatch(hideLoader());
+                dispatch(showError('Some error occured while posting the product. Try again later.'));
             }
 
         }
 
         else {
-            loaderContext.hideLoader();
-            feedbackContext.setShowError(true, 'Add complete details of the product.');
+            dispatch(hideLoader());
+            dispatch(showError('Add complete details of the product.'));
         }
     }
 

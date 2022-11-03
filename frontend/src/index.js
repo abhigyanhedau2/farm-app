@@ -2,23 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import BackdropContextProvider from './store/backdropContext';
-import LoginContextProvider from './store/authContext';
-import FeedbackContextProvider from './store/feedbackContext';
-import LoaderContextProvider from './store/loaderContext';
+import { Provider } from 'react-redux';
+import store from './store/index';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LoginContextProvider>
-      <BackdropContextProvider>
-        <FeedbackContextProvider>
-          <LoaderContextProvider>
-            <App />
-          </LoaderContextProvider>
-        </FeedbackContextProvider>
-      </BackdropContextProvider>
-    </LoginContextProvider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
