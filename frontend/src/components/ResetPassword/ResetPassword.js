@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
+
+import { useDispatch } from 'react-redux';
+
+import { showError, showSuccess } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import useInput from '../../hooks/use-input';
-
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
 
 import logoPic from '../../assets/logoPic.png';
 import classes from './ResetPassword.module.css';
@@ -25,8 +27,7 @@ const passwordValidationFn = (value) => {
 
 const ResetPassword = () => {
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loaderContext = useContext(LoaderContext);
+    const dispatch = useDispatch();
 
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
 
@@ -57,8 +58,8 @@ const ResetPassword = () => {
 
     const formSubmitHandler = async (event) => {
 
-        loaderContext.showLoader();
         event.preventDefault();
+        dispatch(showLoader());
 
         if (passwordIsValid && tokenIsValid && emailIsValid) {
 
@@ -80,18 +81,18 @@ const ResetPassword = () => {
                 const data = await response.json();
 
                 if (data.status === 'fail') {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowError(true, data.message);
+                    dispatch(hideLoader());
+                    dispatch(showError(data.message));
                 }
 
                 else {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowSuccess(true, 'Password reset successful. You can now login with new password.');
+                    dispatch(hideLoader());
+                    dispatch(showSuccess('Password reset successful. You can now login with new password.'));
                 }
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, error.message);
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
             }
 
         }

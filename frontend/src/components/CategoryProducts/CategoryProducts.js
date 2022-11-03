@@ -1,17 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { useDispatch } from 'react-redux';
+
+import { showError } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import ProductCard from './ProductCard';
 import SubCategories from './SubCategories';
-
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
 
 import classes from './CategoryProducts.module.css';
 
 const CategoryProducts = (props) => {
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loaderContext = useContext(LoaderContext);
+    const dispatch = useDispatch();
 
     const [products, setProducts] = useState([]);
 
@@ -23,7 +24,7 @@ const CategoryProducts = (props) => {
                 const data = await response.json();
                 setProducts(data.products);
             } catch (error) {
-                feedbackContext.setShowError(true, error.message);
+                dispatch(showError(error.message));
             }
         };
 
@@ -48,7 +49,7 @@ const CategoryProducts = (props) => {
             let getFilteredHeadings = [];
             getFilteredHeadings = getHeadings.filter(e => !(getFilteredHeadings[e] = e in getFilteredHeadings));
 
-            loaderContext.hideLoader();
+            dispatch(hideLoader());
             return (
                 <div className={classes.subCategoryProductsWrapper}>
                     {getFilteredHeadings.map(heading => {
@@ -64,7 +65,7 @@ const CategoryProducts = (props) => {
                 return <ProductCard key={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} />
             });
 
-            loaderContext.hideLoader();
+            dispatch(hideLoader());
             return (
                 <div className={classes.categoryProductsWrapper}>
                     {productCards}
@@ -74,7 +75,7 @@ const CategoryProducts = (props) => {
     }
 
     else {
-        loaderContext.showLoader();
+        dispatch(showLoader());
     }
 };
 
