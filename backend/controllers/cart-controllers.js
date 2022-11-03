@@ -37,6 +37,34 @@ const getCart = catchAsync(async (req, res, next) => {
 
 });
 
+// GET the unpopulated cart products for updation
+const getUnpopulatedCart = catchAsync(async (req, res, next) => {
+
+    const userId = req.params.userId;
+
+    // Verify the user
+    if (req.user.id !== userId)
+        return next(new AppError(403, 'Forbidden. You do not have access.'));
+
+    const cart = await Cart.findOne({ userId });
+
+    // If no cart is found, send null
+    if (!cart)
+        return res.status(204).json({
+            status: 'success',
+            data: null
+        });
+
+    // Else send success
+    res.status(200).json({
+        status: 'success',
+        data: {
+            cart
+        }
+    });
+
+});
+
 // POST the cart - Place the Order
 // Add Products in order collection --> Add Cart in Purchases collection --> 
 // Delete Cart since it is now moved to collection --> return the Purchase
@@ -141,4 +169,4 @@ const deleteCart = catchAsync(async (req, res, next) => {
     });
 });
 
-module.exports = { getCart, postCart, updateCart, deleteCart };
+module.exports = { getCart, postCart, updateCart, deleteCart, getUnpopulatedCart };
