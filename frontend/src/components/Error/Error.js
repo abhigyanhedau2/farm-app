@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { FeedbackContext } from '../../store/feedbackContext';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { hideError } from '../../store/feedback-actions';
 
 import Card from '../UIElements/Card/Card';
 
@@ -8,9 +10,12 @@ import classes from './Error.module.css';
 
 const Error = () => {
 
-    const feedbackContext = useContext(FeedbackContext);
+    const errorIsVisible = useSelector(state => state.feedback.errorIsVisible);
+    const errorMessage = useSelector(state => state.feedback.errorMessage);
 
-    if (feedbackContext.showError) {
+    const dispatch = useDispatch();
+
+    if (errorIsVisible) {
 
         return (
             <div className={classes.overlay}>
@@ -21,11 +26,11 @@ const Error = () => {
                     </div>
                     <hr />
                     <div className={classes.errorBody}>
-                        {feedbackContext.errorMessage}
+                        {errorMessage}
                     </div>
                     <hr />
                     <div className={classes.errorFooter}>
-                        <button onClick={() => { feedbackContext.setShowError(false, '') }}>Close</button>
+                        <button onClick={() => { dispatch(hideError()) }}>Close</button>
                     </div>
                 </Card>
             </div>

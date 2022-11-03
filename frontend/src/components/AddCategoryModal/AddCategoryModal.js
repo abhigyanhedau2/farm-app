@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import useInput from '../../hooks/use-input';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { LoaderContext } from '../../store/loaderContext';
-import { LoginContext } from '../../store/authContext';
-import { FeedbackContext } from '../../store/feedbackContext';
+import { showError, showSuccess } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
+
+import useInput from '../../hooks/use-input';
 
 import Card from '../UIElements/Card/Card';
 
@@ -16,9 +17,9 @@ const textIsEmptyFn = (value) => {
 
 const AddCategoryModal = (props) => {
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loginContext = useContext(LoginContext);
-    const loaderContext = useContext(LoaderContext);
+    const token = useSelector(state => state.auth.token);
+
+    const dispatch = useDispatch();
 
     const [file, setFile] = useState();
 
@@ -43,11 +44,11 @@ const AddCategoryModal = (props) => {
 
     const categoryFormSubmitHandler = async () => {
 
-        loaderContext.showLoader();
+        dispatch(showLoader());
 
         if (file === undefined) {
-            loaderContext.hideLoader();
-            feedbackContext.setShowError(true, 'Add a product image.');
+            dispatch(hideLoader());
+            dispatch(showError('Add a category image.'));
         }
 
         else if (nameIsValid && descriptionIsValid) {
@@ -67,28 +68,28 @@ const AddCategoryModal = (props) => {
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
-                            'Authorization': `Bearer ${loginContext.token}`
+                            'Authorization': `Bearer ${token}`
                         }
                     }).then((response) => {
                         if (response.data.status === 'success') {
-                            loaderContext.hideLoader();
-                            feedbackContext.setShowSuccess(true, 'Category added successfully. Refresh the page to fetch the category.');
+                            dispatch(hideLoader());
+                            dispatch(showSuccess('Category added successfully. Refresh the page to fetch the category.'))
                         } else {
-                            loaderContext.hideLoader();
-                            feedbackContext.setShowError(true, 'Some error occured while posting the category. Try again later.');
+                            dispatch(hideLoader());
+                            dispatch(showError('Some error occured while posting the category. Try again later.'));
                         }
                     });
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, 'Some error occured while posting the category. Try again later.');
+                dispatch(hideLoader());
+                dispatch(showError('Some error occured while posting the category. Try again later.'));
             }
 
         }
 
         else {
-            loaderContext.hideLoader();
-            feedbackContext.setShowError(true, 'Add complete details of the category.');
+            dispatch(hideLoader());
+            dispatch(showError('Add complete details of the category.'));
         }
 
     };
@@ -105,7 +106,7 @@ const AddCategoryModal = (props) => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${loginContext.token}`
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         subCategory
@@ -113,23 +114,23 @@ const AddCategoryModal = (props) => {
                 });
 
                 if (!response.ok) {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowError(true, 'Some error occured while posting the category. Try again later.');
+                    dispatch(hideLoader());
+                    dispatch(showError('Some error occured while posting the category. Try again later.'));
                 }
 
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowSuccess(true, 'Sub Category added successfully. Refresh the page to fetch the sub category.');
+                    dispatch(hideLoader());
+                    dispatch(showSuccess('Sub Category added successfully. Refresh the page to fetch the sub category.'));
                 } else {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowError(true, 'Some error occured while posting the sub category. Try again later.');
+                    dispatch(hideLoader());
+                    dispatch(showError('Some error occured while posting the sub category. Try again later.'));
                 }
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, 'Some error occured while posting the sub category. Try again later.');
+                dispatch(hideLoader());
+                dispatch(showError('Some error occured while posting the sub category. Try again later.'));
             }
 
         }

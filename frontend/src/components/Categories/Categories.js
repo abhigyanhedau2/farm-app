@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
+import { useDispatch } from 'react-redux';
+
+import { showError } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
@@ -10,8 +12,7 @@ import classes from './Categories.module.css';
 
 const Categories = () => {
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loaderContext = useContext(LoaderContext);
+    const dispatch = useDispatch();
 
     const [categories, setCategories] = useState([]);
 
@@ -23,7 +24,7 @@ const Categories = () => {
                 const data = await response.json();
                 setCategories(data.data.categories);
             } catch (error) {
-                feedbackContext.setShowError(true, error.message);
+                dispatch(showError(error.message));
             }
         };
 
@@ -39,7 +40,7 @@ const Categories = () => {
     let categoryCards;
 
     if (categories.length !== 0) {
-        loaderContext.hideLoader();
+        dispatch(hideLoader());
         categoryCards = categories.map(category => {
             return (<Card key={category._id} className={classes.category__card}>
                 <div className={classes.cardImg}>
@@ -69,7 +70,7 @@ const Categories = () => {
     }
 
     else {
-        loaderContext.showLoader();
+        dispatch(showLoader());
     }
 
 };

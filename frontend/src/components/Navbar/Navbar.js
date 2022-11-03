@@ -1,17 +1,20 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 
-import { BackdropContext } from '../../store/backdropContext';
-import { LoginContext } from '../../store/authContext';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { hideBackdrop, showBackdrop } from '../../store/backdrop-actions';
+import { logout } from '../../store/auth-actions';
 
 import classes from './Navbar.module.css';
 
 const Navbar = () => {
 
-    const navigate = useNavigate();
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const user = useSelector(state => state.auth.user);
+    const dispatch = useDispatch();
 
-    const backdropContext = useContext(BackdropContext);
-    const loginContext = useContext(LoginContext);
+    const navigate = useNavigate();
 
     const [invertNav, setInvertNav] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -28,7 +31,7 @@ const Navbar = () => {
 
     const showMenuHandler = () => {
         setShowMenu(prev => !prev);
-        !showMenu ? backdropContext.showBackdrop() :  backdropContext.hideBackdrop();
+        !showMenu ? dispatch(showBackdrop()) : dispatch(hideBackdrop());
     };
 
     const loginClickHandler = () => {
@@ -47,13 +50,14 @@ const Navbar = () => {
                         <ul className={ulClass}>
                             <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
                             <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
+                            {user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
                         </ul>
                     </div>
                     <div className={classes.navbar__actions}>
-                        {!loginContext.isLoggedIn && <button onClick={loginClickHandler}>Login/Signup</button>}
-                        {loginContext.isLoggedIn && <Fragment>
+                        {!isLoggedIn && <button onClick={loginClickHandler}>Login/Signup</button>}
+                        {isLoggedIn && <Fragment>
                             <button>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
-                            <button onClick={loginContext.onLogout}>Logout</button>
+                            <button onClick={() => { dispatch(logout()) }}>Logout</button>
                         </Fragment>}
                         <button className={classes.responsiveMenuBtn} onClick={showMenuHandler}><i className="fa-solid fa-bars"></i></button>
                     </div>

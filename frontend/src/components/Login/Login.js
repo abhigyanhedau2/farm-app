@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { LoginContext } from '../../store/authContext';
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
+import { useDispatch } from 'react-redux';
+
+import { login } from '../../store/auth-actions';
+import { showError } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import useInput from '../../hooks/use-input';
 
@@ -23,9 +25,7 @@ const passwordValidationFn = (value) => {
 
 const Login = () => {
 
-    const loginContext = useContext(LoginContext);
-    const feedbackContext = useContext(FeedbackContext);
-    const loaderContext = useContext(LoaderContext);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const Login = () => {
 
     const formSubmitHandler = async (event) => {
         event.preventDefault();
-        loaderContext.showLoader();
+        dispatch(showLoader());
 
         if (emailIsValid && passwordIsValid) {
 
@@ -71,16 +71,15 @@ const Login = () => {
                 const data = await response.json();
 
                 if (data.status === 'fail')
-                    feedbackContext.setShowError(true, data.message);
+                    dispatch(showError(data.message));
 
-                loginContext.onLogin(data.data.token);
-                loaderContext.hideLoader();
-
+                dispatch(login(data.data.token));
+                dispatch(hideLoader());
                 navigate('/');
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, error.message);
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
             }
 
         }

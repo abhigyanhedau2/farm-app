@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { FeedbackContext } from '../../store/feedbackContext';
-import { LoaderContext } from '../../store/loaderContext';
+import { useDispatch } from 'react-redux';
+
+import { showError } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
+
+import useInput from '../../hooks/use-input';
 
 import logoPic from '../../assets/logoPic.png';
-import useInput from '../../hooks/use-input';
 import classes from './Signup.module.css';
 
 const emailValidationFn = (value) => {
@@ -29,8 +32,9 @@ const numberValidatioFn = (value) => {
 
 const Signup = () => {
 
-    const feedbackContext = useContext(FeedbackContext);
-    const loaderContext = useContext(LoaderContext);
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const { input: nameInput, inputIsValid: nameIsValid, inputIsTouched: nameIsTouched, inputChangeHandler: nameChangeHandler, inputTouchedHandler: nameTouchedHandler } = useInput(textIsEmptyFn);
     const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
@@ -77,7 +81,7 @@ const Signup = () => {
     const formSubmitHandler = async (event) => {
         event.preventDefault();
 
-        loaderContext.showLoader();
+        dispatch(showLoader());
 
         if (nameIsValid && emailIsValid && passwordIsValid && addressIsValid && numberIsValid) {
 
@@ -102,13 +106,18 @@ const Signup = () => {
                 const data = await response.json();
 
                 if (data.status === 'fail') {
-                    loaderContext.hideLoader();
-                    feedbackContext.setShowError(true, data.message);
+                    dispatch(hideLoader());
+                    dispatch(showError(data.message));
+                }
+
+                else {
+                    dispatch(hideLoader());
+                    navigate('/');
                 }
 
             } catch (error) {
-                loaderContext.hideLoader();
-                feedbackContext.setShowError(true, error.message);
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
             }
 
         }
