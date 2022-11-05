@@ -9,8 +9,9 @@ const fetchCartRequest = async (userId, token) => {
             'Authorization': `Bearer ${token}`
         }
     });
-
+    
     const data = await response.json();
+
 
     if (data.status === 'error') {
         showError(data.message);

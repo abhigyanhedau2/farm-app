@@ -66,8 +66,6 @@ export const fetchToken = () => {
 
 export const login = (token) => {
 
-    showLoader();
-
     return async (dispatch) => {
 
         let payload = {
@@ -107,7 +105,6 @@ export const login = (token) => {
             showError(error.message);
         }
 
-        hideLoader();
         dispatch(authActions.login(payload));
 
     };
