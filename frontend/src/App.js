@@ -8,6 +8,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchToken } from './store/auth-actions';
+import { fetchCart } from './store/cart-actions';
 
 import Navbar from './components/Navbar/Navbar';
 import Backdrop from './components/UIElements/Backdrop/Backdrop';
@@ -25,14 +26,29 @@ import ContactPage from './pages/ContactPage';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
+import CartPage from './pages/CartPage';
 
 const App = () => {
 
+	const cart = useSelector(state => state.cart);
+
 	const dispatch = useDispatch();
+	const token = useSelector(state => state.auth.token);
+	const user = useSelector(state => state.auth.user);
 
 	useEffect(() => {
+
+		console.log("Before adding the product to cart: ", cart);
+
 		dispatch(fetchToken());
-	}, [dispatch])
+
+		if (user) {
+			dispatch(fetchCart(user._id, token));
+		}
+
+		// eslint-disable-next-line
+	}, [dispatch, token]);
+
 
 	const errorIsVisible = useSelector(state => state.feedback.errorIsVisible);
 	const successIsVisible = useSelector(state => state.feedback.successIsVisible);
@@ -57,6 +73,7 @@ const App = () => {
 						<Route path="/resetPassword" element={<ResetPasswordPage />} />
 						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/postProduct" element={<PostProductPage />} />
+						<Route path="/cart/:userId" element={<CartPage />} />
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>
 				</main>

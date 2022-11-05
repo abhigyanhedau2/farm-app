@@ -9,7 +9,8 @@ const loaderSlice = createSlice({
     initialState: initialLoaderState,
     reducers: {
         setLoaderState(state, action) {
-            state.loaderIsVisible = action.payload.loaderIsVisible;
+            state.loaderIsVisible = action.payload;
+            console.log({loaderState: state.loaderIsVisible, payload: action.payload});
         }
     }
 });

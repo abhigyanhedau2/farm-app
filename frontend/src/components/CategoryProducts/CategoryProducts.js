@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 
 import { showError } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
@@ -62,7 +62,7 @@ const CategoryProducts = (props) => {
         else {
 
             const productCards = products.map(product => {
-                return <ProductCard key={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} />
+                return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} />
             });
 
             dispatch(hideLoader());

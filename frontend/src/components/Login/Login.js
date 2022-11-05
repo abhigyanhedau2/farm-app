@@ -70,8 +70,11 @@ const Login = () => {
 
                 const data = await response.json();
 
-                if (data.status === 'fail')
+                if (data.status === 'fail'){
                     dispatch(showError(data.message));
+                    dispatch(hideLoader());
+                    return;
+                }
 
                 dispatch(login(data.data.token));
                 dispatch(hideLoader());

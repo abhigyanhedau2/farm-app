@@ -2,11 +2,12 @@ import { loaderActions } from "./loader-slice";
 
 export const showLoader = () => {
 
-    return (dispatch) => {
+    return async (dispatch) => {
 
-        dispatch(loaderActions.setLoaderState({
-            loaderIsVisible: true
-        }));
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.add('lock-screen');
+
+        dispatch(loaderActions.setLoaderState(true));
 
     };
 
@@ -14,11 +15,12 @@ export const showLoader = () => {
 
 export const hideLoader = () => {
 
-    return (dispatch) => {
+    return async (dispatch) => {
 
-        dispatch(loaderActions.setLoaderState({
-            loaderIsVisible: false
-        }));
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.remove('lock-screen');
+
+        dispatch(loaderActions.setLoaderState(false));
 
     };
 

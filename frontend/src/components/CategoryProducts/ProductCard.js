@@ -1,4 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment} from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCartHandler, removeFromCartHandler } from '../../store/cart-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import Card from '../UIElements/Card/Card';
 
@@ -9,7 +13,20 @@ import classes from './ProductCard.module.css';
 
 const ProductCard = (props) => {
 
-    const [quantity, setQuantity] = useState(0);
+    const dispatch = useDispatch();
+
+    const user = useSelector(state => state.auth.user);
+    const token = useSelector(state => state.auth.token);
+
+    let currProductQuantity = 0;
+
+    const cart = useSelector(state => state.cart);
+    const cartProductsArr = cart.products;
+
+    const itemExists = cartProductsArr.findIndex(product => product.product === props.id);
+
+    if (itemExists >= 0)
+        currProductQuantity = cartProductsArr[itemExists].totalProductsQuantity;
 
     const getCategoryImage = (category) => {
         switch (category) {
@@ -43,11 +60,24 @@ const ProductCard = (props) => {
     };
 
     const incrementQuantityHandler = () => {
-        setQuantity(prev => prev + 1);
+
+        dispatch(showLoader());
+
+        currProductQuantity++;
+        dispatch(addToCartHandler(user._id, token, props.id));
+
+        dispatch(hideLoader());
+
     };
 
     const decrementQuantityHandler = () => {
-        setQuantity(prev => prev === 0 ? prev : prev - 1);
+
+        dispatch(showLoader());
+
+        currProductQuantity--;
+        dispatch(removeFromCartHandler(user._id, token, props.id));
+
+        dispatch(hideLoader());
     };
 
     return (
@@ -74,10 +104,10 @@ const ProductCard = (props) => {
                     <div className={classes.productActions}>
                         <p>Price: Rs. {props.price}</p>
                         <div className={classes.productQuantityWrapper}>
-                            {!quantity && <button className={classes.addBtn} onClick={incrementQuantityHandler}>Add +</button>}
-                            {quantity > 0 && (<Fragment>
+                            {!currProductQuantity && <button className={classes.addBtn} onClick={incrementQuantityHandler}>Add +</button>}
+                            {currProductQuantity > 0 && (<Fragment>
                                 <button className={classes.quantityBtn} onClick={decrementQuantityHandler}>-</button>
-                                <p>{quantity}</p>
+                                <p>{currProductQuantity}</p>
                                 <button className={classes.quantityBtn} onClick={incrementQuantityHandler}>+</button>
                             </Fragment>)}
                         </div>

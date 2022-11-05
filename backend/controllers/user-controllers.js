@@ -9,6 +9,7 @@ const Query = require('../models/query-model');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const Cart = require('../models/cart-model');
 
 // Signup / Create a new User
 const signup = catchAsync(async (req, res, next) => {
@@ -44,6 +45,13 @@ const signup = catchAsync(async (req, res, next) => {
         password: hashedPassword,
         address,
         number
+    });
+
+    await Cart.create({
+        products: [],
+        totalItems: 0,
+        cartPrice: 0,
+        userId: newUser._id
     });
 
     // Create JWT token and sign it

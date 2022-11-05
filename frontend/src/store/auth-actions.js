@@ -39,6 +39,7 @@ export const fetchToken = () => {
 
                 if (data.status === 'fail') {
                     showError(data.message);
+                    return;
                 }
 
                 // Set the user
@@ -90,6 +91,7 @@ export const login = (token) => {
 
             if (data.status === 'fail') {
                 showError(data.message);
+                return;
             }
 
             // Set the user

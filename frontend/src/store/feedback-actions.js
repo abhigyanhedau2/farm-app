@@ -4,6 +4,9 @@ export const showError = (message) => {
 
     return (dispatch) => {
 
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.add('lock-screen');
+
         const payload = {
             errorIsVisible: true,
             errorMessage: message
@@ -18,6 +21,9 @@ export const showError = (message) => {
 export const hideError = () => {
 
     return (dispatch) => {
+
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.remove('lock-screen');
 
         const payload = {
             errorIsVisible: false,
@@ -34,6 +40,9 @@ export const showSuccess = (message) => {
 
     return (dispatch) => {
 
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.add('lock-screen');
+
         const payload = {
             successIsVisible: true,
             successMessage: message
@@ -48,6 +57,9 @@ export const showSuccess = (message) => {
 export const hideSuccess = () => {
 
     return (dispatch) => {
+
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.remove('lock-screen');
 
         const payload = {
             successIsVisible: false,

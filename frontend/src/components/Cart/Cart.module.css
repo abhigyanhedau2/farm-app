@@ -1,0 +1,61 @@
+.cartPageWrapper {
+    width: 100vw;
+    height: 100vh;
+    background: url('../../assets/cart.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartContainer {
+    width: 40vw;
+    height: 85vh;
+    background-color: white;
+    border-radius: 5rem;
+    padding: 1rem 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cartContainer h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.cartProductsWrapper {
+    height: 60vh;
+    background-color: red;
+}
+
+.cartInfoWrapper {
+    margin-top: 1rem;
+}
+
+.cartInfoWrapper p {
+    font-size: 1.5rem;
+}
+
+.cartActionsWrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cartActionsWrapper .btn {
+    padding: 0.5rem 1.5rem;
+    margin-left: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnAlt {
+    border: 1.5px solid #34c078;
+    color: #34c078;
+    background-color: transparent;
+}
+
+.btnAlt2 {
+    background-color: black;
+    color: white;
+}
