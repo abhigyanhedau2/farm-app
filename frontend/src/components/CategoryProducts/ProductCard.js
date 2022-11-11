@@ -1,4 +1,4 @@
-import React, { Fragment} from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCartHandler, removeFromCartHandler } from '../../store/cart-actions';
@@ -10,6 +10,7 @@ import veg from '../../assets/veg.png';
 import nonveg from '../../assets/nonveg.png';
 import egg from '../../assets/egg.png';
 import classes from './ProductCard.module.css';
+import { useEffect } from 'react';
 
 const ProductCard = (props) => {
 
@@ -18,15 +19,19 @@ const ProductCard = (props) => {
     const user = useSelector(state => state.auth.user);
     const token = useSelector(state => state.auth.token);
 
-    let currProductQuantity = 0;
+    const [currProductQuantity, setCurrProductQuantity] = useState(0);
 
     const cart = useSelector(state => state.cart);
     const cartProductsArr = cart.products;
 
-    const itemExists = cartProductsArr.findIndex(product => product.product === props.id);
+    useEffect(() => {
+        
+        const itemExists = cartProductsArr.findIndex(product => product.product === props.id);
 
-    if (itemExists >= 0)
-        currProductQuantity = cartProductsArr[itemExists].totalProductsQuantity;
+        if (itemExists >= 0)
+            setCurrProductQuantity(cartProductsArr[itemExists].totalProductsQuantity);
+
+    }, [cartProductsArr, props.id]);
 
     const getCategoryImage = (category) => {
         switch (category) {
@@ -61,9 +66,10 @@ const ProductCard = (props) => {
 
     const incrementQuantityHandler = () => {
 
+        setCurrProductQuantity(prev => ++prev);
+
         dispatch(showLoader());
 
-        currProductQuantity++;
         dispatch(addToCartHandler(user._id, token, props.id));
 
         dispatch(hideLoader());
@@ -72,9 +78,10 @@ const ProductCard = (props) => {
 
     const decrementQuantityHandler = () => {
 
+        setCurrProductQuantity(prev => --prev);
+
         dispatch(showLoader());
 
-        currProductQuantity--;
         dispatch(removeFromCartHandler(user._id, token, props.id));
 
         dispatch(hideLoader());

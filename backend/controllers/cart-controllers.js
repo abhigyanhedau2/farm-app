@@ -14,7 +14,7 @@ const getCart = catchAsync(async (req, res, next) => {
     if (req.user.id !== userId)
         return next(new AppError(403, 'Forbidden. You do not have access.'));
 
-    const cart = await Cart.findOne({ userId }).populate('products.product', 'name category price quantityPerBox veg icon image');
+    const cart = await Cart.findOne({ userId }).populate('products.product', 'name category price quantityPerBox veg icon image description');
 
     for (const product of cart.products) {
         product.product.image = await getImageFromBucket(product.product.image);

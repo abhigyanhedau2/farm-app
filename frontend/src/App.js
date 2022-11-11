@@ -30,15 +30,13 @@ import CartPage from './pages/CartPage';
 
 const App = () => {
 
-	const cart = useSelector(state => state.cart);
+	// const cart = useSelector(state => state.cart);
 
 	const dispatch = useDispatch();
 	const token = useSelector(state => state.auth.token);
 	const user = useSelector(state => state.auth.user);
 
 	useEffect(() => {
-
-		console.log("Before adding the product to cart: ", cart);
 
 		dispatch(fetchToken());
 

@@ -9,7 +9,7 @@ const fetchCartRequest = async (userId, token) => {
             'Authorization': `Bearer ${token}`
         }
     });
-    
+
     const data = await response.json();
 
 

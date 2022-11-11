@@ -1,41 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { showError } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
+
+import CartItem from './CartItem';
 
 import classes from './Cart.module.css';
 
-const cart = {
-    "_id": "63637e65f19a312d256556e2",
-    "products": [
-        {
-            "product": "63636f58f19a312d2565568f",
-            "totalProductsPrice": 800,
-            "totalProductsQuantity": 2,
-            "_id": "63637e65f19a312d256556e3"
-        },
-        {
-            "product": "636370cbf19a312d256556a1",
-            "totalProductsPrice": 1080,
-            "totalProductsQuantity": 3,
-            "_id": "63637e65f19a312d256556e4"
-        },
-        {
-            "product": "6363700af19a312d2565569b",
-            "totalProductsPrice": 400,
-            "totalProductsQuantity": 2,
-            "_id": "6363ebcbb5c80ccea4c23153"
-        }
-    ],
-    "totalItems": 7,
-    "cartPrice": 2280,
-    "userId": "6360ec6c6b45d076ece99fb8",
-    "__v": 0
-};
-
-
-// GET populated cart
 const Cart = () => {
 
-    const productsArr = cart.products;
+    const dispatch = useDispatch();
 
+    const [products, setProducts] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
+    const [cartPrice, setCartPrice] = useState(0);
+
+    const token = useSelector(state => state.auth.token);
+
+    const userId = useParams().userId;
+
+    useEffect(() => {
+
+        const fetchCart = async () => {
+
+            dispatch(showLoader());
+
+            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+
+            dispatch(hideLoader());
+
+            setProducts(data.data.cart.products);
+            setTotalItems(data.data.cart.totalItems);
+            setCartPrice(data.data.cart.cartPrice);
+        };
+
+        fetchCart();
+
+    }, [token, userId]);
+
+    const productsArr = products;
+
+    const productsInfo = productsArr.map(product => {
+        return {
+            id: product.product._id,
+            name: product.product.name,
+            image: product.product.image,
+            description: product.product.description,
+            quantity: product.totalProductsQuantity,
+            price: product.totalProductsPrice
+        };
+    });
+
+    const cartItemCards = productsInfo.map(product => {
+        return <CartItem name={product.name} image={product.image} price={product.price} quantity
+            ={product.quantity} description={product.description} />
+    });
 
     return (
         <div className={classes.cartPageWrapper}>
@@ -43,12 +71,12 @@ const Cart = () => {
                 <h1>Your Cart</h1>
                 <div className={classes.cartProductsWrapper}>
                     <div className={classes.cartProductCard}>
-
+                        {cartItemCards}
                     </div>
                 </div>
                 <div className={classes.cartInfoWrapper}>
-                    <p>Total Items : 24</p>
-                    <p>Total Price : Rs. 2560</p>
+                    <p>Total Items : {totalItems}</p>
+                    <p>Total Price : Rs. {cartPrice}</p>
                 </div>
                 <div className={classes.cartActionsWrapper}>
                     <button className={classes.btn + ' ' + classes.btnAlt}>Cancel</button>

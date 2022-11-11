@@ -10,6 +10,7 @@ import classes from './Navbar.module.css';
 
 const Navbar = () => {
 
+    // const cart = useSelector(state => state.cart.totalItems);
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const Navbar = () => {
                     <div className={classes.navbar__actions}>
                         {!isLoggedIn && <button onClick={loginClickHandler}>Login/Signup</button>}
                         {isLoggedIn && <Fragment>
-                            <button>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
+                            <button onClick={() => navigate(`/cart/${user._id}`)}>Cart (5) <i className="fa-solid fa-cart-shopping"></i></button>
                             <button onClick={() => { dispatch(logout()) }}>Logout</button>
                         </Fragment>}
                         <button className={classes.responsiveMenuBtn} onClick={showMenuHandler}><i className="fa-solid fa-bars"></i></button>

@@ -88,14 +88,6 @@
   border-radius: 3px;
 }
 
-.productQuantityWrapper button:hover {
-  transform: translateY(-2px);
-}
-
-.productQuantityWrapper button:active {
-  transform: translateY(-1px);
-}
-
 @media screen and (max-width: 1300px) {
   .productCardOuterWrapper {
     width: 20vw;

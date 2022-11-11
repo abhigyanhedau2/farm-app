@@ -1,61 +1,90 @@
 .cartPageWrapper {
-    width: 100vw;
-    height: 100vh;
-    background: url('../../assets/cart.jpg');
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/cart.jpg");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cartContainer {
-    width: 40vw;
-    height: 85vh;
-    background-color: white;
-    border-radius: 5rem;
-    padding: 1rem 3rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 40vw;
+  height: 85vh;
+  background-color: white;
+  border-radius: 5rem;
+  padding: 1rem 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .cartContainer h1 {
-    font-size: 3rem;
-    margin: 0;
+  font-size: 3rem;
+  margin: 0;
 }
 
 .cartProductsWrapper {
-    height: 60vh;
-    background-color: red;
+  height: 60vh;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .cartInfoWrapper {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .cartInfoWrapper p {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .cartActionsWrapper {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .cartActionsWrapper .btn {
-    padding: 0.5rem 1.5rem;
-    margin-left: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  margin-left: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .btnAlt {
-    border: 1.5px solid #34c078;
-    color: #34c078;
-    background-color: transparent;
+  border: 1.5px solid black;
+  color: black;
+  background-color: transparent;
 }
 
-.btnAlt2 {
-    background-color: black;
-    color: white;
+.btnAlt:hover {
+  background: #f6f6f6;
+}
+
+.btnAlt2:hover {
+  background: #e2e1e1;
+}
+
+.btnMain {
+  color: white;
+  background: rgb(0, 0, 0);
+}
+
+/* Scrollbar CSS */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
 }
