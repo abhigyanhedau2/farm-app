@@ -3,6 +3,7 @@ import React from 'react';
 import classes from './CartItem.module.css';
 
 const CartItem = (props) => {
+
     return (
         <div className={classes.cartItemWrapper}>
             <div className={classes.leftSideCartItem}>
@@ -19,9 +20,9 @@ const CartItem = (props) => {
                     <p>Rs. {props.price}</p>
                 </div>
                 <div className={classes.cartItemActions}>
-                    <button>-</button>
+                    <button onClick={props.onRemoveFromCart}>-</button>
                     <p>{props.quantity}</p>
-                    <button>+</button>
+                    <button onClick={props.onAddToCart}>+</button>
                 </div>
             </div>
         </div>

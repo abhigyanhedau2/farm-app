@@ -1,30 +1,69 @@
 import { cartActions } from "./cart-slice";
-import { showError } from './feedback-actions';
+import { showError, showSuccess } from './feedback-actions';
+import { loaderActions } from "./loader-slice";
 
 const fetchCartRequest = async (userId, token) => {
 
-    const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/unpopulated/${userId}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
+    try {
+
+        const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/unpopulated/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+
+        if (data.status === 'error') {
+            showError(data.message);
+            return;
         }
-    });
 
-    const data = await response.json();
+        return data.data.cart;
 
+    } catch (error) {
 
-    if (data.status === 'error') {
-        showError(data.message);
-        return;
+        showError(error.message);
+
     }
-
-    return data.data.cart;
 
 };
 
-export const emptyCart = () => {
+export const emptyCart = (userId, token) => {
 
-    return dispatch => {
+    return async dispatch => {
+
+        try {
+
+            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    products: [],
+                    totalItems: 0,
+                    cartPrice: 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status !== 'success') {
+
+                showError(data.message);
+                return;
+
+            }
+
+        } catch (error) {
+
+            showError(error.message);
+
+        }
 
         dispatch(cartActions.emptyCart());
 
@@ -64,7 +103,6 @@ export const fetchCart = (userId, token) => {
 
         }
 
-
     };
 
 };
@@ -73,102 +111,117 @@ export const addToCartHandler = (userId, token, productId) => {
 
     return async dispatch => {
 
-        let payload = {};
 
-        let priceOfProduct = 0;
+        try {
 
-        const cart = await fetchCartRequest(userId, token);
+            let payload = {};
 
-        if (cart === undefined) {
-            payload.products = [];
-            payload.totalItems = 0;
-            payload.cartPrice = 0;
-            payload.userId = null;
-        }
+            let priceOfProduct = 0;
 
-        else {
+            dispatch(loaderActions.setLoaderState(true));
 
-            let productsArr = cart.products;
+            const cart = await fetchCartRequest(userId, token);
 
-            // let existingProduct = productsArr.find(product => product.product === productId);
-            let existingProduct = productsArr.findIndex(product => product.product === productId);
-
-            // If the product exists
-            if (existingProduct >= 0) {
-
-                priceOfProduct = (productsArr[existingProduct].totalProductsPrice) / productsArr[existingProduct].totalProductsQuantity;
-
-                const newTotalProductsQuantity = productsArr[existingProduct].totalProductsQuantity + 1;
-                const newTotalProductsPrice = priceOfProduct * newTotalProductsQuantity;
-
-                productsArr[existingProduct].totalProductsPrice = newTotalProductsPrice;
-                productsArr[existingProduct].totalProductsQuantity = newTotalProductsQuantity;
-
-                payload.products = productsArr;
-                payload.totalItems = cart.totalItems + 1;
-                payload.cartPrice = cart.cartPrice + priceOfProduct;
-                payload.userId = cart.userId;
-
-                dispatch(cartActions.replaceCart(payload));
-
-            } else {    // The product does not exist
-
-                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${productId}`);
-
-                const data = await response.json();
-
-                const requestedProduct = data.data.product;
-
-                const newproductId = requestedProduct._id.toString();
-                priceOfProduct = requestedProduct.price;
-
-                const newProduct = {
-                    product: newproductId,
-                    totalProductsPrice: priceOfProduct,
-                    totalProductsQuantity: 1
-                };
-
-                productsArr.push(newProduct);
-
-                payload.products = productsArr;
-                payload.totalItems = cart.totalItems + 1;
-                payload.cartPrice = cart.cartPrice + priceOfProduct;
-                payload.userId = cart.userId;
-
-                dispatch(cartActions.replaceCart(payload));
-
+            if (cart === undefined) {
+                payload.products = [];
+                payload.totalItems = 0;
+                payload.cartPrice = 0;
+                payload.userId = null;
             }
 
-            try {
+            else {
 
-                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        products: productsArr,
-                        totalItems: cart.totalItems + 1,
-                        cartPrice: cart.cartPrice + priceOfProduct
-                    })
-                });
+                let productsArr = cart.products;
 
-                const data = await response.json();
+                // let existingProduct = productsArr.find(product => product.product === productId);
+                let existingProduct = productsArr.findIndex(product => product.product === productId);
 
-                if (data.status !== 'success') {
+                // If the product exists
+                if (existingProduct >= 0) {
 
-                    showError(data.message);
-                    return;
+                    priceOfProduct = (productsArr[existingProduct].totalProductsPrice) / productsArr[existingProduct].totalProductsQuantity;
+
+                    const newTotalProductsQuantity = productsArr[existingProduct].totalProductsQuantity + 1;
+                    const newTotalProductsPrice = priceOfProduct * newTotalProductsQuantity;
+
+                    productsArr[existingProduct].totalProductsPrice = newTotalProductsPrice;
+                    productsArr[existingProduct].totalProductsQuantity = newTotalProductsQuantity;
+
+                    payload.products = productsArr;
+                    payload.totalItems = cart.totalItems + 1;
+                    payload.cartPrice = cart.cartPrice + priceOfProduct;
+                    payload.userId = cart.userId;
+
+                    dispatch(cartActions.replaceCart(payload));
+
+                } else {    // The product does not exist
+
+                    const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${productId}`);
+
+                    const data = await response.json();
+
+                    const requestedProduct = data.data.product;
+
+                    const newproductId = requestedProduct._id.toString();
+                    priceOfProduct = requestedProduct.price;
+
+                    const newProduct = {
+                        product: newproductId,
+                        totalProductsPrice: priceOfProduct,
+                        totalProductsQuantity: 1
+                    };
+
+                    productsArr.push(newProduct);
+
+                    payload.products = productsArr;
+                    payload.totalItems = cart.totalItems + 1;
+                    payload.cartPrice = cart.cartPrice + priceOfProduct;
+                    payload.userId = cart.userId;
+
+                    dispatch(cartActions.replaceCart(payload));
 
                 }
 
-            } catch (error) {
+                try {
 
-                showError(error.message);
+                    const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            products: productsArr,
+                            totalItems: cart.totalItems + 1,
+                            cartPrice: cart.cartPrice + priceOfProduct
+                        })
+                    });
 
+                    const data = await response.json();
+
+                    if (data.status !== 'success') {
+
+                        showError(data.message);
+                        return;
+
+                    }
+
+
+                } catch (error) {
+
+                    showError(error.message);
+
+                }
             }
+
+
+        } catch (error) {
+
+            showError(error.message);
+
         }
+
+        dispatch(loaderActions.setLoaderState(false));
 
     };
 
@@ -178,100 +231,203 @@ export const removeFromCartHandler = (userId, token, productId) => {
 
     return async dispatch => {
 
-        let payload = {};
+        try {
 
-        let priceOfProduct = 0;
+            let payload = {};
 
-        const cart = await fetchCartRequest(userId, token);
+            let priceOfProduct = 0;
 
-        if (cart === undefined) {
-            payload.products = [];
-            payload.totalItems = 0;
-            payload.cartPrice = 0;
-            payload.userId = null;
-        }
+            dispatch(loaderActions.setLoaderState(true));
 
-        else {
-            let productsArr = cart.products;
+            const cart = await fetchCartRequest(userId, token);
 
-            // let existingProduct = productsArr.find(product => product.product === productId);
-            let existingProduct = productsArr.findIndex(product => product.product === productId);
+            if (cart === undefined) {
+                payload.products = [];
+                payload.totalItems = 0;
+                payload.cartPrice = 0;
+                payload.userId = null;
+            }
 
-            if (existingProduct >= 0) {
+            else {
+                let productsArr = cart.products;
 
-                const existingProductDetails = productsArr[existingProduct];
+                // let existingProduct = productsArr.find(product => product.product === productId);
+                let existingProduct = productsArr.findIndex(product => product.product === productId);
 
-                priceOfProduct = existingProductDetails.totalProductsPrice / existingProductDetails.totalProductsQuantity;
+                if (existingProduct >= 0) {
 
-                const existingProductQuantity = existingProductDetails.totalProductsQuantity;
+                    const existingProductDetails = productsArr[existingProduct];
 
-                if (existingProductQuantity === 1) {
+                    priceOfProduct = existingProductDetails.totalProductsPrice / existingProductDetails.totalProductsQuantity;
 
-                    productsArr = productsArr.filter(product => product.product !== productId);
+                    const existingProductQuantity = existingProductDetails.totalProductsQuantity;
 
-                    payload.products = productsArr;
-                    payload.totalItems = cart.totalItems - 1;
-                    payload.cartPrice = cart.cartPrice - (existingProductDetails.totalProductsPrice / existingProductDetails.totalProductsQuantity);
-                    payload.userId = cart.userId;
+                    if (existingProductQuantity === 1) {
 
-                    dispatch(cartActions.replaceCart(payload));
+                        productsArr = productsArr.filter(product => product.product !== productId);
+
+                        payload.products = productsArr;
+                        payload.totalItems = cart.totalItems - 1;
+                        payload.cartPrice = cart.cartPrice - (existingProductDetails.totalProductsPrice / existingProductDetails.totalProductsQuantity);
+                        payload.userId = cart.userId;
+
+                        dispatch(cartActions.replaceCart(payload));
+
+                    } else {
+
+                        const newExistingProductsQuantity = existingProductQuantity - 1;
+
+                        const singleProductPrice = existingProductDetails.totalProductsPrice / existingProductDetails.totalProductsQuantity;
+
+                        const newExistingProductsPrice = existingProductDetails.totalProductsPrice - singleProductPrice;
+
+                        productsArr[existingProduct].totalProductsPrice = newExistingProductsPrice;
+                        productsArr[existingProduct].totalProductsQuantity = newExistingProductsQuantity;
+
+                        payload.products = productsArr;
+                        payload.totalItems = cart.totalItems - 1;
+                        payload.cartPrice = cart.cartPrice - singleProductPrice;
+                        payload.userId = cart.userId;
+
+                        dispatch(cartActions.replaceCart(payload));
+
+                    }
 
                 } else {
 
-                    const newExistingProductsQuantity = existingProductQuantity - 1;
-
-                    const singleProductPrice = existingProductDetails.totalProductsPrice / existingProductDetails.totalProductsQuantity;
-
-                    const newExistingProductsPrice = existingProductDetails.totalProductsPrice - singleProductPrice;
-
-                    productsArr[existingProduct].totalProductsPrice = newExistingProductsPrice;
-                    productsArr[existingProduct].totalProductsQuantity = newExistingProductsQuantity;
-
-                    payload.products = productsArr;
-                    payload.totalItems = cart.totalItems - 1;
-                    payload.cartPrice = cart.cartPrice - singleProductPrice;
-                    payload.userId = cart.userId;
-
-                    dispatch(cartActions.replaceCart(payload));
+                    showError('Item is not present in the cart');
 
                 }
 
-            } else {
+                try {
 
-                showError('Item is not present in the cart');
+                    dispatch(loaderActions.setLoaderState(true));
 
-            }
+                    const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            products: productsArr,
+                            totalItems: cart.totalItems === 0 ? 0 : cart.totalItems - 1,
+                            cartPrice: cart.cartPrice - priceOfProduct
+                        })
+                    });
 
-            try {
+                    const data = await response.json();
 
-                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        products: productsArr,
-                        totalItems: cart.totalItems - 1,
-                        cartPrice: cart.cartPrice - priceOfProduct
-                    })
-                });
+                    if (data.status !== 'success') {
 
-                const data = await response.json();
+                        showError(data.message);
+                        return;
 
-                if (data.status !== 'success') {
+                    }
 
-                    showError(data.message);
-                    return;
+                    dispatch(loaderActions.setLoaderState(false));
+
+                } catch (error) {
+
+                    dispatch(loaderActions.setLoaderState(false));
+                    showError(error.message);
 
                 }
-
-            } catch (error) {
-
-                showError(error.message);
-
             }
+
+        } catch (error) {
+
+            showError(error.message);
+
         }
+
+        // dispatch(loaderActions.setLoaderState(false));
+    };
+
+};
+
+export const postCart = (userId, token, cart) => {
+
+    return async dispatch => {
+
+        try {
+
+            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    products: cart.products,
+                    totalItems: cart.totalItems,
+                    cartPrice: cart.cartPrice
+                })
+            });
+
+            const data = await response.json();
+
+            console.log(data);
+
+            if (data.status === 'success')
+                showSuccess('Order Placed!');
+
+            else
+                showError('Some error occured while placing the order');
+
+        } catch (error) {
+
+            showError(error.message);
+
+        }
+
+
+        // Empty cart login after posting order 
+        try {
+
+            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    products: [],
+                    totalItems: 0,
+                    cartPrice: 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status !== 'success') {
+
+                showError(data.message);
+                return;
+
+            }
+
+        } catch (error) {
+
+            showError(error.message);
+
+        }
+
+        dispatch(cartActions.emptyCart());
+
+    };
+
+};
+
+export const triggerCartButtonAnimation = () => {
+
+    return dispatch => {
+
+        dispatch(cartActions.cartChanged());
+
+        setTimeout(() => {
+            dispatch(cartActions.cartChanged());
+        }, 250);
 
     };
 

@@ -3,10 +3,10 @@ import React from 'react';
 import Card from '../UIElements/Card/Card';
 
 import cartLoaderImg from '../../assets/shopping-cart.gif'
-import classes from './Loader.module.css';
+import classes from './CartLoader.module.css';
 import { useEffect } from 'react';
 
-const Loader = () => {
+const CartLoader = () => {
 
     const body = document.getElementsByTagName("BODY")[0];
     body.classList.add('lock-screen');
@@ -28,4 +28,4 @@ const Loader = () => {
     )
 };
 
-export default Loader;
+export default CartLoader;

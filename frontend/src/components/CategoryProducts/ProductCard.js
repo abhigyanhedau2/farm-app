@@ -1,8 +1,7 @@
 import React, { Fragment, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCartHandler, removeFromCartHandler } from '../../store/cart-actions';
-import { showLoader, hideLoader } from '../../store/loader-actions';
+import { addToCartHandler, removeFromCartHandler, triggerCartButtonAnimation } from '../../store/cart-actions';
 
 import Card from '../UIElements/Card/Card';
 
@@ -25,7 +24,7 @@ const ProductCard = (props) => {
     const cartProductsArr = cart.products;
 
     useEffect(() => {
-        
+
         const itemExists = cartProductsArr.findIndex(product => product.product === props.id);
 
         if (itemExists >= 0)
@@ -66,13 +65,11 @@ const ProductCard = (props) => {
 
     const incrementQuantityHandler = () => {
 
+        dispatch(triggerCartButtonAnimation());
+
         setCurrProductQuantity(prev => ++prev);
 
-        dispatch(showLoader());
-
         dispatch(addToCartHandler(user._id, token, props.id));
-
-        dispatch(hideLoader());
 
     };
 
@@ -80,11 +77,8 @@ const ProductCard = (props) => {
 
         setCurrProductQuantity(prev => --prev);
 
-        dispatch(showLoader());
-
         dispatch(removeFromCartHandler(user._id, token, props.id));
 
-        dispatch(hideLoader());
     };
 
     return (

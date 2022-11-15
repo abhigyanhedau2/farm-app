@@ -12,10 +12,32 @@ const feedbackSlice = createSlice({
     initialState: initialFeedbackState,
     reducers: {
         setErrorState(state, action) {
+
+            if (action.payload.errorIsVisible) {
+                const body = document.getElementsByTagName("BODY")[0];
+                body.classList.add('lock-screen');
+            }
+
+            else {
+                const body = document.getElementsByTagName("BODY")[0];
+                body.classList.remove('lock-screen');
+            }
+
             state.errorIsVisible = action.payload.errorIsVisible;
             state.errorMessage = action.payload.errorMessage;
         },
         setSuccessState(state, action) {
+
+            if (action.payload.successIsVisible) {
+                const body = document.getElementsByTagName("BODY")[0];
+                body.classList.add('lock-screen');
+            }
+
+            else {
+                const body = document.getElementsByTagName("BODY")[0];
+                body.classList.remove('lock-screen');
+            }
+
             state.successIsVisible = action.payload.successIsVisible;
             state.successMessage = action.payload.successMessage;
         }

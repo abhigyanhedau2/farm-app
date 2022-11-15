@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,6 +15,18 @@ const SuccessModal = () => {
 
     const successIsVisible = useSelector(state => state.feedback.successIsVisible);
     const successMessage = useSelector(state => state.feedback.successMessage);
+
+    useEffect(() => {
+        const body = document.getElementsByTagName("BODY")[0];
+        body.classList.add('lock-screen');
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            const body = document.getElementsByTagName("BODY")[0];
+            body.classList.remove('lock-screen');
+        };
+    }, []);
 
     if (successIsVisible) {
 

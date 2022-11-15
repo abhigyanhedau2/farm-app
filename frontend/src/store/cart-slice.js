@@ -4,7 +4,8 @@ const initialCartState = {
     products: [],
     totalItems: 0,
     cartPrice: 0,
-    userId: null
+    userId: null,
+    changed: false
 };
 
 const cartSlice = createSlice({
@@ -21,6 +22,9 @@ const cartSlice = createSlice({
             state.products = [];
             state.totalItems = 0;
             state.cartPrice = 0;
+        },
+        cartChanged(state, action) {
+            state.changed = !state.changed;
         }
     }
 });

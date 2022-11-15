@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {  useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { showError } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
@@ -9,8 +9,11 @@ import ProductCard from './ProductCard';
 import SubCategories from './SubCategories';
 
 import classes from './CategoryProducts.module.css';
+import Loader from '../Loader/Loader';
 
 const CategoryProducts = (props) => {
+
+    const loaderIsVisible = useSelector(state => state.loader.loaderIsVisible);
 
     const dispatch = useDispatch();
 
@@ -52,6 +55,7 @@ const CategoryProducts = (props) => {
             dispatch(hideLoader());
             return (
                 <div className={classes.subCategoryProductsWrapper}>
+                    {loaderIsVisible && <Loader />}
                     {getFilteredHeadings.map(heading => {
                         return <SubCategories key={heading} products={products} heading={heading} />
                     })}
@@ -60,7 +64,6 @@ const CategoryProducts = (props) => {
         }
 
         else {
-
             const productCards = products.map(product => {
                 return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} />
             });
@@ -68,6 +71,7 @@ const CategoryProducts = (props) => {
             dispatch(hideLoader());
             return (
                 <div className={classes.categoryProductsWrapper}>
+                    {loaderIsVisible && <Loader />}
                     {productCards}
                 </div>
             )
