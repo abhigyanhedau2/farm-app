@@ -13,7 +13,7 @@ import Loader from '../Loader/Loader';
 
 const CategoryProducts = (props) => {
 
-    const loaderIsVisible = useSelector(state => state.loader.loaderIsVisible);
+    const isLoading = useSelector(state => state.productsLoading.isLoading);
 
     const dispatch = useDispatch();
 
@@ -55,7 +55,8 @@ const CategoryProducts = (props) => {
             dispatch(hideLoader());
             return (
                 <div className={classes.subCategoryProductsWrapper}>
-                    {loaderIsVisible && <Loader />}
+                    {/* {loaderIsVisible && <Loader />} */}
+                    {isLoading && <Loader />}
                     {getFilteredHeadings.map(heading => {
                         return <SubCategories key={heading} products={products} heading={heading} />
                     })}
@@ -71,7 +72,8 @@ const CategoryProducts = (props) => {
             dispatch(hideLoader());
             return (
                 <div className={classes.categoryProductsWrapper}>
-                    {loaderIsVisible && <Loader />}
+                    {/* {loaderIsVisible && <Loader />} */}
+                    {isLoading && <Loader />}
                     {productCards}
                 </div>
             )

@@ -1,6 +1,7 @@
 import { cartActions } from "./cart-slice";
 import { showError, showSuccess } from './feedback-actions';
 import { loaderActions } from "./loader-slice";
+import { productLoadingActions } from './products-loading-slice';
 
 const fetchCartRequest = async (userId, token) => {
 
@@ -111,7 +112,6 @@ export const addToCartHandler = (userId, token, productId) => {
 
     return async dispatch => {
 
-
         try {
 
             let payload = {};
@@ -119,6 +119,8 @@ export const addToCartHandler = (userId, token, productId) => {
             let priceOfProduct = 0;
 
             dispatch(loaderActions.setLoaderState(true));
+
+            dispatch(productLoadingActions.showProductsLoader());
 
             const cart = await fetchCartRequest(userId, token);
 
@@ -222,6 +224,7 @@ export const addToCartHandler = (userId, token, productId) => {
         }
 
         dispatch(loaderActions.setLoaderState(false));
+        dispatch(productLoadingActions.hideProductsLoader());
 
     };
 
@@ -238,6 +241,7 @@ export const removeFromCartHandler = (userId, token, productId) => {
             let priceOfProduct = 0;
 
             dispatch(loaderActions.setLoaderState(true));
+            dispatch(productLoadingActions.showProductsLoader());
 
             const cart = await fetchCartRequest(userId, token);
 
@@ -342,6 +346,7 @@ export const removeFromCartHandler = (userId, token, productId) => {
         }
 
         // dispatch(loaderActions.setLoaderState(false));
+        dispatch(productLoadingActions.hideProductsLoader());
     };
 
 };

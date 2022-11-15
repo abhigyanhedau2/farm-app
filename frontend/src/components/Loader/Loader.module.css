@@ -1,21 +1,12 @@
-.overlay {
-  position: absolute;
-  z-index: 30;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .cartLoaderWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-direction: column; */
   width: 20rem;
-  overflow: hidden;
+  top: 30vh;
+  left: 42vw;
+  /* overflow: hidden; */
 }
 
 .cartLoaderWrapper img {

@@ -4,6 +4,7 @@ import feedbackReducer from './feedback-slice';
 import loaderReducer from './loader-slice';
 import backdropReducer from './backdrop-slice';
 import cartReducer from './cart-slice';
+import productsLoadingReducer from "./products-loading-slice";
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         feedback: feedbackReducer,
         loader: loaderReducer,
         backdrop: backdropReducer,
-        cart: cartReducer
+        cart: cartReducer,
+        productsLoading: productsLoadingReducer
     }
 });
 

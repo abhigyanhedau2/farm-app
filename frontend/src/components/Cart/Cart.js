@@ -30,7 +30,6 @@ const Cart = () => {
 
         const fetchCart = async () => {
 
-
             try {
 
                 const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
@@ -92,7 +91,6 @@ const Cart = () => {
 
         dispatch(addToCartHandler(userId, token, productId));
 
-
     };
 
     const removeItemFromCartHandler = (userId, token, productId) => {
@@ -133,56 +131,6 @@ const Cart = () => {
         navigate('/');
     };
 
-    // {
-    //     "products": [
-    //         {
-    //             "product": "635a708bdca2e0e22b1a64b2",
-    //             "totalProductsPrice": 600,
-    //             "totalProductsQuantity": 2
-    //         },
-    //         {
-    //             "product": "635a7125dca2e0e22b1a64b8",
-    //             "totalProductsPrice": 1385,
-    //             "totalProductsQuantity": 3
-    //         }
-    //     ],
-    //     "totalItems": 2,
-    //     "cartPrice": 1985
-    // }
-
-    // {
-    //     "products": [
-    //         {
-    //             "product": "63636e1bf19a312d25655686",
-    //             "totalProductsPrice": 2800,
-    //             "totalProductsQuantity": 5,
-    //             "_id": "637001dc3e3e09f757ee5627"
-    //         },
-    //         {
-    //             "product": "636370cbf19a312d256556a1",
-    //             "totalProductsPrice": 2160,
-    //             "totalProductsQuantity": 6,
-    //             "_id": "637001dd3e3e09f757ee5633"
-    //         },
-    //         {
-    //             "product": "6363700af19a312d2565569b",
-    //             "totalProductsPrice": 800,
-    //             "totalProductsQuantity": 4,
-    //             "_id": "637001df3e3e09f757ee5643"
-    //         },
-    //         {
-    //             "product": "63636ee0f19a312d2565568c",
-    //             "totalProductsPrice": 1440,
-    //             "totalProductsQuantity": 6,
-    //             "_id": "637005363e3e09f757ee590a"
-    //         }
-    //     ],
-    //     "totalItems": 21,
-    //     "cartPrice": 7200,
-    //     "userId": "6365ed162c4a30616412d8cd",
-    //     "changed": false
-    // }
-
     const orderClickHandler = () => {
 
         const orderedCart = {};
@@ -193,6 +141,7 @@ const Cart = () => {
 
         try {
             dispatch(postCart(userId, token, orderedCart));
+            dispatch(emptyCart());
             dispatch(showSuccess('Order Placed!'));
             navigate('/');
         } catch (error) {

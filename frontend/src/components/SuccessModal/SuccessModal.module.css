@@ -1,18 +1,8 @@
-.overlay {
-  position: absolute;
-  z-index: 10;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .successModal {
-  width: 40rem;
-  margin-top: -20vh;
-  padding: 2rem;
+  top: 30vh;
+  left: 38.5vw;
+  width: 35rem;
+  padding: 2rem 0;
 }
 
 .successHeader {

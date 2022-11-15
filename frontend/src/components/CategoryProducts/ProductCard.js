@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCartHandler, removeFromCartHandler, triggerCartButtonAnimation } from '../../store/cart-actions';
+import { productLoadingActions } from '../../store/products-loading-slice';
 
 import Card from '../UIElements/Card/Card';
 

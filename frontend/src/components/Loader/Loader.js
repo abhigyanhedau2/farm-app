@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Card from '../UIElements/Card/Card';
-
 import cartLoaderImg from '../../assets/shopping-cart.gif'
 import classes from './Loader.module.css';
 import { useEffect } from 'react';
+import Modal from '../UIElements/Modal/Modal';
 
 const Loader = () => {
 
@@ -20,10 +19,10 @@ const Loader = () => {
 
     return (
         <div className={classes.overlay}>
-            <Card className={classes.cartLoaderWrapper}>
+            <Modal className={classes.cartLoaderWrapper}>
                 <img src={cartLoaderImg} alt={cartLoaderImg} />
                 <p>Loading...</p>
-            </Card>
+            </Modal>
         </div>
     )
 };

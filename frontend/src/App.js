@@ -58,6 +58,7 @@ const App = () => {
 		<BrowserRouter>
 			<div className="layout">
 				{loaderIsVisible && <Loader />}
+				{/* {<Loader />} */}
 				{backdropIsVisible && <Backdrop />}
 				{errorIsVisible && <Error />}
 				{successIsVisible && <SuccessModal />}
