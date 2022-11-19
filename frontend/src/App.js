@@ -27,6 +27,7 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 import CartPage from './pages/CartPage';
+import PurchasePage from './pages/PurchasePage';
 
 const App = () => {
 
@@ -72,6 +73,7 @@ const App = () => {
 						<Route path="/resetPassword" element={<ResetPasswordPage />} />
 						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/postProduct" element={<PostProductPage />} />
+						<Route path="/purchases" element={<PurchasePage/>} />
 						<Route path="/cart/:userId" element={<CartPage />} />
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>

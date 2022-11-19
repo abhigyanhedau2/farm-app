@@ -1,0 +1,30 @@
+.purchaseCardWrapper {
+    width: 35rem;
+    /* background-color: red; */
+    padding: 0.25rem 1.5rem 1.5rem;
+    margin: 3rem 2rem;
+}
+
+.purchaseCardWrapper > * {
+    margin: 1rem 0;
+}
+
+.cardHeading p {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.purchasedProductsListWrapper {
+    height: 30rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.purchaseInfoWrapper p {
+    font-size: 1.5rem;
+}
+
+.purchaseInfoWrapper p span {
+    font-weight: bold;
+}

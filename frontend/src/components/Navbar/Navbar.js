@@ -25,7 +25,7 @@ const Navbar = () => {
     const path = useLocation().pathname;
 
     const handleScroll = () => {
-        window.scrollY > 700 ? setInvertNav(true) : setInvertNav(false);
+        window.scrollY > 450 ? setInvertNav(true) : setInvertNav(false);
     }
 
     window.addEventListener('scroll', handleScroll, true);
@@ -47,13 +47,16 @@ const Navbar = () => {
                 {showMenu && (<ul className={classes.responsiveUlList}>
                     <li><Link to='/'>Home</Link></li>
                     <li><Link to='/contact'>Contact</Link></li>
+                    {isLoggedIn && user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
+                    {isLoggedIn && user && user.role === 'customer' && <li className={path === '/purchases' ? classes.active : ''}><Link to='/purchases'>My Orders</Link></li>}
                 </ul>)}
                 <div className={classes.navbar__right}>
                     <div className={classes.navbar__navlinks}>
                         <ul className={ulClass}>
                             <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
                             <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
-                            {user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
+                            {isLoggedIn && user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
+                            {isLoggedIn && user && user.role === 'customer' && <li className={path === '/purchases' ? classes.active : ''}><Link to='/purchases'>My Orders</Link></li>}
                         </ul>
                     </div>
                     <div className={classes.navbar__actions}>

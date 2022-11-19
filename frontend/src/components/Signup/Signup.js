@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 
+import { login } from '../../store/auth-actions';
 import { showError } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
 
@@ -112,6 +113,7 @@ const Signup = () => {
 
                 else {
                     dispatch(hideLoader());
+                    dispatch(login(data.data.token));
                     navigate('/');
                 }
 

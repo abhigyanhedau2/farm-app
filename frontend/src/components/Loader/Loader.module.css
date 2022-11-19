@@ -19,3 +19,21 @@
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
+@media only screen and (max-width: 1000px) {
+  .cartLoaderWrapper {
+    left: 35vw;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .cartLoaderWrapper {
+    left: 30vw;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .cartLoaderWrapper {
+    left: 25vw;
+  }
+}

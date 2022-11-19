@@ -1,0 +1,28 @@
+.purchasesWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2.5rem 0;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.noProductsWrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 7.5rem 0;
+}
+
+.noProductsWrapper img {
+  width: 15rem;
+  opacity: 0.65;
+}
+
+.noProductsWrapper p {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+

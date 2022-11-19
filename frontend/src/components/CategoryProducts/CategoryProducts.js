@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showError } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
 
+import emptyBoxImg from '../../assets/box.png';
+
 import ProductCard from './ProductCard';
 import SubCategories from './SubCategories';
 
@@ -22,11 +24,16 @@ const CategoryProducts = (props) => {
     useEffect(() => {
 
         const fetchProducts = async () => {
+
+            dispatch(showLoader());
+
             try {
                 const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/category/${props.category}`);
                 const data = await response.json();
                 setProducts(data.products);
+                dispatch(hideLoader());
             } catch (error) {
+                dispatch(hideLoader());
                 dispatch(showError(error.message));
             }
         };
@@ -81,7 +88,13 @@ const CategoryProducts = (props) => {
     }
 
     else {
-        dispatch(showLoader());
+        return (
+            <div className={classes.noProductsWrapper}>
+                <img src={emptyBoxImg} alt="Empty box" />
+                <p>No Products to show. ☹️</p>
+                <p>Come back later.</p>
+            </div>
+        );
     }
 };
 

@@ -6,6 +6,10 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Product',
     },
+    orderedOn: {
+        type: Date,
+        default: new Date().toLocaleString()
+    },
     totalProductsPrice: {
         type: Number
     },

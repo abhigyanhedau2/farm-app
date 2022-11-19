@@ -14,6 +14,10 @@ const purchaseSchema = new mongoose.Schema({
             type: Number
         }
     }],
+    orderedOn: {
+        type: Date,
+        default: new Date().toLocaleString()
+    },
     totalItems: {
         type: Number
     },

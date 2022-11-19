@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Signup from '../components/Signup/Signup';
 
 const SignupPage = () => {
-    return <Signup />
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.title = `Birch Wood Ranch | Signup`;
+    }, []);
+
+    return <Signup />;
 };
 
 export default SignupPage;

@@ -372,7 +372,7 @@ export const postCart = (userId, token, cart) => {
 
             const data = await response.json();
 
-            console.log(data);
+            // console.log(data);
 
             if (data.status === 'success')
                 showSuccess('Order Placed!');

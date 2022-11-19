@@ -74,10 +74,7 @@
   display: none;
   border-radius: 100rem !important;
   height: 4.5rem;
-}
-
-.responsiveUlList {
-  z-index: 20;
+  z-index: 120;
 }
 
 .cartButton {
@@ -122,6 +119,7 @@
   }
 
   .navbar ul.responsiveUlList li {
+    font-size: 3.5rem;
     margin: 2rem 0;
   }
 
