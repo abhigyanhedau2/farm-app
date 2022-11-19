@@ -78,7 +78,8 @@ const Navbar = () => {
                     <div className={classes.navbar__actions}>
                         {!isLoggedIn && <button onClick={loginClickHandler}>Login/Signup</button>}
                         {isLoggedIn && <Fragment>
-                            <button className={cartChanged ? classes.cartButton : ''} onClick={() => navigate(`/cart/${user._id}`)}>Cart ({totalCartItems}) <i className="fa-solid fa-cart-shopping"></i></button>
+                            {isLoggedIn && user && user.role === 'customer' && <button className={cartChanged ? classes.cartButton : ''} onClick={() => navigate(`/cart/${user._id}`)}>Cart ({totalCartItems}) <i className="fa-solid fa-cart-shopping"></i></button>}
+                            {isLoggedIn && user && user.role === 'admin' && <button className={cartChanged ? classes.cartButton : ''} onClick={() => navigate(`/addSeller`)}>Add Seller</button>}
                             {/* <button onClick={() => { dispatch(logout()) }}>Logout</button> */}
                             {profileButton}
                         </Fragment>}

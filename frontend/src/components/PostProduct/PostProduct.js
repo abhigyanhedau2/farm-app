@@ -151,6 +151,7 @@ const PostProduct = () => {
                         if (response.data.status === 'success') {
                             dispatch(hideLoader());
                             dispatch(showSuccess('Product posted successfully'));
+                            navigate('/');
                         } else {
                             dispatch(hideLoader());
                             dispatch(showError('Some error occured while posting the product. Try again later.'));

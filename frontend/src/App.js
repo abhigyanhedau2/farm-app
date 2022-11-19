@@ -29,6 +29,7 @@ import './App.css';
 import CartPage from './pages/CartPage';
 import PurchasePage from './pages/PurchasePage';
 import UserInfoPage from './pages/UserInfoPage';
+import AddSellerPage from './pages/AddSellerPage';
 
 const App = () => {
 
@@ -75,6 +76,7 @@ const App = () => {
 						<Route path="/postProduct" element={<PostProductPage />} />
 						<Route path="/purchases" element={<PurchasePage />} />
 						<Route path="/me" element={<UserInfoPage />} />
+						<Route path="/addSeller" element={<AddSellerPage />} />
 						<Route path="/cart/:userId" element={<CartPage />} />
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>
