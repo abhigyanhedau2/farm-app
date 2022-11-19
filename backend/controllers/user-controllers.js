@@ -204,8 +204,6 @@ const postASeller = catchAsync(async (req, res, next) => {
 // GET user details
 const getMyDetails = catchAsync(async (req, res, next) => {
 
-    console.log('reached');
-
     const userId = req.user._id;
 
     // Fetch the user from DB

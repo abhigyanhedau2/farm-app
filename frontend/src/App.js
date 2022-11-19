@@ -28,6 +28,7 @@ import Footer from './components/Footer/Footer';
 import './App.css';
 import CartPage from './pages/CartPage';
 import PurchasePage from './pages/PurchasePage';
+import UserInfoPage from './pages/UserInfoPage';
 
 const App = () => {
 
@@ -59,7 +60,6 @@ const App = () => {
 		<BrowserRouter>
 			<div className="layout">
 				{loaderIsVisible && <Loader />}
-				{/* {<Loader />} */}
 				{backdropIsVisible && <Backdrop />}
 				{errorIsVisible && <Error />}
 				{successIsVisible && <SuccessModal />}
@@ -73,7 +73,8 @@ const App = () => {
 						<Route path="/resetPassword" element={<ResetPasswordPage />} />
 						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/postProduct" element={<PostProductPage />} />
-						<Route path="/purchases" element={<PurchasePage/>} />
+						<Route path="/purchases" element={<PurchasePage />} />
+						<Route path="/me" element={<UserInfoPage />} />
 						<Route path="/cart/:userId" element={<CartPage />} />
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>

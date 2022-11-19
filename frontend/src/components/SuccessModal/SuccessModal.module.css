@@ -45,3 +45,45 @@
   transform: translateY(-1px);
   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
 }
+
+@media only screen and (max-width: 1200px) {
+  .successModal {
+    left: 35vw;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .successModal {
+    left: 32.5vw;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .successModal {
+    left: 30vw;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .successModal {
+    left: 25vw;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .successModal {
+    left: 20vw;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .successModal {
+    left: 15vw;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .successModal {
+    left: 7.5%;
+  }
+}

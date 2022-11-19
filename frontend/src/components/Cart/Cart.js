@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 import { showError, showSuccess } from '../../store/feedback-actions';
 import { emptyCart, addToCartHandler, removeFromCartHandler, postCart } from '../../store/cart-actions';
 
@@ -32,6 +33,8 @@ const Cart = () => {
 
             try {
 
+                dispatch(showLoader());
+
                 const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/cart/${userId}`, {
                     method: 'GET',
                     headers: {
@@ -41,6 +44,7 @@ const Cart = () => {
 
                 const data = await response.json();
 
+                dispatch(hideLoader());
 
                 if (data.status === 'success') {
                     setProducts(data.data.cart.products);

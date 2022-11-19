@@ -29,7 +29,7 @@ router.route('/getUser/:userId')
     .get(getUserFromUserId); // GET a user from user id
 
 // Protect all the routes below this middleware, to make sure user is logged in
-router.post(protect);
+router.use(protect);
 
 // GET the list of all users, only accessible to admin
 router.route('/')
