@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import { showError } from '../../store/feedback-actions';
+import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import purchasesTruckImg from '../../assets/purchases-truck.png';
 import classes from './Purchases.module.css';
@@ -20,6 +21,8 @@ const Purchases = () => {
 
         const fetchPurchases = async () => {
 
+            dispatch(showLoader());
+
             const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/purchases/', {
                 method: 'GET',
                 headers: {
@@ -29,12 +32,9 @@ const Purchases = () => {
 
             const data = await response.json();
 
-            // if (data.status !== 'success')
-                // dispatch(console.log(data));
+            dispatch(hideLoader());
 
             setPurchases(data.data.purchases);
-            // console.log(data.data.purchases);
-
         };
 
         fetchPurchases();

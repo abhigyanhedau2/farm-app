@@ -30,6 +30,7 @@ import CartPage from './pages/CartPage';
 import PurchasePage from './pages/PurchasePage';
 import UserInfoPage from './pages/UserInfoPage';
 import AddSellerPage from './pages/AddSellerPage';
+import ManageProducts from './pages/ManageProducts';
 
 const App = () => {
 
@@ -43,7 +44,7 @@ const App = () => {
 
 		dispatch(fetchToken());
 
-		if (user) {
+		if (user && user.role !== 'seller') {
 			dispatch(fetchCart(user._id, token));
 		}
 
@@ -74,10 +75,11 @@ const App = () => {
 						<Route path="/resetPassword" element={<ResetPasswordPage />} />
 						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/postProduct" element={<PostProductPage />} />
+						<Route path="/manageProducts" element={<ManageProducts />} />
 						<Route path="/purchases" element={<PurchasePage />} />
 						<Route path="/me" element={<UserInfoPage />} />
 						<Route path="/addSeller" element={<AddSellerPage />} />
-						<Route path="/cart/:userId" element={<CartPage />} />
+						{<Route path="/cart/:userId" element={<CartPage />} />}
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>
 				</main>

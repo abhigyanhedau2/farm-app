@@ -13,7 +13,7 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { postAProduct, getAllProducts, deleteAProduct, getProductFromId, getProductsByCategory, updateProductById, getAllSubCategories, postSubCategory } = productControllers;
+const { postAProduct, getAllProducts, deleteAProduct, getProductFromId, getProductsByCategory, updateProductById, getAllSubCategories, postSubCategory, getProductsBySellerId } = productControllers;
 
 router.route('/subCategory')
     .get(getAllSubCategories);  // GET all the subcategories
@@ -33,6 +33,9 @@ router.route('/')
     .get(getAllProducts);
 
 router.use(protect, restrictTo('seller'));
+
+router.route('/seller/:sellerId')
+    .get(getProductsBySellerId);
 
 // POST A new product by the seller
 router.route('/')

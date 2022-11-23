@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { showError } from '../../store/feedback-actions';
+import { showError, showSuccess } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import emptyBoxImg from '../../assets/box.png';
@@ -17,6 +17,7 @@ const CategoryProducts = (props) => {
 
     const isLoading = useSelector(state => state.productsLoading.isLoading);
 
+    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
 
     const [products, setProducts] = useState([]);
@@ -43,6 +44,25 @@ const CategoryProducts = (props) => {
         //eslint-disable-next-line
     }, [props.category]);
 
+    const deleteProductHandler = async (id) => {
+
+        dispatch(showLoader());
+
+        const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            dispatch(showSuccess('Hola'));
+            dispatch(hideLoader());
+            window.location.reload();
+        }
+
+    };
+
     if (products.length !== 0) {
 
         let hasSubCategory = false;
@@ -58,6 +78,7 @@ const CategoryProducts = (props) => {
             const getHeadings = products.map(item => item.subCategory);
             let getFilteredHeadings = [];
             getFilteredHeadings = getHeadings.filter(e => !(getFilteredHeadings[e] = e in getFilteredHeadings));
+            getFilteredHeadings.sort();
 
             dispatch(hideLoader());
             return (
@@ -73,7 +94,7 @@ const CategoryProducts = (props) => {
 
         else {
             const productCards = products.map(product => {
-                return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} />
+                return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} sellerId={product.sellerId} onDelete={deleteProductHandler.bind(null, product._id)} />
             });
 
             dispatch(hideLoader());

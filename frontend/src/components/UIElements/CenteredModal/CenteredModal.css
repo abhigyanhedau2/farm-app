@@ -1,0 +1,44 @@
+.centeredModalbackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.4);
+  scroll-behavior: calc(0);
+  overflow-y: hidden;
+}
+
+.centeredModalmodal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+  z-index: 60;
+  animation: slide-down 300ms ease-in-out forwards;
+  left: calc(50vw - 37.5rem);
+  top: calc(50vh - 34rem);
+}
+
+.centeredModalcontent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

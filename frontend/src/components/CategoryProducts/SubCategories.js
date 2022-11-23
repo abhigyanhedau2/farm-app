@@ -1,16 +1,41 @@
 import React from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { showLoader, hideLoader } from '../../store/loader-actions';
+
 import ProductCard from './ProductCard';
 import OneSideHR from '../UIElements/HR/OneSideHR';
 
 import classes from './SubCategories.module.css';
+import { useState } from 'react';
 
 const SubCategories = (props) => {
 
-    const getProductsForHeading = props.products.filter(product => product.subCategory === props.heading);
+    const token = useSelector(state => state.auth.token);
+    const [products] = useState(props.products);
+
+    const dispatch = useDispatch();
+
+    const getProductsForHeading = products.filter(product => product.subCategory === props.heading);
+
+    const deleteProductHandler = async (id) => {
+
+        dispatch(showLoader());
+
+        await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        dispatch(hideLoader());
+
+        window.location.reload();
+    };
 
     const productCards = getProductsForHeading.map(product => {
-        return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} setLoaderState={props.setLoaderState} />
+        return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} sellerId={product.sellerId} setLoaderState={props.setLoaderState} onDelete={deleteProductHandler.bind(null, product._id)} />
     });
 
     return (

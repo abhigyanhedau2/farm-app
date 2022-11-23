@@ -20,7 +20,7 @@ const Cart = () => {
     const [cartPrice, setCartPrice] = useState(0);
 
     const cart = useSelector(state => state.cart);
-
+    const user = useSelector(state => state.auth.user);
     const token = useSelector(state => state.auth.token);
 
     const userId = useParams().userId;
@@ -59,9 +59,10 @@ const Cart = () => {
             }
         };
 
-        fetchCart();
+        if (user.role !== 'seller')
+            fetchCart();
 
-    }, [token, userId, dispatch]);
+    }, [token, userId, dispatch, user]);
 
     const productsArr = products;
 

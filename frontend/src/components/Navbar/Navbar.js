@@ -62,6 +62,7 @@ const Navbar = () => {
                     <li onClick={showMenuHandler}><Link to='/'>Home</Link></li>
                     <li onClick={showMenuHandler}><Link to='/contact'>Contact</Link></li>
                     {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/postProduct'>Add Product</Link></li>}
+                    {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/manageProducts'>Manage Products</Link></li>}
                     {isLoggedIn && user && user.role === 'customer' && <li onClick={showMenuHandler}><Link to='/purchases'>My Orders</Link></li>}
                     {isLoggedIn && user && <li onClick={showMenuHandler}><Link to='/me'>My Info</Link></li>}
                     {isLoggedIn && user && <li onClick={showMenuHandler}><Link to='/' onClick={logoutClickHander}>Logout</Link></li>}
@@ -72,6 +73,7 @@ const Navbar = () => {
                             <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
                             <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
                             {isLoggedIn && user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
+                            {isLoggedIn && user && user.role === 'seller' && <li className={path === '/manageProducts' ? classes.active : ''}><Link to='/manageProducts'>Manage Products</Link></li>}
                             {isLoggedIn && user && user.role === 'customer' && <li className={path === '/purchases' ? classes.active : ''}><Link to='/purchases'>My Orders</Link></li>}
                         </ul>
                     </div>
@@ -80,7 +82,6 @@ const Navbar = () => {
                         {isLoggedIn && <Fragment>
                             {isLoggedIn && user && user.role === 'customer' && <button className={cartChanged ? classes.cartButton : ''} onClick={() => navigate(`/cart/${user._id}`)}>Cart ({totalCartItems}) <i className="fa-solid fa-cart-shopping"></i></button>}
                             {isLoggedIn && user && user.role === 'admin' && <button className={cartChanged ? classes.cartButton : ''} onClick={() => navigate(`/addSeller`)}>Add Seller</button>}
-                            {/* <button onClick={() => { dispatch(logout()) }}>Logout</button> */}
                             {profileButton}
                         </Fragment>}
                         <button className={classes.responsiveMenuBtn} onClick={showMenuHandler}><i className="fa-solid fa-bars"></i></button>
