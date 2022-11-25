@@ -6,6 +6,8 @@ import { showLoader, hideLoader } from '../store/loader-actions';
 import manageProductsImage from '../assets/manageProducts.jpg';
 import ProductCard from '../components/CategoryProducts/ProductCard';
 
+import emptyBoxImg from '../assets/box.png';
+
 import classes from '../components/CategoryProducts/CategoryProducts.module.css';
 
 const ManageProducts = () => {
@@ -68,6 +70,19 @@ const ManageProducts = () => {
     const productCards = products.map(product => {
         return <ProductCard key={product._id} id={product._id} veg={product.veg} image={product.image} name={product.name} description={product.description} quantityPerBox={product.quantityPerBox} icon={product.icon} calories={product.calories} rating={product.rating} price={product.price} sellerId={product.sellerId} onDelete={deleteProductHandler.bind(null, product._id)} />
     });
+
+    if (products.length === 0) {
+        return (
+            <div>
+                <CategoryHeader category="Manage Products" image={manageProductsImage} />
+                <div className={classes.noProductsWrapper}>
+                    <img src={emptyBoxImg} alt="Empty box" />
+                    <p>You haven't posted any products yet. ☹️</p>
+                    <p>Post some products and manage them here.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div>

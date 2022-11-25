@@ -105,8 +105,6 @@ const PostProduct = () => {
 
     const formSubmitHandler = async () => {
 
-        dispatch(showLoader());
-
         if (file === undefined) {
             dispatch(hideLoader());
             dispatch(showError('Add a product image.'));
@@ -140,6 +138,8 @@ const PostProduct = () => {
             formData.append('rating', productRating);
 
             try {
+
+                dispatch(showLoader());
 
                 await axios.post("https://birch-wood-farm.herokuapp.com/api/v1/products/", formData,
                     {

@@ -49,7 +49,7 @@ const Login = () => {
 
     const formSubmitHandler = async (event) => {
         event.preventDefault();
-        dispatch(showLoader());
+
 
         if (emailIsValid && passwordIsValid) {
 
@@ -57,6 +57,8 @@ const Login = () => {
             const password = passwordInput;
 
             try {
+
+                dispatch(showLoader());
 
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/login', {
                     method: 'POST',
@@ -70,7 +72,7 @@ const Login = () => {
 
                 const data = await response.json();
 
-                if (data.status === 'fail'){
+                if (data.status === 'fail') {
                     dispatch(showError(data.message));
                     dispatch(hideLoader());
                     return;

@@ -7,7 +7,7 @@ const getMyPurchases = catchAsync(async (req, res, next) => {
     const userId = req.user.id;
 
     // const purchases = await Purchase.find({ userId });
-    const purchases = await Purchase.find({ userId }).populate('products.product', 'name category price quantityPerBox veg icon image');
+    const purchases = await Purchase.find({ userId }).sort({ orderedOn: -1 }).populate('products.product', 'name category price quantityPerBox veg icon image');
 
     // Convert the image name stored in the DB to the image url we'll use 
     // to fetch the image

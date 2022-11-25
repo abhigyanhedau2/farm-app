@@ -1,0 +1,54 @@
+.orderCardWrapper {
+  width: 35rem;
+  /* background-color: red; */
+  padding: 0.25rem 1.5rem 1.5rem;
+  margin: 3rem 2rem;
+}
+
+.orderCardWrapper > * {
+  margin: 1rem 0;
+}
+
+.cardHeading p {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.orderedProductsListWrapper {
+  height: 30rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.orderInfoWrapper p {
+  font-size: 1.5rem;
+}
+
+.orderInfoWrapper p span {
+  font-weight: bold;
+}
+.orderActions button {
+  padding: 0.5rem 0.75rem;
+  float: right;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  background: #50cd65;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.orderActions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.orderActions button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0.35rem 0.75rem rgba(0, 0, 0, 0.2);
+}

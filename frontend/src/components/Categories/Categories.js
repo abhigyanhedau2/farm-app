@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { useDispatch } from 'react-redux';
 
 import { showError } from '../../store/feedback-actions';
@@ -11,6 +13,8 @@ import HR from '../UIElements/HR/HR';
 import classes from './Categories.module.css';
 
 const Categories = () => {
+
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -34,7 +38,7 @@ const Categories = () => {
     }, []);
 
     const redirectToCategoryHandler = (category) => {
-        window.open(`/category/${category}`, '_blank')
+        navigate(`/category/${category}`);
     };
 
     let categoryCards;

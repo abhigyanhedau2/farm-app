@@ -90,7 +90,8 @@ const postCart = catchAsync(async (req, res, next) => {
             product: orderItem.product,
             totalProductsPrice: orderItem.totalProductsPrice,
             totalProductsQuantity: orderItem.totalProductsQuantity,
-            userId: req.user.id
+            userId: req.user.id,
+            sellerId: orderItem.product.sellerId
         });
     });
 

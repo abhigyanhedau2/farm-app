@@ -56,7 +56,7 @@ const CategoryProducts = (props) => {
         });
 
         if (response.ok) {
-            dispatch(showSuccess('Hola'));
+            dispatch(showSuccess('Product deleted successfully'));
             dispatch(hideLoader());
             window.location.reload();
         }

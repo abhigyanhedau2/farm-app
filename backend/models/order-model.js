@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
     },
     orderedOn: {
         type: Date,
-        default: new Date().toLocaleString()
+        default: Date.now()
     },
     totalProductsPrice: {
         type: Number
@@ -17,6 +17,10 @@ const orderSchema = new mongoose.Schema({
         type: Number
     },
     userId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
+    sellerId: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     }

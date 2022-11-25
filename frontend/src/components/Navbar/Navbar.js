@@ -63,6 +63,7 @@ const Navbar = () => {
                     <li onClick={showMenuHandler}><Link to='/contact'>Contact</Link></li>
                     {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/postProduct'>Add Product</Link></li>}
                     {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/manageProducts'>Manage Products</Link></li>}
+                    {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/receivedorders'>Received Orderes</Link></li>}
                     {isLoggedIn && user && user.role === 'customer' && <li onClick={showMenuHandler}><Link to='/purchases'>My Orders</Link></li>}
                     {isLoggedIn && user && <li onClick={showMenuHandler}><Link to='/me'>My Info</Link></li>}
                     {isLoggedIn && user && <li onClick={showMenuHandler}><Link to='/' onClick={logoutClickHander}>Logout</Link></li>}
@@ -73,7 +74,8 @@ const Navbar = () => {
                             <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
                             <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
                             {isLoggedIn && user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
-                            {isLoggedIn && user && user.role === 'seller' && <li className={path === '/manageProducts' ? classes.active : ''}><Link to='/manageProducts'>Manage Products</Link></li>}
+                            {isLoggedIn && user && user.role === 'seller' && <li className={path === '/manageProducts' ? classes.active : ''}><Link to='/manageProducts'>Manage</Link></li>}
+                            {isLoggedIn && user && user.role === 'seller' && <li className={path === '/receivedorders' ? classes.active : ''}><Link to='/receivedorders'>Orders</Link></li>}
                             {isLoggedIn && user && user.role === 'customer' && <li className={path === '/purchases' ? classes.active : ''}><Link to='/purchases'>My Orders</Link></li>}
                         </ul>
                     </div>

@@ -7,7 +7,7 @@ const getAllOrders = catchAsync(async (req, res, next) => {
     const sellerId = req.user.id;
 
     // let orders = await Order.find().populate('product', 'name category price image').populate('userId', 'name address number');
-    let orders = await Order.find().populate('product', 'name category price image sellerId').populate('userId', 'name address number -_id');
+    let orders = await Order.find().populate('product', 'name category price image sellerId').populate('userId', 'name address number _id');
 
     if (!orders)
         return res.status(200).json({

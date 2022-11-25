@@ -31,6 +31,7 @@ import PurchasePage from './pages/PurchasePage';
 import UserInfoPage from './pages/UserInfoPage';
 import AddSellerPage from './pages/AddSellerPage';
 import ManageProducts from './pages/ManageProducts';
+import MyOrdersPage from './pages/MyOrdersPage';
 
 const App = () => {
 
@@ -77,6 +78,7 @@ const App = () => {
 						<Route path="/postProduct" element={<PostProductPage />} />
 						<Route path="/manageProducts" element={<ManageProducts />} />
 						<Route path="/purchases" element={<PurchasePage />} />
+						<Route path="/receivedorders" element={<MyOrdersPage />} />
 						<Route path="/me" element={<UserInfoPage />} />
 						<Route path="/addSeller" element={<AddSellerPage />} />
 						{<Route path="/cart/:userId" element={<CartPage />} />}
