@@ -22,6 +22,7 @@
   padding: 2rem;
   border-radius: 3rem;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 .logoWrapper img {
@@ -115,4 +116,20 @@
 
 .extraInfo p span:active {
     color: purple;
+}
+
+.backBtn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  border-radius: 100rem;
+  padding: 0.2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.backBtn:hover {
+  background-color: rgba(128, 128, 128, 0.1);
 }

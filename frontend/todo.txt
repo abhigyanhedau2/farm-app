@@ -1,2 +1,1 @@
-send token while signup to confirm email legitimacy
 add a catchAsync function for every fetch request in the app

@@ -5,11 +5,94 @@ const nodemailer = require('nodemailer');
 const uuid = require('uuid').v4;
 
 const User = require('../models/user-model');
+const UserToken = require('../models/user-token-model');
 const Query = require('../models/query-model');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Cart = require('../models/cart-model');
+
+const sendToken = catchAsync(async (req, res, next) => {
+
+    // Get the required fields from req.body
+    const { email } = req.body;
+
+    if (!email || !validator.isEmail(email))
+        return next(new AppError(400, 'Enter a valid email'));
+
+    const user = await User.findOne({ email: email });
+    const usertoken = await UserToken.findOne({ email: email });
+
+    if (user)
+        return next(new AppError(404, `A user already exists with this email. Try Logging In.`));
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.USER_MAIL,
+            pass: process.env.USER_PASS
+        }
+    });
+
+    const resetToken = uuid();
+    const hashedToken = await bcrypt.hash(resetToken, 12);
+
+    if (!usertoken) {
+        await UserToken.create({
+            email: email,
+            token: hashedToken
+        });
+    } else {
+        await UserToken.updateOne({email: email}, { token: hashedToken });
+    }
+
+    const message = `Hey, Welcome to Birch Wood Ranch. \n\n Here is your signup token. Paste this token and verify it to get signup up - ${resetToken} \n\nHave a nice day!`;
+
+    const mailOptions = {
+        from: process.env.USER_MAIL,
+        // to: userMail,
+        to: 'spam22010904@gmail.com',
+        subject: 'Account Verification Mail',
+        text: message
+    };
+
+    transporter.sendMail(mailOptions, function (error) {
+        if (error)
+            return next(new AppError(500, 'Internal server error'));
+    });
+
+    res.status(200).json({
+        status: 'success'
+    });
+
+});
+
+const verifySignUpToken = catchAsync(async (req, res, next) => {
+
+    const { email, token } = req.body;
+
+    if (!token)
+        return next(new AppError(400, 'Enter the token'));
+
+    const user = await UserToken.findOne({ email: email });
+
+    if (!user)
+        return next(new AppError(404, `No user found with email ${userMail}. Try Signing Up Again.`));
+
+    // Check if the token is correct or not
+    const tokenIsCorrect = await bcrypt.compare(token, user.token);
+
+    if (!tokenIsCorrect)
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Invalid token'
+        });
+
+    res.status(200).json({
+        status: 'success'
+    });
+
+});
 
 // Signup / Create a new User
 const signup = catchAsync(async (req, res, next) => {
@@ -314,7 +397,7 @@ const sendRecoveryMail = catchAsync(async (req, res, next) => {
     const resetToken = uuid();
     const hashedToken = await bcrypt.hash(resetToken, 12);
 
-    const message = `Hey ${user.name}, \n\nForgot your password?\nWe received a request to reset the password for your Birch Wood Ranch Account.\n\nTo reset your password, enter the following token at the forgot password page - ${resetToken}`;
+    const message = `Hey ${user.name}, \n\nForgot your password?\nWe received a request to reset the password for your Birch Wood Ranch Account.\n\nTo reset your password, enter the following token at the forgot password page - ${resetToken}\n\nHave a nice day!`;
 
     await User.updateOne({ email: userMail }, { token: hashedToken });
 
@@ -428,4 +511,4 @@ const deleteQuery = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword, getUserQueries, postQuery, deleteQuery };
+module.exports = { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword, getUserQueries, postQuery, deleteQuery, sendToken, verifySignUpToken };

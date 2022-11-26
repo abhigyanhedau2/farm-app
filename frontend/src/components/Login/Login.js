@@ -94,6 +94,7 @@ const Login = () => {
     return (
         <div className={classes.loginPageWrapper}>
             <div className={classes.loginCardWrapper}>
+                <button className={classes.backBtn} onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left-long"></i></button>
                 <div className={classes.logoWrapper}>
                     <img src={logoPic} alt="Logo" />
                 </div>

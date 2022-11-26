@@ -7,9 +7,11 @@ const userControllers = require('../controllers/user-controllers');
 
 const router = express.Router();
 
-const { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword, getUserQueries, postQuery, deleteQuery } = userControllers;
+const { signup, login, getAllUsers, getUserFromUserId, postASeller, getMyDetails, updateMe, deleteMe, sendRecoveryMail, resetPassword, getUserQueries, postQuery, deleteQuery, sendToken, verifySignUpToken } = userControllers;
 
 // Signup / Create a new User
+router.route('/sendToken').post(sendToken);
+router.route('/verifyToken').post(verifySignUpToken);
 router.route('/signup').post(signup);
 
 // Login User

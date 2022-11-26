@@ -8,9 +8,11 @@ import { showError } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import useInput from '../../hooks/use-input';
+import usePreInput from '../../hooks/use-pre-input';
 
 import logoPic from '../../assets/logoPic.png';
 import classes from './Signup.module.css';
+import { useState } from 'react';
 
 const emailValidationFn = (value) => {
 
@@ -35,19 +37,24 @@ const Signup = () => {
 
     const navigate = useNavigate();
 
+    const [tokenSent, setTokenSent] = useState(false);
+    const [enteredTokenIsValid, setEnteredTokenIsValid] = useState(false);
+
     const dispatch = useDispatch();
 
     const { input: nameInput, inputIsValid: nameIsValid, inputIsTouched: nameIsTouched, inputChangeHandler: nameChangeHandler, inputTouchedHandler: nameTouchedHandler } = useInput(textIsEmptyFn);
-    const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = useInput(emailValidationFn);
+    const { input: emailInput, inputIsValid: emailIsValid, inputIsTouched: emailIsTouched, inputChangeHandler: emailChangeHandler, inputTouchedHandler: emailTouchedHandler } = usePreInput(emailValidationFn);
     const { input: passwordInput, inputIsValid: passwordIsValid, inputIsTouched: passwordIsTouched, inputChangeHandler: passwordChangeHandler, inputTouchedHandler: passwordTouchedHandler } = useInput(passwordValidationFn);
     const { input: addressInput, inputIsValid: addressIsValid, inputIsTouched: addressIsTouched, inputChangeHandler: addressChangeHandler, inputTouchedHandler: addressTouchedHandler } = useInput(textIsEmptyFn);
     const { input: numberInput, inputIsValid: numberIsValid, inputIsTouched: numberIsTouched, inputChangeHandler: numberChangeHandler, inputTouchedHandler: numberTouchedHandler } = useInput(numberValidatioFn);
+    const { input: tokenInput, inputIsValid: tokenIsValid, inputIsTouched: tokenIsTouched, inputChangeHandler: tokenChangeHandler, inputTouchedHandler: tokenTouchedHandler } = useInput(textIsEmptyFn);
 
     let nameClasses = undefined;
     let emailClasses = undefined;
     let passwordClasses = undefined;
     let addressClasses = undefined;
     let numberClasses = undefined;
+    let tokenClasses = undefined;
 
     if (nameIsTouched && nameIsValid)
         nameClasses = classes.inputCorrect;
@@ -79,10 +86,77 @@ const Signup = () => {
     if (numberIsTouched && !numberIsValid)
         numberClasses = classes.error;
 
-    const formSubmitHandler = async (event) => {
-        event.preventDefault();
+    if (tokenIsTouched && tokenIsValid)
+        tokenClasses = classes.inputCorrect;
 
-        if (nameIsValid && emailIsValid && passwordIsValid && addressIsValid && numberIsValid) {
+    if (tokenIsTouched && !tokenIsValid)
+        tokenClasses = classes.error;
+
+    const sendTokenHandler = async () => {
+
+        if (emailIsValid) {
+            dispatch(showLoader());
+
+            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/sendToken', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: emailInput
+                })
+            });
+
+            const data = await response.json();
+
+            dispatch(hideLoader());
+
+            if (data.status === 'success') {
+                setTokenSent(true);
+            } else {
+                dispatch(showError(data.message));
+            }
+        }
+
+        else {
+            emailClasses = classes.error;
+        }
+
+    };
+
+    const verifyTokenHandler = async () => {
+
+        if (tokenIsValid) {
+
+            dispatch(showLoader());
+
+            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/verifyToken', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: emailInput,
+                    token: tokenInput
+                })
+            });
+
+            const data = await response.json();
+
+            dispatch(hideLoader());
+
+            if (data.status === 'success') {
+                setEnteredTokenIsValid(true);
+            } else {
+                dispatch(showError(data.message));
+            }
+
+        }
+    };
+
+    const formSubmitHandler = async () => {
+
+        if (nameIsValid && emailIsValid && passwordIsValid && addressIsValid && numberIsValid && enteredTokenIsValid) {
 
             const name = nameInput;
             const email = emailInput;
@@ -126,15 +200,18 @@ const Signup = () => {
 
     };
 
+    const formSubmitHandlerDUMMY = (event) => { event.preventDefault(); };
+
     return (
         <div className={classes.signupPageWrapper}>
             <div className={classes.signupCardWrapper}>
+                <button className={classes.backBtn} onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left-long"></i></button>
                 <div className={classes.logoWrapper}>
                     <img src={logoPic} alt="Logo" />
                 </div>
                 <h1>Birch Wood Ranch</h1>
-                <form className={classes.signupForm} onSubmit={formSubmitHandler}>
-                    <div className={classes.inputWrapper}>
+                <form className={classes.signupForm} onSubmit={formSubmitHandlerDUMMY}>
+                    {enteredTokenIsValid && <div className={classes.inputWrapper}>
                         <label htmlFor="name">Name</label>
                         <input
                             className={nameClasses}
@@ -145,7 +222,7 @@ const Signup = () => {
                             onBlur={nameTouchedHandler}
                             onChange={nameChangeHandler}
                         />
-                    </div>
+                    </div>}
                     <div className={classes.inputWrapper}>
                         <label htmlFor="email">EMail</label>
                         <input
@@ -156,9 +233,22 @@ const Signup = () => {
                             value={emailInput}
                             onBlur={emailTouchedHandler}
                             onChange={emailChangeHandler}
+                            disabled={tokenSent}
                         />
                     </div>
-                    <div className={classes.inputWrapper}>
+                    {tokenSent && !enteredTokenIsValid && <div className={classes.inputWrapper}>
+                        <label htmlFor="token">Enter token</label>
+                        <input
+                            className={tokenClasses}
+                            type="text"
+                            name="token"
+                            id="token"
+                            value={tokenInput}
+                            onBlur={tokenTouchedHandler}
+                            onChange={tokenChangeHandler}
+                        />
+                    </div>}
+                    {enteredTokenIsValid && <div className={classes.inputWrapper}>
                         <label htmlFor="password">Password</label>
                         <input
                             className={passwordClasses}
@@ -169,8 +259,8 @@ const Signup = () => {
                             onBlur={passwordTouchedHandler}
                             onChange={passwordChangeHandler}
                         />
-                    </div>
-                    <div className={classes.inputWrapper}>
+                    </div>}
+                    {enteredTokenIsValid && <div className={classes.inputWrapper}>
                         <label htmlFor="address">Address</label>
                         <input
                             className={addressClasses}
@@ -181,8 +271,8 @@ const Signup = () => {
                             onBlur={addressTouchedHandler}
                             onChange={addressChangeHandler}
                         />
-                    </div>
-                    <div className={classes.inputWrapper}>
+                    </div>}
+                    {enteredTokenIsValid && <div className={classes.inputWrapper}>
                         <label htmlFor="number">Mobile Number</label>
                         <input
                             className={numberClasses}
@@ -193,8 +283,10 @@ const Signup = () => {
                             onBlur={numberTouchedHandler}
                             onChange={numberChangeHandler}
                         />
-                    </div>
-                    <button>Sign Up</button>
+                    </div>}
+                    {!tokenSent && !enteredTokenIsValid && <button onClick={sendTokenHandler}>Send Verification Token</button>}
+                    {tokenSent && !enteredTokenIsValid && <button onClick={verifyTokenHandler}>Verify Token</button>}
+                    {tokenSent && enteredTokenIsValid && <button onClick={formSubmitHandler}>Sign Up</button>}
                 </form>
                 <div className={classes.extraInfo}>
                     <p>Already have an account? <span><Link to="/login">Login</Link></span></p>
