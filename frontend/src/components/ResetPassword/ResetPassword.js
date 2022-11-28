@@ -59,7 +59,6 @@ const ResetPassword = () => {
     const formSubmitHandler = async (event) => {
 
         event.preventDefault();
-        dispatch(showLoader());
 
         if (passwordIsValid && tokenIsValid && emailIsValid) {
 
@@ -68,6 +67,9 @@ const ResetPassword = () => {
             const password = passwordInput;
 
             try {
+
+                dispatch(showLoader());
+
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/resetPassword', {
                     method: 'POST',
                     headers: {
@@ -81,18 +83,24 @@ const ResetPassword = () => {
                 const data = await response.json();
 
                 if (data.status === 'fail') {
+
                     dispatch(hideLoader());
                     dispatch(showError(data.message));
+
                 }
 
                 else {
+
                     dispatch(hideLoader());
                     dispatch(showSuccess('Password reset successful. You can now login with new password.'));
+
                 }
 
             } catch (error) {
+
                 dispatch(hideLoader());
                 dispatch(showError(error.message));
+                
             }
 
         }

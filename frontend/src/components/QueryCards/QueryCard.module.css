@@ -1,0 +1,19 @@
+.queryCardWrapper {
+    width: 35rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.queryCardWrapper p {
+    font-size: 1.5rem;
+}
+
+.actions button {
+    float: right;
+    margin: 2rem 1rem 1rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    color: white;
+    background: #50cd65;
+    border: none;
+}

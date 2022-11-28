@@ -60,23 +60,32 @@ const UserInfo = () => {
 
         const fetchUser = async () => {
 
-            dispatch(showLoader());
+            try {
 
-            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/users/getUser/${user._id}`);
+                dispatch(showLoader());
 
-            const data = await response.json();
+                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/users/getUser/${user._id}`);
 
-            dispatch(hideLoader());
+                const data = await response.json();
 
-            if (data.status === 'success') {
-                setNameInput(data.data.user.name);
-                setNameIsValid(true);
-                setAddressInput(data.data.user.address);
-                setAddressIsValid(true);
-                setNumberInput(data.data.user.number);
-                setNumberIsValid(true);
-            } else {
-                console.log('fail');
+                dispatch(hideLoader());
+
+                if (data.status === 'success') {
+                    setNameInput(data.data.user.name);
+                    setNameIsValid(true);
+                    setAddressInput(data.data.user.address);
+                    setAddressIsValid(true);
+                    setNumberInput(data.data.user.number);
+                    setNumberIsValid(true);
+                } else {
+                    console.log('fail');
+                }
+
+            } catch (error) {
+
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
+
             }
 
         };

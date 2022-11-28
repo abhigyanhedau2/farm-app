@@ -87,6 +87,8 @@ const Login = () => {
                 dispatch(showError(error.message));
             }
 
+            dispatch(hideLoader());
+
         }
 
     };

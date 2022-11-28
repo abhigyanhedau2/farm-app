@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Fragment } from 'react';
 import OrderCards from '../components/OrderCards/OrderCards';
+import { showError } from '../store/feedback-actions';
 
 const MyOrdersPage = () => {
 
@@ -27,21 +28,28 @@ const MyOrdersPage = () => {
 
         const fetchOrders = async () => {
 
-            dispatch(showLoader());
+            try {
 
-            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/orders`, {
-                method: "GET",
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+                dispatch(showLoader());
 
-            const data = await response.json();
+                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/orders`, {
+                    method: "GET",
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
 
-            dispatch(hideLoader());
+                const data = await response.json();
 
-            if (data.status === 'success')
-                setOrders(data.data.orders);
+                dispatch(hideLoader());
+
+                if (data.status === 'success')
+                    setOrders(data.data.orders);
+
+            } catch (error) {
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
+            }
         };
 
         if (token)

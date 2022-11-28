@@ -54,8 +54,6 @@ const Contact = () => {
 
     const formSubmitHandler = async (event) => {
 
-        dispatch(showLoader());
-
         event.preventDefault();
 
         const name = nameInput;
@@ -63,6 +61,8 @@ const Contact = () => {
         const query = queryInput;
 
         try {
+
+            dispatch(showLoader());
 
             const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/queries', {
                 method: 'POST',
@@ -75,17 +75,25 @@ const Contact = () => {
             })
 
             if (response.ok) {
+
                 dispatch(hideLoader());
                 dispatch(showSuccess("Query sent successfully. We'll get back to you at the earliest."));
+
             } else {
+
                 dispatch(hideLoader());
                 dispatch(showError('Query sending failed. Try again later.'));
+
             }
 
         } catch (error) {
+
             dispatch(hideLoader());
             dispatch(showError(error.message));
+
         }
+        
+        dispatch(hideLoader());
     };
 
     return (

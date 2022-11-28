@@ -44,10 +44,7 @@ const AddCategoryModal = (props) => {
 
     const categoryFormSubmitHandler = async () => {
 
-        dispatch(showLoader());
-
         if (file === undefined) {
-            dispatch(hideLoader());
             dispatch(showError('Add a category image.'));
         }
 
@@ -63,6 +60,8 @@ const AddCategoryModal = (props) => {
             formData.append('image', file);
 
             try {
+
+                dispatch(showLoader());
 
                 await axios.post("https://birch-wood-farm.herokuapp.com/api/v1/category", formData,
                     {
@@ -102,6 +101,8 @@ const AddCategoryModal = (props) => {
 
             try {
 
+                dispatch(showLoader());
+
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/products/subCategory', {
                     method: 'POST',
                     headers: {
@@ -132,6 +133,8 @@ const AddCategoryModal = (props) => {
                 dispatch(hideLoader());
                 dispatch(showError('Some error occured while posting the sub category. Try again later.'));
             }
+
+            dispatch(hideLoader());
 
         }
 

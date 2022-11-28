@@ -43,7 +43,7 @@ const sendToken = catchAsync(async (req, res, next) => {
             token: hashedToken
         });
     } else {
-        await UserToken.updateOne({email: email}, { token: hashedToken });
+        await UserToken.updateOne({ email: email }, { token: hashedToken });
     }
 
     const message = `Hey, Welcome to Birch Wood Ranch. \n\n Here is your signup token. Paste this token and verify it to get signup up - ${resetToken} \n\nHave a nice day!`;
@@ -139,6 +139,8 @@ const signup = catchAsync(async (req, res, next) => {
 
     // Create JWT token and sign it
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_EXPIRES_IN });
+
+    await UserToken.deleteOne({ email: newUser.email });
 
     res.status(201).json({
         status: 'success',

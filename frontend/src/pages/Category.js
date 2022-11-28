@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import CategoryHeader from '../components/CategoryHeader/CategoryHeader';
 import CategoryProducts from '../components/CategoryProducts/CategoryProducts';
 import Loader from '../components/Loader/Loader';
+import { showError } from '../store/feedback-actions';
+import { showLoader, hideLoader } from '../store/loader-actions';
 
 const Category = () => {
+
+    const dispatch = useDispatch();
 
     const requestedCategory = useParams().category;
 
@@ -16,12 +20,21 @@ const Category = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/category`);
-            const data = await response.json();
-            setCategories(data.data.categories);
+
+            try {
+                dispatch(showLoader());
+                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/category`);
+                const data = await response.json();
+                dispatch(hideLoader());
+                setCategories(data.data.categories);
+            } catch (error) {
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
+            }
+
         };
         fetchCategories();
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         window.scrollTo(0, 0);

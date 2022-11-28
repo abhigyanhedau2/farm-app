@@ -32,6 +32,7 @@ import UserInfoPage from './pages/UserInfoPage';
 import AddSellerPage from './pages/AddSellerPage';
 import ManageProducts from './pages/ManageProducts';
 import MyOrdersPage from './pages/MyOrdersPage';
+import QueriesPage from './pages/QueriesPage';
 
 const App = () => {
 
@@ -79,9 +80,10 @@ const App = () => {
 						<Route path="/manageProducts" element={<ManageProducts />} />
 						<Route path="/purchases" element={<PurchasePage />} />
 						<Route path="/receivedorders" element={<MyOrdersPage />} />
+						<Route path="/customerqueries" element={<QueriesPage />} />
 						<Route path="/me" element={<UserInfoPage />} />
 						<Route path="/addSeller" element={<AddSellerPage />} />
-						{<Route path="/cart/:userId" element={<CartPage />} />}
+						<Route path="/cart/:userId" element={<CartPage />} />
 						<Route path="/category/:category" element={<Category />} />
 					</Routes>
 				</main>

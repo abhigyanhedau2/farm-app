@@ -159,9 +159,9 @@
   .navbar ul.responsiveUlList {
     display: flex;
     position: absolute;
-    top: 20vh;
-    width: 40vw;
-    left: calc(60vw / 2);
+    top: 10vh;
+    width: 50vw;
+    left: calc(50vw / 2);
     list-style: none;
     text-align: center;
     flex-direction: column;
@@ -170,8 +170,9 @@
   }
 
   .navbar ul.responsiveUlList li {
+    width: 100%;
     font-size: 3.5rem;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
 
   .navbar ul.responsiveUlList li a {

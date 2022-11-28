@@ -8,6 +8,7 @@ import OneSideHR from '../UIElements/HR/OneSideHR';
 
 import classes from './SubCategories.module.css';
 import { useState } from 'react';
+import { showError } from '../../store/feedback-actions';
 
 const SubCategories = (props) => {
 
@@ -22,12 +23,22 @@ const SubCategories = (props) => {
 
         dispatch(showLoader());
 
-        await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        try {
+
+            await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+        } catch (error) {
+
+            dispatch(hideLoader());
+
+            dispatch(showError(error.message));
+
+        }
 
         dispatch(hideLoader());
 

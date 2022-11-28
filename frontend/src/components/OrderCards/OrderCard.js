@@ -8,6 +8,7 @@ import OrderCardItem from './OrderCardItem';
 import Card from '../UIElements/Card/Card';
 
 import classes from './OrderCard.module.css';
+import { showError } from '../../store/feedback-actions';
 
 const PurchaseCard = (props) => {
 
@@ -39,21 +40,28 @@ const PurchaseCard = (props) => {
 
     const sendDeleteRequest = async (orderId) => {
 
-        dispatch(showLoader());
+        try {
 
-        const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/orders/${orderId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+            dispatch(showLoader());
 
-        const data = await response.json();
+            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/orders/${orderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
-        dispatch(hideLoader());
+            const data = await response.json();
 
-        if (data.status !== 'success')
-            console.log(data);
+            dispatch(hideLoader());
+
+            if (data.status !== 'success')
+                console.log(data);
+
+        } catch (error) {
+            dispatch(hideLoader());
+            dispatch(showError(error.message));
+        }
 
     };
 

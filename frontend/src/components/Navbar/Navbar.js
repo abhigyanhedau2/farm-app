@@ -55,16 +55,19 @@ const Navbar = () => {
         </div>
     );
 
+    const contactNavConditions = (isLoggedIn && user && user.role !== 'admin') || (!isLoggedIn);
+
     return (
         <Fragment>
             <nav className={classes.navbar}>
                 {showMenu && (<ul className={classes.responsiveUlList}>
                     <li onClick={showMenuHandler}><Link to='/'>Home</Link></li>
-                    <li onClick={showMenuHandler}><Link to='/contact'>Contact</Link></li>
+                    {contactNavConditions && <li onClick={showMenuHandler}><Link to='/contact'>Contact</Link></li>}
                     {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/postProduct'>Add Product</Link></li>}
-                    {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/manageProducts'>Manage Products</Link></li>}
-                    {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/receivedorders'>Received Orderes</Link></li>}
+                    {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/manageProducts'>Manage</Link></li>}
+                    {isLoggedIn && user && user.role === 'seller' && <li onClick={showMenuHandler}><Link to='/receivedorders'>Orders</Link></li>}
                     {isLoggedIn && user && user.role === 'customer' && <li onClick={showMenuHandler}><Link to='/purchases'>My Orders</Link></li>}
+                    {isLoggedIn && user && user.role === 'admin' && <li onClick={showMenuHandler}><Link to='/customerqueries'>Queries</Link></li>}
                     {isLoggedIn && user && <li onClick={showMenuHandler}><Link to='/me'>My Info</Link></li>}
                     {isLoggedIn && user && <li onClick={showMenuHandler}><Link to='/' onClick={logoutClickHander}>Logout</Link></li>}
                 </ul>)}
@@ -72,10 +75,11 @@ const Navbar = () => {
                     <div className={classes.navbar__navlinks}>
                         <ul className={ulClass}>
                             <li className={path === '/' ? classes.active : ''}><Link to='/'>Home</Link></li>
-                            <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>
+                            {contactNavConditions && <li className={path === '/contact' ? classes.active : ''}><Link to='/contact'>Contact</Link></li>}
                             {isLoggedIn && user && user.role === 'seller' && <li className={path === '/postProduct' ? classes.active : ''}><Link to='/postProduct'>Add Product</Link></li>}
                             {isLoggedIn && user && user.role === 'seller' && <li className={path === '/manageProducts' ? classes.active : ''}><Link to='/manageProducts'>Manage</Link></li>}
                             {isLoggedIn && user && user.role === 'seller' && <li className={path === '/receivedorders' ? classes.active : ''}><Link to='/receivedorders'>Orders</Link></li>}
+                            {isLoggedIn && user && user.role === 'admin' && <li className={path === '/customerqueries' ? classes.active : ''}><Link to='/customerqueries'>Queries</Link></li>}
                             {isLoggedIn && user && user.role === 'customer' && <li className={path === '/purchases' ? classes.active : ''}><Link to='/purchases'>My Orders</Link></li>}
                         </ul>
                     </div>

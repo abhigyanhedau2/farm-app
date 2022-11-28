@@ -9,6 +9,7 @@ import ProductCard from '../components/CategoryProducts/ProductCard';
 import emptyBoxImg from '../assets/box.png';
 
 import classes from '../components/CategoryProducts/CategoryProducts.module.css';
+import { showError } from '../store/feedback-actions';
 
 const ManageProducts = () => {
 
@@ -28,20 +29,27 @@ const ManageProducts = () => {
 
         const fetchSellerProducts = async () => {
 
-            dispatch(showLoader());
+            try {
 
-            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/seller/${user._id}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+                dispatch(showLoader());
 
-            const data = await response.json();
+                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/seller/${user._id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
 
-            dispatch(hideLoader());
+                const data = await response.json();
 
-            setProducts(data.data.products);
+                dispatch(hideLoader());
+
+                setProducts(data.data.products);
+
+            } catch (error) {
+                dispatch(hideLoader());
+                dispatch(showError(error.message));
+            }
 
         };
 
@@ -52,18 +60,23 @@ const ManageProducts = () => {
 
     const deleteProductHandler = async (id) => {
 
-        dispatch(showLoader());
+        try {
+            dispatch(showLoader());
 
-        await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+            await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
-        dispatch(hideLoader());
+            dispatch(hideLoader());
 
-        window.location.reload();
+            window.location.reload();
+        } catch (error) {
+            dispatch(hideLoader());
+            dispatch(showError(error.message));
+        }
 
     };
 

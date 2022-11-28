@@ -38,13 +38,14 @@ const ForgotPassword = () => {
     const formSubmitHandler = async (event) => {
         event.preventDefault();
 
-        dispatch(showLoader());
-
         if (emailIsValid) {
 
             const email = emailInput;
 
             try {
+
+                dispatch(showLoader());
+
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/forgotPassword', {
                     method: 'POST',
                     headers: {
@@ -56,18 +57,24 @@ const ForgotPassword = () => {
                 });
 
                 if (response.ok) {
+
                     dispatch(hideLoader());
                     dispatch(showSuccess('Verification token sent successfully. Please check your mail.'));
                     navigate('/resetPassword');
+
                 } else {
+
                     dispatch(hideLoader());
                     dispatch(showError('Token sending failed. Try again later.'));
+
                 }
 
             } catch (error) {
                 dispatch(hideLoader());
                 dispatch(showError(error.message));
             }
+
+            dispatch(hideLoader());
 
         }
 

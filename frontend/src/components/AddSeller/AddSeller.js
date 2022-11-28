@@ -83,8 +83,6 @@ const AddSeller = () => {
     const formSubmitHandler = async (event) => {
         event.preventDefault();
 
-        dispatch(showLoader());
-
         if (nameIsValid && emailIsValid && passwordIsValid && addressIsValid && numberIsValid) {
 
             const name = nameInput;
@@ -94,6 +92,8 @@ const AddSeller = () => {
             const number = numberInput;
 
             try {
+
+                dispatch(showLoader());
 
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/users/addSeller', {
                     method: 'POST',
@@ -109,8 +109,9 @@ const AddSeller = () => {
 
                 const data = await response.json();
 
+                dispatch(hideLoader());
+
                 if (data.status === 'fail') {
-                    dispatch(hideLoader());
                     dispatch(showError(data.message));
                 }
 

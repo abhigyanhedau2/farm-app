@@ -70,23 +70,27 @@ const PostProduct = () => {
     useEffect(() => {
 
         const fetchCategories = async () => {
+            dispatch(showLoader());
             const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
             const data = await response.json();
             const fetchedCategories = data.data.categories.map(category => category.category);
+            dispatch(hideLoader());
             setCategories(fetchedCategories);
         };
-
+        
         const fetchSubCategories = async () => {
+            dispatch(showLoader());
             const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/products/subCategory');
             const data = await response.json();
             const fetchedCategories = data.data.subcategories.map(subCategory => subCategory.subCategory);
+            dispatch(hideLoader());
             setSubCategories(fetchedCategories);
         };
 
         fetchCategories();
         fetchSubCategories();
 
-    }, []);
+    }, [dispatch]);
 
     const fileSelected = event => {
         const file = event.target.files[0]

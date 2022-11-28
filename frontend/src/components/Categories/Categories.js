@@ -23,13 +23,25 @@ const Categories = () => {
     useEffect(() => {
 
         const fetchCategories = async () => {
+
             try {
+
+                dispatch(showLoader());
+
                 const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
+
                 const data = await response.json();
+
+                dispatch(hideLoader());
                 setCategories(data.data.categories);
+
             } catch (error) {
+
+                dispatch(hideLoader());
                 dispatch(showError(error.message));
+
             }
+            
         };
 
         fetchCategories();
@@ -44,7 +56,9 @@ const Categories = () => {
     let categoryCards;
 
     if (categories.length !== 0) {
+
         dispatch(hideLoader());
+        
         categoryCards = categories.map(category => {
             return (<Card key={category._id} className={classes.category__card}>
                 <div className={classes.cardImg}>

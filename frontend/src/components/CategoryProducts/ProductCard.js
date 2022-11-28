@@ -11,6 +11,7 @@ import egg from '../../assets/egg.png';
 
 import UpdateProductModal from './UpdateProductModal';
 import classes from './ProductCard.module.css';
+import { showError } from '../../store/feedback-actions';
 
 const ProductCard = (props) => {
 
@@ -75,6 +76,11 @@ const ProductCard = (props) => {
             return;
         }
 
+        if (isLoggedIn && user && user.role !== 'customer') {
+            dispatch(showError('Only customers can buy products. Please log into customer account.'));
+            return;
+        }
+
         dispatch(triggerCartButtonAnimation());
 
         setCurrProductQuantity(prev => ++prev);
@@ -84,6 +90,16 @@ const ProductCard = (props) => {
     };
 
     const decrementQuantityHandler = () => {
+
+        if (!isLoggedIn) {
+            navigate('/login');
+            return;
+        }
+
+        if (isLoggedIn && user && user.role !== 'customer') {
+            dispatch(showError('Only customers can buy products. Please log into customer account.'));
+            return;
+        }
 
         setCurrProductQuantity(prev => --prev);
 

@@ -26,16 +26,23 @@ const CategoryProducts = (props) => {
 
         const fetchProducts = async () => {
 
-            dispatch(showLoader());
-
             try {
+
+                dispatch(showLoader());
+
                 const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/category/${props.category}`);
+
                 const data = await response.json();
-                setProducts(data.products);
+
                 dispatch(hideLoader());
+
+                setProducts(data.products);
+
             } catch (error) {
+
                 dispatch(hideLoader());
                 dispatch(showError(error.message));
+
             }
         };
 
@@ -60,6 +67,8 @@ const CategoryProducts = (props) => {
             dispatch(hideLoader());
             window.location.reload();
         }
+        
+        dispatch(hideLoader());
 
     };
 
@@ -68,7 +77,7 @@ const CategoryProducts = (props) => {
         let hasSubCategory = false;
 
         products.forEach(product => {
-            if (product.subCategory) {
+            if (product.subCategory && product.subCategory !== "null") {
                 hasSubCategory = true;
             }
         })
