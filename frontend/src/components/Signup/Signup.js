@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { login } from '../../store/auth-actions';
-import { showError } from '../../store/feedback-actions';
+import { showError, showSuccess } from '../../store/feedback-actions';
 import { showLoader, hideLoader } from '../../store/loader-actions';
 
 import useInput from '../../hooks/use-input';
@@ -113,6 +113,7 @@ const Signup = () => {
 
             if (data.status === 'success') {
                 setTokenSent(true);
+                dispatch(showSuccess('A verification token has been sent to your email. Copy and paste the verification token here to complete the verification process.'));
             } else {
                 dispatch(showError(data.message));
             }

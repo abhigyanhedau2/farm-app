@@ -46,12 +46,12 @@ const sendToken = catchAsync(async (req, res, next) => {
         await UserToken.updateOne({ email: email }, { token: hashedToken });
     }
 
-    const message = `Hey, Welcome to Birch Wood Ranch. \n\n Here is your signup token. Paste this token and verify it to get signup up - ${resetToken} \n\nHave a nice day!`;
+    const message = `Hey, Welcome to Birch Wood Ranch. Thank you for registering. \n\nYou may sign up by copying and pasting the following token at the signup screen - ${resetToken} \n\nHave a nice day!\n\nRegards,\nBirch Wood Ranch by Abhigyan Hedau`;
 
     const mailOptions = {
         from: process.env.USER_MAIL,
-        // to: userMail,
-        to: 'spam22010904@gmail.com',
+        // to: 'spam22010904@gmail.com',
+        to: email,
         subject: 'Account Verification Mail',
         text: message
     };
@@ -399,14 +399,14 @@ const sendRecoveryMail = catchAsync(async (req, res, next) => {
     const resetToken = uuid();
     const hashedToken = await bcrypt.hash(resetToken, 12);
 
-    const message = `Hey ${user.name}, \n\nForgot your password?\nWe received a request to reset the password for your Birch Wood Ranch Account.\n\nTo reset your password, enter the following token at the forgot password page - ${resetToken}\n\nHave a nice day!`;
+    const message = `Hey ${user.name}, \n\nForgot your password?\nWe received a request to reset the password for your Birch Wood Ranch Account.\n\nTo reset your password, enter the following token at the forgot password page - ${resetToken}\n\nHave a nice day!\n\nRegards,\nBirch Wood Ranch by Abhigyan Hedau`;
 
     await User.updateOne({ email: userMail }, { token: hashedToken });
 
     const mailOptions = {
         from: process.env.USER_MAIL,
-        // to: userMail,
-        to: 'spam22010904@gmail.com',
+        to: userMail,
+        // to: 'spam22010904@gmail.com',
         subject: 'Account Recovery Mail',
         text: message
     };

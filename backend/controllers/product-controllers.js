@@ -79,7 +79,20 @@ const getProductsByCategory = catchAsync(async (req, res, next) => {
 
     const category = req.params.category.toString();
 
-    const products = await Product.find({ category: category });
+    // const products = await Product.find({ category: category });
+
+    const products = await Product.aggregate([
+        {
+            $match: {
+                category: category
+            }
+        },
+        {
+            $sort: {
+                price: 1
+            }
+        }
+    ]);
 
     if (!products) {
         next();

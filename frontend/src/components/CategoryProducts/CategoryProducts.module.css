@@ -45,4 +45,10 @@
   .subCategoryProductsWrapper {
     padding: 2rem 2rem;
   }
+
+  .noProductsWrapper {
+    width: 90vw;
+    margin-left: 5vw;
+    text-align: center;
+  }
 }

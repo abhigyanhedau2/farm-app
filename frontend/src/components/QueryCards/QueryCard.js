@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { showLoader, hideLoader } from '../../store/loader-actions';
-import { showError, showSuccess } from '../../store/feedback-actions';
+import { showError } from '../../store/feedback-actions';
 
 import Card from '../UIElements/Card/Card';
 import classes from './QueryCard.module.css';

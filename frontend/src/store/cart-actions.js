@@ -372,8 +372,6 @@ export const postCart = (userId, token, cart) => {
 
             const data = await response.json();
 
-            // console.log(data);
-
             if (data.status === 'success')
                 showSuccess('Order Placed!');
 
@@ -385,7 +383,6 @@ export const postCart = (userId, token, cart) => {
             showError(error.message);
 
         }
-
 
         // Empty cart login after posting order 
         try {

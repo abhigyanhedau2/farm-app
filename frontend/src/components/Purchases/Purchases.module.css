@@ -26,3 +26,11 @@
   font-weight: 500;
 }
 
+@media screen and (max-width: 700px) {
+
+  .noProductsWrapper {
+    width: 90vw;
+    margin-left: 5vw;
+    text-align: center;
+  }
+}
