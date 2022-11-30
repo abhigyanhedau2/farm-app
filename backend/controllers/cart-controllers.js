@@ -1,6 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const getImageFromBucket = require('../utils/getImageFromBucket');
+// const getImageFromBucket = require('../utils/getImageFromBucket');
 const Cart = require('../models/cart-model');
 const Order = require('../models/order-model');
 const Purchase = require('../models/purchase-model');
@@ -16,9 +16,9 @@ const getCart = catchAsync(async (req, res, next) => {
 
     const cart = await Cart.findOne({ userId }).populate('products.product', 'name category price quantityPerBox veg icon image description');
 
-    for (const product of cart.products) {
-        product.product.image = await getImageFromBucket(product.product.image);
-    }
+    // for (const product of cart.products) {
+    //     product.product.image = await getImageFromBucket(product.product.image);
+    // }
 
     // If no cart is found, send null
     if (!cart)

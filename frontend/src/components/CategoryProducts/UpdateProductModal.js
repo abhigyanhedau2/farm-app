@@ -190,7 +190,7 @@ const UpdateProductModal = (props) => {
 
                 setShowLoader2(true);
 
-                await axios.patch(`http://birch-wood-farm.herokuapp.com/api/v1/products/${props.id}`, formData,
+                await axios.patch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${props.id}`, formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
