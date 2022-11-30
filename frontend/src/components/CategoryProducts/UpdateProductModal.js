@@ -210,7 +210,7 @@ const UpdateProductModal = (props) => {
 
             } catch (error) {
                 setShowLoader2(false);
-                console.log(error);
+                // console.log(error);
                 dispatch(showError('Some error occured while posting the product. Try again later.'));
             }
 
