@@ -166,6 +166,7 @@ const PostProduct = () => {
             } catch (error) {
                 dispatch(hideLoader());
                 dispatch(showError('Some error occured while posting the product. Try again later.'));
+                // dispatch(showError(error.message));
             }
 
         }

@@ -1,4 +1,4 @@
-const getImageFromBucket = require('../utils/getImageFromBucket');
+// const getImageFromBucket = require('../utils/getImageFromBucket');
 const Purchase = require("../models/purchase-model");
 const catchAsync = require("../utils/catchAsync");
 
@@ -11,13 +11,13 @@ const getMyPurchases = catchAsync(async (req, res, next) => {
 
     // Convert the image name stored in the DB to the image url we'll use 
     // to fetch the image
-    for (const purchase of purchases) {
+    // for (const purchase of purchases) {
 
-        for (const products of purchase.products) {
-            products.product.image = await getImageFromBucket(products.product.image);
-        }
+    //     for (const products of purchase.products) {
+    //         products.product.image = await getImageFromBucket(products.product.image);
+    //     }
 
-    }
+    // }
 
     if (!purchases)
         return res.status(200).json({
