@@ -64,6 +64,7 @@ const AddCategoryModal = (props) => {
                 dispatch(showLoader());
 
                 await axios.post("https://birch-wood-farm.herokuapp.com/api/v1/category", formData,
+                // await axios.post("http://localhost:5000/api/v1/category", formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',

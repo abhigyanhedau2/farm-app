@@ -10,6 +10,8 @@ import { showLoader, hideLoader } from '../../store/loader-actions';
 import Card from '../UIElements/Card/Card';
 import HR from '../UIElements/HR/HR';
 
+import emptyBoxImg from '../../assets/box.png';
+
 import classes from './Categories.module.css';
 
 const Categories = () => {
@@ -41,7 +43,7 @@ const Categories = () => {
                 dispatch(showError(error.message));
 
             }
-            
+
         };
 
         fetchCategories();
@@ -57,8 +59,6 @@ const Categories = () => {
 
     if (categories.length !== 0) {
 
-        dispatch(hideLoader());
-        
         categoryCards = categories.map(category => {
             return (<Card key={category._id} className={classes.category__card}>
                 <div className={classes.cardImg}>
@@ -88,9 +88,14 @@ const Categories = () => {
     }
 
     else {
-        dispatch(showLoader());
-    }
-
-};
+        return (
+            <div className={classes.noProductsWrapper}>
+                <img src={emptyBoxImg} alt="Empty box" />
+                <p>No Categories to show. ☹️</p>
+                <p>Come back later.</p>
+            </div>
+        );
+    };
+}
 
 export default Categories;
