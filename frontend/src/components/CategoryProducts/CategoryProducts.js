@@ -87,7 +87,7 @@ const CategoryProducts = (props) => {
             const getHeadings = products.map(item => item.subCategory);
             let getFilteredHeadings = [];
             getFilteredHeadings = getHeadings.filter(e => !(getFilteredHeadings[e] = e in getFilteredHeadings));
-            // getFilteredHeadings.sort();
+            getFilteredHeadings.sort();
 
             dispatch(hideLoader());
             return (
