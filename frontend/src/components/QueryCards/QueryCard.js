@@ -19,7 +19,7 @@ const QueryCard = (props) => {
 
             dispatch(showLoader());
 
-            await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/users/allqueries/${props.id}`, {
+            await fetch(`https://farm-backend-production.up.railway.app/api/v1/users/allqueries/${props.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

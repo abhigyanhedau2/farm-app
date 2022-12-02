@@ -32,7 +32,7 @@ const MyOrdersPage = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/orders`, {
+                const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/orders`, {
                     method: "GET",
                     headers: {
                         'Authorization': `Bearer ${token}`

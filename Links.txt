@@ -1,3 +1,3 @@
-Frontend link - https://birch-wood-ranch.web.app/
+Frontend link - https://birch-wood-ranch-2352d.web.app/
 
-Backend link - https://birch-wood-farm.herokuapp.com/
+Backend link - https://farm-backend-production.up.railway.app/

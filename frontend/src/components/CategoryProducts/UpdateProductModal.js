@@ -75,13 +75,15 @@ const UpdateProductModal = (props) => {
 
         const fetchProductDetails = async () => {
 
+            dispatch(showLoader());
             setShowLoader2(true);
-
-            const response = await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${props.id}`);
-
+            
+            const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/${props.id}`);
+            
             const data = await response.json();
-
+            
             setShowLoader2(false);
+            dispatch(hideLoader());
 
             setName(data.data.product.name);
             setNameIsValid(true);
@@ -105,7 +107,7 @@ const UpdateProductModal = (props) => {
             setRatingIsValid(true);
 
             categoryRef.current.value = data.data.product.category;
-            subCategoryRef.current.value = data.data.product.subCategory || 'None';
+            subCategoryRef.current.value = data.data.product.subCategory === null ? 'None' : data.data.product.subCategory;
             vegRef.current.value = data.data.product.veg;
 
         };
@@ -120,7 +122,7 @@ const UpdateProductModal = (props) => {
 
         const fetchCategories = async () => {
             dispatch(showLoader());
-            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
+            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/category');
             const data = await response.json();
             const fetchedCategories = data.data.categories.map(category => category.category);
             dispatch(hideLoader());
@@ -129,7 +131,7 @@ const UpdateProductModal = (props) => {
 
         const fetchSubCategories = async () => {
             dispatch(showLoader());
-            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/products/subCategory');
+            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/products/subCategory');
             const data = await response.json();
             const fetchedCategories = data.data.subcategories.map(subCategory => subCategory.subCategory);
             dispatch(hideLoader());
@@ -190,7 +192,7 @@ const UpdateProductModal = (props) => {
 
                 setShowLoader2(true);
 
-                await axios.patch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${props.id}`, formData,
+                await axios.patch(`https://farm-backend-production.up.railway.app/api/v1/products/${props.id}`, formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
@@ -198,10 +200,12 @@ const UpdateProductModal = (props) => {
                         }
                     }).then((response) => {
                         if (response.data.status === 'success') {
-                            dispatch(hideLoader());
-                            dispatch(showSuccess('Product updated successfully'));
                             window.location.reload();
+                            setShowLoader2(false);
+                            dispatch(hideLoader());
+                            dispatch(showSuccess('Product updated successfully. Refresh the page to see updated product.'));
                         } else {
+                            setShowLoader2(false);
                             dispatch(hideLoader());
                             dispatch(showError('Some error occured while posting the product. Try again later.'));
                         }
@@ -254,15 +258,27 @@ const UpdateProductModal = (props) => {
                             <div className={classes.inputWrapper}>
                                 <label htmlFor="category">Category</label>
                                 <select ref={categoryRef} name="category" id="category">
-                                    {categories.map(category => <option key={category} value={category}>{category}</option>)}
+                                    {categoryRef.current && <option value={categoryRef.current.value}>{categoryRef.current.value}</option>}
+                                    {categories.map(category => {
+                                        if (categoryRef.current && category !== categoryRef.current.value)
+                                            return <option key={category} value={category}>{category}</option>
+                                        else
+                                            return null;
+                                    })}
                                 </select>
                                 <button onClick={addCategoryHandler.bind(null, 'category')}>Add Category</button>
                             </div>
                             <div className={classes.inputWrapper}>
                                 <label htmlFor="category">Sub Category</label>
                                 <select ref={subCategoryRef} name="category" id="category">
-                                    <option value={null}>None</option>
-                                    {subCategories.map(subCategory => <option key={subCategory} value={subCategory}>{subCategory}</option>)}
+                                    {subCategoryRef.current && <option value={subCategoryRef.current.value.trim().length === 0 ? null : subCategoryRef.current.value}>{subCategoryRef.current.value.trim().length === 0 ? 'None' : subCategoryRef.current.value}</option>}
+                                    {subCategoryRef.current && subCategoryRef.current.value.trim().length !== 0 && <option value={null}>None</option>}
+                                    {subCategories.map(subCategory => {
+                                        if (subCategoryRef.current && subCategory !== subCategoryRef.current.value)
+                                            return <option key={subCategory} value={subCategory}>{subCategory}</option>
+                                        else
+                                            return null;
+                                    })}
                                 </select>
                                 <button onClick={addSubCategoryHandler.bind(null, 'subcategory')}>Add Sub Category</button>
                             </div>
@@ -367,8 +383,9 @@ const UpdateProductModal = (props) => {
                         <button className={classes.btnAlt} onClick={props.toggleModal}>Close</button>
                     </div>
                 </CenteredModal>
-            )}
-        </div>
+            )
+            }
+        </div >
     )
 };
 

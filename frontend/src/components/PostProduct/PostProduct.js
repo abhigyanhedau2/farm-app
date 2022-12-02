@@ -71,7 +71,7 @@ const PostProduct = () => {
 
         const fetchCategories = async () => {
             dispatch(showLoader());
-            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/category');
+            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/category');
             const data = await response.json();
             const fetchedCategories = data.data.categories.map(category => category.category);
             dispatch(hideLoader());
@@ -80,7 +80,7 @@ const PostProduct = () => {
         
         const fetchSubCategories = async () => {
             dispatch(showLoader());
-            const response = await fetch('https://birch-wood-farm.herokuapp.com/api/v1/products/subCategory');
+            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/products/subCategory');
             const data = await response.json();
             const fetchedCategories = data.data.subcategories.map(subCategory => subCategory.subCategory);
             dispatch(hideLoader());
@@ -145,7 +145,7 @@ const PostProduct = () => {
 
                 dispatch(showLoader());
 
-                await axios.post("https://birch-wood-farm.herokuapp.com/api/v1/products/", formData,
+                await axios.post("https://farm-backend-production.up.railway.app/api/v1/products/", formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',

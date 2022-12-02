@@ -25,7 +25,7 @@ const SubCategories = (props) => {
 
         try {
 
-            await fetch(`https://birch-wood-farm.herokuapp.com/api/v1/products/${id}`, {
+            await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
