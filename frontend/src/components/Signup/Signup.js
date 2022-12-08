@@ -97,7 +97,7 @@ const Signup = () => {
         if (emailIsValid) {
             dispatch(showLoader());
 
-            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/users/sendToken', {
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ const Signup = () => {
 
             dispatch(showLoader());
 
-            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/users/verifyToken', {
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/verifyToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -169,7 +169,7 @@ const Signup = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/users/signup', {
+                const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

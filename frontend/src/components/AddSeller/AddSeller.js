@@ -95,7 +95,7 @@ const AddSeller = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/users/addSeller', {
+                const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/addSeller', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

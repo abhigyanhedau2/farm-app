@@ -27,7 +27,7 @@ const QueryCards = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/users/allqueries', {
+                const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/allqueries', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`

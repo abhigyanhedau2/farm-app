@@ -25,7 +25,7 @@ const Purchases = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/purchases/', {
+                const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/purchases/', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -35,14 +35,15 @@ const Purchases = () => {
                 const data = await response.json();
 
                 dispatch(hideLoader());
-
-                setPurchases(data.data.purchases);
+                
+                if (data.data)
+                    setPurchases(data.data.purchases);
 
             } catch (error) {
 
                 dispatch(hideLoader());
                 dispatch(showError(error.message));
-                
+
             }
         };
 

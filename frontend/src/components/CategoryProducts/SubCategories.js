@@ -25,7 +25,7 @@ const SubCategories = (props) => {
 
         try {
 
-            await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/${id}`, {
+            await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

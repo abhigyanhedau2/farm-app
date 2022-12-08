@@ -7,7 +7,7 @@ const fetchCartRequest = async (userId, token) => {
 
     try {
 
-        const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/unpopulated/${userId}`, {
+        const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/unpopulated/${userId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -38,7 +38,7 @@ export const emptyCart = (userId, token) => {
 
         try {
 
-            const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/${userId}`, {
+            const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/${userId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ export const addToCartHandler = (userId, token, productId) => {
 
                 } else {    // The product does not exist
 
-                    const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/${productId}`);
+                    const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/${productId}`);
 
                     const data = await response.json();
 
@@ -186,7 +186,7 @@ export const addToCartHandler = (userId, token, productId) => {
 
                 try {
 
-                    const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/${userId}`, {
+                    const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/${userId}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ export const removeFromCartHandler = (userId, token, productId) => {
 
                     dispatch(loaderActions.setLoaderState(true));
 
-                    const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/${userId}`, {
+                    const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/${userId}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -357,7 +357,7 @@ export const postCart = (userId, token, cart) => {
 
         try {
 
-            const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/${userId}`, {
+            const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -387,7 +387,7 @@ export const postCart = (userId, token, cart) => {
         // Empty cart login after posting order 
         try {
 
-            const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/${userId}`, {
+            const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/${userId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

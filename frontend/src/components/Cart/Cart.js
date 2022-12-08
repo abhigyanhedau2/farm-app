@@ -35,7 +35,7 @@ const Cart = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/cart/${userId}`, {
+                const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/cart/${userId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`

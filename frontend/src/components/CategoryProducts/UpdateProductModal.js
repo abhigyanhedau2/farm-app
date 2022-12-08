@@ -78,7 +78,7 @@ const UpdateProductModal = (props) => {
             dispatch(showLoader());
             setShowLoader2(true);
             
-            const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/${props.id}`);
+            const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/${props.id}`);
             
             const data = await response.json();
             
@@ -122,7 +122,7 @@ const UpdateProductModal = (props) => {
 
         const fetchCategories = async () => {
             dispatch(showLoader());
-            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/category');
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/category');
             const data = await response.json();
             const fetchedCategories = data.data.categories.map(category => category.category);
             dispatch(hideLoader());
@@ -131,7 +131,7 @@ const UpdateProductModal = (props) => {
 
         const fetchSubCategories = async () => {
             dispatch(showLoader());
-            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/products/subCategory');
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/products/subCategory');
             const data = await response.json();
             const fetchedCategories = data.data.subcategories.map(subCategory => subCategory.subCategory);
             dispatch(hideLoader());
@@ -192,7 +192,7 @@ const UpdateProductModal = (props) => {
 
                 setShowLoader2(true);
 
-                await axios.patch(`https://farm-backend-production.up.railway.app/api/v1/products/${props.id}`, formData,
+                await axios.patch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/${props.id}`, formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',

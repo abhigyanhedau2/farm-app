@@ -33,7 +33,7 @@ export const fetchToken = () => {
                 const userId = user.id;
 
                 // Fetch the user from user id
-                const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/users/getUser/${userId}`);
+                const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/users/getUser/${userId}`);
 
                 const data = await response.json();
 
@@ -83,7 +83,7 @@ export const login = (token) => {
             const userId = user.id;
 
             // Fetch the user from user id
-            const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/users/getUser/${userId}`);
+            const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/users/getUser/${userId}`);
 
             const data = await response.json();
 

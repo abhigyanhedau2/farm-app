@@ -64,7 +64,7 @@ const UserInfo = () => {
 
                 dispatch(showLoader());
 
-                const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/users/getUser/${user._id}`);
+                const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/users/getUser/${user._id}`);
 
                 const data = await response.json();
 
@@ -109,7 +109,7 @@ const UserInfo = () => {
             // Send update request
             try {
 
-                const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/users`, {
+                const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/users`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

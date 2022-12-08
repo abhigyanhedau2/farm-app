@@ -64,7 +64,7 @@ const Contact = () => {
 
             dispatch(showLoader());
 
-            const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/users/queries', {
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/queries', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

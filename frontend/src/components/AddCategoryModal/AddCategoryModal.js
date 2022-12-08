@@ -63,7 +63,7 @@ const AddCategoryModal = (props) => {
 
                 dispatch(showLoader());
 
-                await axios.post("https://farm-backend-production.up.railway.app/api/v1/category", formData,
+                await axios.post("https://birch-wood-ranch-backend.vercel.app/api/v1/category", formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
@@ -103,7 +103,7 @@ const AddCategoryModal = (props) => {
 
                 dispatch(showLoader());
 
-                const response = await fetch('https://farm-backend-production.up.railway.app/api/v1/products/subCategory', {
+                const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/products/subCategory', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

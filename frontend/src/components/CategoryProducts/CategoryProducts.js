@@ -30,7 +30,7 @@ const CategoryProducts = (props) => {
 
                 dispatch(showLoader());
 
-                const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/category/${props.category}`);
+                const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/category/${props.category}`);
 
                 const data = await response.json();
 
@@ -55,7 +55,7 @@ const CategoryProducts = (props) => {
 
         dispatch(showLoader());
 
-        const response = await fetch(`https://farm-backend-production.up.railway.app/api/v1/products/${id}`, {
+        const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
