@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -19,7 +19,15 @@ const textIsEmptyFn = (value) => {
     return value.toString().trim().length !== 0;
 };
 
+const ratingIsValidFn = (value) => {
+    return value.toString().trim().length !== 0 && (+value >= 1 && +value <= 5);
+};
+
 const UpdateProductModal = (props) => {
+
+    const [initialCategory, setInitialCategory] = useState(undefined);
+    const [initialSubCategory, setInitialSubCategory] = useState(undefined);
+    const [initialVeg, setInitialVeg] = useState(undefined);
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const token = useSelector(state => state.auth.token);
@@ -49,11 +57,7 @@ const UpdateProductModal = (props) => {
     const { input: caloriesInput, inputIsValid: caloriesIsValid, inputIsTouched: caloriesIsTouched, inputChangeHandler: caloriesChangeHandler, inputTouchedHandler: caloriesTouchedHandler, setInput: setCalories, setInputIsValid: setCaloriesIsValid } = usePreInput(textIsEmptyFn);
     const { input: descriptionInput, inputIsValid: descriptionIsValid, inputIsTouched: descriptionIsTouched, inputChangeHandler: descriptionChangeHandler, inputTouchedHandler: descriptionTouchedHandler, setInput: setDescription, setInputIsValid: setDescriptionIsValid } = usePreInput(textIsEmptyFn);
     const { input: iconInput, inputIsValid: iconIsValid, inputIsTouched: iconIsTouched, inputChangeHandler: iconChangeHandler, inputTouchedHandler: iconTouchedHandler, setInput: setIcon, setInputIsValid: setIconIsValid } = usePreInput(textIsEmptyFn);
-    const { input: ratingInput, inputIsValid: ratingIsValid, inputIsTouched: ratingIsTouched, inputChangeHandler: ratingChangeHandler, inputTouchedHandler: ratingTouchedHandler, setInput: setRating, setInputIsValid: setRatingIsValid } = usePreInput(textIsEmptyFn);
-
-    const categoryRef = useRef();
-    const subCategoryRef = useRef();
-    const vegRef = useRef();
+    const { input: ratingInput, inputIsValid: ratingIsValid, inputIsTouched: ratingIsTouched, inputChangeHandler: ratingChangeHandler, inputTouchedHandler: ratingTouchedHandler, setInput: setRating, setInputIsValid: setRatingIsValid } = usePreInput(ratingIsValidFn);
 
     let nameClasses = undefined;
     let priceClasses = undefined;
@@ -77,11 +81,11 @@ const UpdateProductModal = (props) => {
 
             dispatch(showLoader());
             setShowLoader2(true);
-            
+
             const response = await fetch(`https://birch-wood-ranch-backend.vercel.app/api/v1/products/${props.id}`);
-            
+
             const data = await response.json();
-            
+
             setShowLoader2(false);
             dispatch(hideLoader());
 
@@ -106,9 +110,16 @@ const UpdateProductModal = (props) => {
             setRating(data.data.product.rating);
             setRatingIsValid(true);
 
-            categoryRef.current.value = data.data.product.category;
-            subCategoryRef.current.value = data.data.product.subCategory === null ? 'None' : data.data.product.subCategory;
-            vegRef.current.value = data.data.product.veg;
+            setInitialCategory(data.data.product.category);
+            setInitialSubCategory(data.data.product.subCategory === "null" ? 'None' : data.data.product.subCategory);
+
+            if (data.data.product.subCategory === "null" || data.data.product.subCategory === null)
+                setInitialSubCategory('None');
+
+            else
+                setInitialSubCategory(data.data.product.subCategory);
+
+            setInitialVeg(data.data.product.veg);
 
         };
 
@@ -163,12 +174,12 @@ const UpdateProductModal = (props) => {
         if (nameIsValid && priceIsValid && quantityIsValid && caloriesIsValid && descriptionIsValid && iconIsValid && ratingIsValid) {
 
             const productName = nameInput;
-            const productCategory = categoryRef.current.value;
-            const productSubCategory = subCategoryRef.current.value;
+            const productCategory = initialCategory;
+            const productSubCategory = initialSubCategory;
             const productPrice = priceInput;
             const quantityPerBox = quantityInput;
             const productCalories = caloriesInput;
-            const productVeg = vegRef.current.value;
+            const productVeg = initialVeg;
             const productDescription = descriptionInput;
             const productIcon = iconInput;
             const productRating = ratingInput;
@@ -222,12 +233,24 @@ const UpdateProductModal = (props) => {
 
         else {
             setShowLoader2(false);
-            dispatch(showError('Add complete details of the product.'));
+            dispatch(showError('Add complete and correct details of the product.'));
         }
     }
 
     const formSubmitHandler2 = (event) => {
         event.preventDefault();
+    };
+
+    const changeCategoryHandler = (event) => {
+        setInitialCategory(event.target.value);
+    };
+
+    const changeSubCategoryHandler = (event) => {
+        setInitialSubCategory(event.target.value);
+    };
+
+    const changeVegHandler = (event) => {
+        setInitialVeg(event.target.value);
     };
 
     return (
@@ -257,27 +280,25 @@ const UpdateProductModal = (props) => {
                             </div>
                             <div className={classes.inputWrapper}>
                                 <label htmlFor="category">Category</label>
-                                <select ref={categoryRef} name="category" id="category">
-                                    {categoryRef.current && <option value={categoryRef.current.value}>{categoryRef.current.value}</option>}
+                                <select name="category" id="category" onChange={changeCategoryHandler}>
+                                    <option value={initialCategory} onClick={changeCategoryHandler.bind(null, initialCategory)}>{initialCategory}</option>
                                     {categories.map(category => {
-                                        if (categoryRef.current && category !== categoryRef.current.value)
-                                            return <option key={category} value={category}>{category}</option>
-                                        else
-                                            return null;
+                                        if (category !== initialCategory)
+                                            return <option key={category} value={category} onClick={changeCategoryHandler.bind(null, category)}>{category}</option>
+                                        return null;
                                     })}
                                 </select>
                                 <button onClick={addCategoryHandler.bind(null, 'category')}>Add Category</button>
                             </div>
                             <div className={classes.inputWrapper}>
                                 <label htmlFor="category">Sub Category</label>
-                                <select ref={subCategoryRef} name="category" id="category">
-                                    {subCategoryRef.current && <option value={subCategoryRef.current.value.trim().length === 0 ? null : subCategoryRef.current.value}>{subCategoryRef.current.value.trim().length === 0 ? 'None' : subCategoryRef.current.value}</option>}
-                                    {subCategoryRef.current && subCategoryRef.current.value.trim().length !== 0 && <option value={null}>None</option>}
+                                <select name="category" id="category" onChange={changeSubCategoryHandler}>
+                                    {initialSubCategory && <option value={initialSubCategory}>{initialSubCategory}</option>}
+                                    {initialSubCategory !== null && <option value={null}>None</option>}
                                     {subCategories.map(subCategory => {
-                                        if (subCategoryRef.current && subCategory !== subCategoryRef.current.value)
+                                        if (subCategory !== initialSubCategory)
                                             return <option key={subCategory} value={subCategory}>{subCategory}</option>
-                                        else
-                                            return null;
+                                        return null;
                                     })}
                                 </select>
                                 <button onClick={addSubCategoryHandler.bind(null, 'subcategory')}>Add Sub Category</button>
@@ -322,8 +343,8 @@ const UpdateProductModal = (props) => {
                             </div>
                             <div className={classes.inputWrapper}>
                                 <label htmlFor="veg">Veg/Non-Veg/Egg</label>
-                                <select ref={vegRef} name="veg" id="veg">
-                                    <option value="veg">Veg</option>
+                                <select name="veg" id="veg" onClick={changeVegHandler}>
+                                    <option value="veg" >Veg</option>
                                     <option value="nonveg">Non-Veg</option>
                                     <option value="egg">Egg</option>
                                 </select>

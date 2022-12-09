@@ -17,6 +17,10 @@ const textIsEmptyFn = (value) => {
     return value.toString().trim().length !== 0;
 };
 
+const ratingIsValidFn = (value) => {
+    return value.toString().trim().length !== 0 && (+value >= 1 && +value <= 5);
+};
+
 const PostProduct = () => {
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -45,7 +49,7 @@ const PostProduct = () => {
     const { input: caloriesInput, inputIsValid: caloriesIsValid, inputIsTouched: caloriesIsTouched, inputChangeHandler: caloriesChangeHandler, inputTouchedHandler: caloriesTouchedHandler } = useInput(textIsEmptyFn);
     const { input: descriptionInput, inputIsValid: descriptionIsValid, inputIsTouched: descriptionIsTouched, inputChangeHandler: descriptionChangeHandler, inputTouchedHandler: descriptionTouchedHandler } = useInput(textIsEmptyFn);
     const { input: iconInput, inputIsValid: iconIsValid, inputIsTouched: iconIsTouched, inputChangeHandler: iconChangeHandler, inputTouchedHandler: iconTouchedHandler } = useInput(textIsEmptyFn);
-    const { input: ratingInput, inputIsValid: ratingIsValid, inputIsTouched: ratingIsTouched, inputChangeHandler: ratingChangeHandler, inputTouchedHandler: ratingTouchedHandler } = useInput(textIsEmptyFn);
+    const { input: ratingInput, inputIsValid: ratingIsValid, inputIsTouched: ratingIsTouched, inputChangeHandler: ratingChangeHandler, inputTouchedHandler: ratingTouchedHandler } = useInput(ratingIsValidFn);
 
     const categoryRef = useRef();
     const subCategoryRef = useRef();
@@ -77,7 +81,7 @@ const PostProduct = () => {
             dispatch(hideLoader());
             setCategories(fetchedCategories);
         };
-        
+
         const fetchSubCategories = async () => {
             dispatch(showLoader());
             const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/products/subCategory');
@@ -173,7 +177,7 @@ const PostProduct = () => {
 
         else {
             dispatch(hideLoader());
-            dispatch(showError('Add complete details of the product.'));
+            dispatch(showError('Add complete and correct details of the product.'));
         }
     }
 
