@@ -12,10 +12,40 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Cart = require('../models/cart-model');
 
+const caeserCipher = (email) => {
+
+    const chars = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+    const getEmailChars = email.split('@')[0];
+
+    let ans = "";
+
+    for (let i = 0; i < getEmailChars.length; i++) {
+        const currentChar = getEmailChars[i];
+
+        if (currentChar === " " || currentChar === "!" || currentChar === "?" || currentChar === ".") {
+            ans += currentChar;
+        } else if (chars.indexOf(currentChar) > 25) {
+            ans += currentChar;
+        } else {
+            const val = chars.indexOf(currentChar);
+            const new_val = (val + 13) % 26;
+            ans += chars[new_val];
+        }
+    }
+
+    return ans;
+
+};
+
 const sendToken = catchAsync(async (req, res, next) => {
 
+    // Create a hash from email address
+    // Create a hash from hashed email address
+    // Saved the doubled hashed in db
+
     // Get the required fields from req.body
-    const { email, sendEmail } = req.body;
+    const { email } = req.body;
 
     if (!email || !validator.isEmail(email))
         return next(new AppError(400, 'Enter a valid email'));
@@ -34,8 +64,11 @@ const sendToken = catchAsync(async (req, res, next) => {
         }
     });
 
-    const resetToken = uuid();
-    const hashedToken = await bcrypt.hash(resetToken, 12);
+    const hashedEmail = caeserCipher(email);
+    const resetToken = hashedEmail;
+    const hashedToken = await bcrypt.hash(hashedEmail, 12);
+
+    console.log(hashedEmail);
 
     if (!usertoken) {
         await UserToken.create({
@@ -56,19 +89,7 @@ const sendToken = catchAsync(async (req, res, next) => {
         text: message
     };
 
-    const dummyMailOptions = {
-        from: process.env.USER_MAIL,
-        // to: 'spam22010904@gmail.com',
-        to: 'somerandomemail@gmail.com',
-        subject: 'Account Verification Mail',
-        text: message
-    };
-
-    if (sendEmail)
-        transporter.sendMail(mailOptions).then(() => { }).catch(err => console.log(err));
-
-    else
-        transporter.sendMail(dummyMailOptions).then(() => { }).catch(err => console.log(err));
+    transporter.sendMail(mailOptions).then(() => { }).catch(err => console.log(err));
 
     res.status(200).json({
         status: 'success'

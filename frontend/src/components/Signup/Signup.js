@@ -97,27 +97,25 @@ const Signup = () => {
         if (emailIsValid) {
             dispatch(showLoader());
 
-            // const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
-                const response = await fetch('http://localhost:5000/api/v1/users/sendToken', {
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
+                // const response = await fetch('http://localhost:5000/api/v1/users/sendToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: emailInput,
-                    sendEmail: false
+                    email: emailInput
                 })
             });
 
-            // const dummyResponse = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
-                const dummyResponse = await fetch('http://localhost:5000/api/v1/users/sendToken', {
+            const dummyResponse = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
+                // const dummyResponse = await fetch('http://localhost:5000/api/v1/users/sendToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: emailInput,
-                    sendEmail: true
+                    email: emailInput
                 })
             });
 
@@ -145,8 +143,8 @@ const Signup = () => {
 
             dispatch(showLoader());
 
-            // const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/verifyToken', {
-                const response = await fetch('http://localhost:5000/api/v1/users/verifyToken', {
+            const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/verifyToken', {
+                // const response = await fetch('http://localhost:5000/api/v1/users/verifyToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
