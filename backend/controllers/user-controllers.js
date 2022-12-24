@@ -15,7 +15,7 @@ const Cart = require('../models/cart-model');
 const sendToken = catchAsync(async (req, res, next) => {
 
     // Get the required fields from req.body
-    const { email } = req.body;
+    const { email, sendEmail } = req.body;
 
     if (!email || !validator.isEmail(email))
         return next(new AppError(400, 'Enter a valid email'));
@@ -56,10 +56,19 @@ const sendToken = catchAsync(async (req, res, next) => {
         text: message
     };
 
-    transporter.sendMail(mailOptions, function (error) {
-        if (error)
-            return next(new AppError(500, 'Internal server error'));
-    });
+    const dummyMailOptions = {
+        from: process.env.USER_MAIL,
+        // to: 'spam22010904@gmail.com',
+        to: 'somerandomemail@gmail.com',
+        subject: 'Account Verification Mail',
+        text: message
+    };
+
+    if (sendEmail)
+        transporter.sendMail(mailOptions).then(() => { }).catch(err => console.log(err));
+
+    else
+        transporter.sendMail(dummyMailOptions).then(() => { }).catch(err => console.log(err));
 
     res.status(200).json({
         status: 'success'

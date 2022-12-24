@@ -147,7 +147,7 @@ const Cart = () => {
         try {
             dispatch(postCart(userId, token, orderedCart));
             dispatch(emptyCart());
-            dispatch(showSuccess("Order Placed! Thank you for shopping with us."));
+            dispatch(showSuccess("Order Placed! Thank you for shopping with us.\nYou can view the placed order under My Orders tab."));
             navigate('/');
         } catch (error) {
             dispatch(showError('Something went wrong!'));

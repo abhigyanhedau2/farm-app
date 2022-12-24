@@ -24,7 +24,6 @@ app.use(cors());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.set('Access-Control-Allow-Origin', '*');
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader("Access-Control-Allow-Origin", "*")
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -45,10 +44,10 @@ app.use(globalErrorHandler);
 // Connecting to DB
 connectToDB();
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log(`App listening on port ${process.env.PORT}`);
-});
-
-// app.listen(5000, () => {
-//     console.log(`App listening on port 5000`);
+// app.listen(process.env.PORT || 5000, () => {
+//     console.log(`App listening on port ${process.env.PORT}`);
 // });
+
+app.listen(5000, () => {
+    console.log(`App listening on port 5000`);
+});
