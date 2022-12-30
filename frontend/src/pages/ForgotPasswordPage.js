@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import ForgotPassword from '../components/ForgotPassword/ForgotPassword';
+// import ForgotPassword from '../components/ForgotPassword/ForgotPassword';
+import RecoverAccount from '../components/RecoverAccount/RecoverAccount';
 
 const ForgotPasswordPage = () => {
 
@@ -8,7 +9,7 @@ const ForgotPasswordPage = () => {
         document.title = `Birch Wood Ranch | Forgot Password`;
     }, []);
 
-    return <ForgotPassword />;
+    return <RecoverAccount />;
 };
 
 export default ForgotPasswordPage;

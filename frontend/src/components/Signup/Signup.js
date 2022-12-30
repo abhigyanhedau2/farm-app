@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'react-uuid';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -97,6 +98,8 @@ const Signup = () => {
         if (emailIsValid) {
             dispatch(showLoader());
 
+            const hash = uuid();
+
             const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
                 // const response = await fetch('http://localhost:5000/api/v1/users/sendToken', {
                 method: 'POST',
@@ -104,18 +107,20 @@ const Signup = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: emailInput
+                    email: emailInput,
+                    hash: hash
                 })
             });
 
-            const dummyResponse = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
+            await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/sendToken', {
                 // const dummyResponse = await fetch('http://localhost:5000/api/v1/users/sendToken', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: emailInput
+                    email: emailInput,
+                    hash: hash
                 })
             });
 
@@ -226,6 +231,9 @@ const Signup = () => {
                     <img src={logoPic} alt="Logo" />
                 </div>
                 <h1>Birch Wood Ranch</h1>
+                {tokenSent && !enteredTokenIsValid && <div className={classes.inputWrapper}>
+                    <label htmlFor="verify">We've sent a verification token to your mail. Please enter the token below.</label>
+                </div>}
                 <form className={classes.signupForm} onSubmit={formSubmitHandlerDUMMY}>
                     {enteredTokenIsValid && <div className={classes.inputWrapper}>
                         <label htmlFor="name">Name</label>

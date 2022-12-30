@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'react-uuid';
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -41,18 +42,31 @@ const ForgotPassword = () => {
         if (emailIsValid) {
 
             const email = emailInput;
+            const hash = uuid();
 
             try {
 
                 dispatch(showLoader());
 
                 const response = await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/forgotPassword', {
+                    // const response = await fetch('http://localhost:5000/api/v1/users/forgotPassword', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email
+                        email, hash
+                    })
+                });
+
+                await fetch('https://birch-wood-ranch-backend.vercel.app/api/v1/users/forgotPassword', {
+                    // const dummyResponse = await fetch('http://localhost:5000/api/v1/users/forgotPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email, hash
                     })
                 });
 
